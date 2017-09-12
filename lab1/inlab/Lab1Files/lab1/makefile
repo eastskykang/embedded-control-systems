@@ -97,6 +97,11 @@ M_FILES 		= $(LAB)m.c
 
 H_FILES 		= $(LAB)h.c
 
+#--------------------------------------------------------------------------------
+# this is added by me (bonus task)
+B_FILES 		= $(LAB)b.c
+#--------------------------------------------------------------------------------
+
 CFLAGS 			= $(INCLUDES) \
 			  $(CPP_REQ_DEFINES) \
 			  $(EXT_CC_OPTS)
@@ -121,6 +126,15 @@ LFLAGS_H 		= $(TOOL_LIB) \
 			  $(S_FUNCTIONS_LIB) \
 			  -Map $(LAB)h.map
 
+#--------------------------------------------------------------------------------
+# this is added by me (bonus task)
+#--------------------------------------------------------------------------------
+LFLAGS_B 		= $(TOOL_LIB) \
+			  $(EXT_LIB) \
+			  $(S_FUNCTIONS_LIB) \
+			  -Map $(LAB)b.map
+#--------------------------------------------------------------------------------
+
 #
 #------------------------ Construct the object file lists------------------------
 #
@@ -133,6 +147,11 @@ OBJ_FILES 		= $(SUPPORT_OBJECTS) $(LAB_OBJECTS)
 OBJ_FILES_FUNCTION 	= $(SUPPORT_OBJECTS) $(FUNCTION_OBJECTS)
 OBJ_FILES_M 		= $(SUPPORT_OBJECTS) $(M_OBJECTS)
 OBJ_FILES_H 		= $(SUPPORT_OBJECTS) $(H_OBJECTS)
+#--------------------------------------------------------------------------------
+# this is added by me (bonus task)
+H_OBJECTS 		= $(B_FILES:.c=.o)
+OBJ_FILES_B 		= $(SUPPORT_OBJECTS) $(B_OBJECTS)
+#--------------------------------------------------------------------------------
 
 
 #
@@ -170,6 +189,18 @@ lab1h: $(LAB)h.elf
 	@echo ################ Binary ################
 	@echo $^
 
+#--------------------------------------------------------------------------------
+# this is added by me (bonus task)
+#--------------------------------------------------------------------------------
+lab1b: $(LAB)b.elf
+	@echo ################ C Files ################
+	@echo $(SUPPORT_FILES) $(B_FILES)
+	@echo ################ Objects ################
+	@echo $(OBJ_FILES_B)
+	@echo ################ Binary ################
+	@echo $^
+#--------------------------------------------------------------------------------
+
 clean:
 	@echo clean
 	@echo ==== Removing object files from build directory ====
@@ -201,6 +232,15 @@ $(LAB)h.elf: $(OBJ_FILES_H)
 	@echo **************** BUILDING BINARY $@ ****************
 	if exist $@ del $@
 	$(LINK_TOOL) $^ -o $@ $(LINK_TOOL_OPTS) $(LFLAGS_H)
+
+#--------------------------------------------------------------------------------
+# this is added by me (bonus task)
+#--------------------------------------------------------------------------------
+$(LAB)b.elf: $(OBJ_FILES_B)
+	@echo **************** BUILDING BINARY $@ ****************
+	if exist $@ del $@
+	$(LINK_TOOL) $^ -o $@ $(LINK_TOOL_OPTS) $(LFLAGS_B)
+#--------------------------------------------------------------------------------
 
 %.o: %.c
 	@echo **************** BUILDING LAB FILE $@ ****************
