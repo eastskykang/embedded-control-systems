@@ -58,9 +58,9 @@ Link map of __start
   00000200 000000 40000200 00001200  1 .text.39 	ecs.o 
   00000200 000000 40000200 00001200  1 .text 	serial.o 
   00000200 000000 40000200 00001200  1 .text.91 	serial.o 
-  00000200 0002f8 40000200 00001200  1 .text 	lab1.o 
-  00000200 0002f8 40000200 00001200 16 main 	lab1.o 
-  000004f8 000000 400004f8 000014f8  1 .text.64 	lab1.o 
+  00000200 000344 40000200 00001200  1 .text 	lab1.o 
+  00000200 000344 40000200 00001200 16 main 	lab1.o 
+  00000544 000000 40000544 00001544  1 .text.69 	lab1.o 
 
 
 .rodata section layout
@@ -97,8 +97,8 @@ extabindex section layout
   Starting        Virtual  File
   address  Size   address  offset
   ---------------------------------
-  00000000 001340 4000c000 00001500  1 .__uninitialized_intc_handlertable 	IntcInterrupts.o 
-  00000000 001340 4000c000 00001500  8 INTCInterruptsHandlerTable 	IntcInterrupts.o 
+  00000000 001340 4000c000 00001550  1 .__uninitialized_intc_handlertable 	IntcInterrupts.o 
+  00000000 001340 4000c000 00001550  8 INTCInterruptsHandlerTable 	IntcInterrupts.o 
 
 
 .data section layout
@@ -140,26 +140,26 @@ extabindex section layout
 Memory map:
                        Starting Size     File       S-Record
                        address           Offset     Line
-                 .init 4000a000 00000360 000000a0         66
-                 .text 40000000 000004f8 00001000          2
-               .rodata 400004f8 00000000 000014f8          0
-                .ctors 400004f8 00000000 000014f8          0
-                .dtors 400004f8 00000000 000014f8          0
-                 extab 400004f8 00000000 000014f8          0
-            extabindex 400004f8 00000000 000014f8          0
-  .__uninitialized_intc_handlertable 4000c000 00001340 00001500          0
-                 .data 4000d340 00000000 00001500          0
-                .sdata 4000d340 00000000 00001500          0
-                 .sbss 4000d340 00000000 00001500          0
-               .sdata2 4000d340 00000000 00001500          0
-                .sbss2 4000d340 00000000 00001500          0
-                  .bss 4000d340 00000000 00001500          0
-      .PPC.EMB.apuinfo 0000312c 00000000 00004630          0
-         .debug_abbrev          00000155 00001500
-           .debug_info          0000111a 00001655
-           .debug_line          0000136c 0000276f
-            .debug_loc          0000035f 00003adb
-       .debug_pubnames          00000203 00003e3a
+                 .init 4000a000 00000360 000000a0         70
+                 .text 40000000 00000544 00001000          2
+               .rodata 40000544 00000000 00001548          0
+                .ctors 40000544 00000000 00001544          0
+                .dtors 40000544 00000000 00001544          0
+                 extab 40000544 00000000 00001544          0
+            extabindex 40000544 00000000 00001544          0
+  .__uninitialized_intc_handlertable 4000c000 00001340 00001550          0
+                 .data 4000d340 00000000 00001550          0
+                .sdata 4000d340 00000000 00001550          0
+                 .sbss 4000d340 00000000 00001550          0
+               .sdata2 4000d340 00000000 00001550          0
+                .sbss2 4000d340 00000000 00001550          0
+                  .bss 4000d340 00000000 00001550          0
+      .PPC.EMB.apuinfo 00003144 00000000 000046a0          0
+         .debug_abbrev          00000155 00001550
+           .debug_info          0000111a 000016a5
+           .debug_line          00001385 000027bf
+            .debug_loc          0000035f 00003b44
+       .debug_pubnames          00000203 00003ea3
 
 
 Linker generated symbols:
@@ -172,22 +172,22 @@ _f___exception_handlers_rom 4000b000
   _e___exception_handlers 4000b000
                   _f_text 40000000
               _f_text_rom 40000000
-                  _e_text 400004f8
-                _f_rodata 400004f8
-            _f_rodata_rom 400004f8
-                _e_rodata 400004f8
-                 _f_ctors 400004f8
-             _f_ctors_rom 400004f8
-                 _e_ctors 400004f8
-                 _f_dtors 400004f8
-             _f_dtors_rom 400004f8
-                 _e_dtors 400004f8
-                  _fextab 400004f8
-              _fextab_rom 400004f8
-                  _eextab 400004f8
-             _fextabindex 400004f8
-         _fextabindex_rom 400004f8
-             _eextabindex 400004f8
+                  _e_text 40000544
+                _f_rodata 40000544
+            _f_rodata_rom 40000548
+                _e_rodata 40000544
+                 _f_ctors 40000544
+             _f_ctors_rom 40000544
+                 _e_ctors 40000544
+                 _f_dtors 40000544
+             _f_dtors_rom 40000544
+                 _e_dtors 40000544
+                  _fextab 40000544
+              _fextab_rom 40000544
+                  _eextab 40000544
+             _fextabindex 40000544
+         _fextabindex_rom 40000544
+             _eextabindex 40000544
 _f___uninitialized_intc_handlertable 4000c000
 _e___uninitialized_intc_handlertable 4000d340
                   _f_data 4000d340

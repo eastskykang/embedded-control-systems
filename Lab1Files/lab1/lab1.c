@@ -56,6 +56,10 @@ void main() {
     // control loop 
     while(1)
     {
+        // init input_val variables for each loop
+        input_val_1 = 0;
+        input_val_2 = 0;
+
         // input_1
         for (i = 3; i > 0; i--) 
         {
@@ -71,16 +75,13 @@ void main() {
         }
         input_val_2 += *input_gpdi_2;
 
+        // adder 
         result = input_val_1 + input_val_2;
 
         // output 2
-        /*
-           for (i = 0; i < 4; i++) {
-           output_gpdo = result[;
-           input_val_2 << 1;	
-           }
-           */
-
-        result = 0;
+        for (i = 0; i < 5; i++) {
+            *(output_gpdo + i)  = result % 2;
+            result = result >> 1;	
+        }
     }
 }
