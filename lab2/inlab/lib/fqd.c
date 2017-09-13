@@ -40,6 +40,11 @@
 #define NORMAL_FAST_THR     0.8 * SPEED_MAX_RPM
 #define FAST_NORMAL_THR     0.75 * SPEED_MAX_RPM
 
+// position counter 
+int32_t LAST_TOTAL;
+uint16_t CURR_FQDPC;
+uint16_t PREV_FQDPC;
+
 void init_FQD()
 {
     static int32_t error_code;
@@ -97,9 +102,8 @@ void init_FQD()
 		FS_ETPU_QD_HOME_TRANS_LOW_HIGH,  /* Detect. of low-high transition on Home chan.*/
 		FS_ETPU_QD_INDEX_PULSE_POSITIVE, /* Index pulse of positive polarity */
 		FS_ETPU_QD_INDEX_PC_NO_RESET,    /* PC is NOT reset to pc_init on Index transition */
-		FS_ETPU_QD_ETPU_A_TCR1_FREQ,       	/* frequency of eTPU engine A - TCR1 */
-		0x000FA0;		             /* qd_pc_per_rev (we use a 1000-pulse encoder with 2 channels) */
-
+                etpu_tcr1_frq,        	        /* frequency of eTPU engine A - TCR1 */
+		0x000FA0);		             /* qd_pc_per_rev (we use a 1000-pulse encoder with 2 channels) */
 
 
     /* initialize the position counter by calling the appropriate function */
@@ -108,13 +112,17 @@ void init_FQD()
 
     /* set pads 117 and 118 for TPU-function pins */
     /* Keep in mind that these pins are input to the SIU */
-
     for (i=0; i < 2; i++) {
-        SIU.PCR[117 + i].B.PA = 0b000;
+        SIU.PCR[117 + i].B.PA = 0b001;
         SIU.PCR[117 + i].B.OBE = 0b0;
         SIU.PCR[117 + i].B.IBE = 0b1;
         SIU.PCR[117 + i].B.WPE = 0b0;
-    }	
+    }
+
+    /* Global variable init */
+    LAST_TOTAL = 0;
+    CURR_FQDPC = 0;
+    PREV_FQDPC = 0;
 
     /* Start timers */
     fs_timer_start();
@@ -128,12 +136,25 @@ uint16_t ReadFQD_pc()
 {
     /* This function returns the lower 16 bits of the current QD PC value */
     /* The PC is a 24-bit register but we will only use the least significant 16 bits */
-	/* Fill in the body for the ReadFQD_pc() function here */
+    /* Fill in the body for the ReadFQD_pc() function here */
+    uint8_t channel_primary = 0x00000003;
+    uint16_t ret = 0;
+
+    ret = (uint16_t)fs_etpu_qd_get_pc(channel_primary);
+
+    return ret;
 }
 
 int32_t updateCounter()
 {
-	/* Fill in the body for the updateCounter() function here */
+    /* Fill in the body for the updateCounter() function here */
+    CURR_FQDPC = ReadFQD_pc();
+    
+    //LAST_TOTAL = LAST_TOTAL + (CURR_FQDPC - PREV_FQDPC);          // this line for question 11
+    LAST_TOTAL = LAST_TOTAL + (int16_t)(CURR_FQDPC - PREV_FQDPC);
+    PREV_FQDPC = CURR_FQDPC;
+
+    return LAST_TOTAL;
 }
 
 float updateAngle()

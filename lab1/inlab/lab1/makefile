@@ -149,7 +149,7 @@ OBJ_FILES_M 		= $(SUPPORT_OBJECTS) $(M_OBJECTS)
 OBJ_FILES_H 		= $(SUPPORT_OBJECTS) $(H_OBJECTS)
 #--------------------------------------------------------------------------------
 # this is added by me (bonus task)
-H_OBJECTS 		= $(B_FILES:.c=.o)
+B_OBJECTS 		= $(B_FILES:.c=.o)
 OBJ_FILES_B 		= $(SUPPORT_OBJECTS) $(B_OBJECTS)
 #--------------------------------------------------------------------------------
 
