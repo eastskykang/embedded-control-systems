@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdint.h>
 int main() {
 
     int32_t TOTAL = 0x00000000;
@@ -6,9 +7,7 @@ int main() {
     uint16_t PREV_FQDPC = 0x0000;
 
     TOTAL = TOTAL + (CURR_FQDPC - PREV_FQDPC);
-
-    printf("%x", TOTAL);
-
+    printf("%08x", TOTAL);
 
     return 0;
 }
