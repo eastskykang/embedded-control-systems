@@ -26,6 +26,7 @@ int main() {
     */
 
     // init 
+	init_ECS(2);
     init_FQD();
     
     // output initialization

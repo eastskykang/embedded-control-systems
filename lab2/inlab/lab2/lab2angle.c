@@ -15,7 +15,7 @@ int main() {
 
     // init 
     init_FQD();
-    init_ECS(1);
+    init_ECS(2);
     /* In all labs, we use ESCI_A that corresponds to port 1
      * and a baud rate of 115200 */
     init_COM(1,115200);
