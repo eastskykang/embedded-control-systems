@@ -1,0 +1,69 @@
+/* lcf file for MPC5554 (debug RAM version)
+/ Revision History-
+/  8-16-06	lovelljc	Expanded pseudo_rom memory area
+
+Original memory map:
+MEMORY
+{
+    pseudo_rom:         org = 0x40001000,   len = 0x00008000
+    init:               org = 0x40009000,   len = 0x00001000
+    exception_handlers: org = 0x4000A000,   len = 0x00001000
+    internal_ram:       org = 0x4000B000,   len = 0x00002000
+    heap  :             org = 0x4000D000,   len = 0x00001000  Heap start location 
+    stack :             org = 0x4000E000,   len = 0x00001000  Start location for Stack 
+}
+*/
+
+
+
+MEMORY
+{
+    pseudo_rom:         org = 0x40000000,   len = 0x0000A000
+    init:               org = 0x4000A000,   len = 0x00001000
+    exception_handlers: org = 0x4000B000,   len = 0x00001000
+    internal_ram:       org = 0x4000C000,   len = 0x00002000
+    heap  :             org = 0x4000E000,   len = 0x00001000 /* Heap start location */
+    stack :             org = 0x4000F000,   len = 0x00001000 /* Start location for Stack */
+}
+
+
+
+SECTIONS
+{
+    .init  : {} > init
+
+    .__exception_handlers : {} > exception_handlers
+
+    GROUP : {
+        .text (TEXT) ALIGN(0x1000) : {}
+        .rodata (CONST) : {
+            *(.rdata)
+            *(.rodata)
+        }
+        .ctors : {}
+        .dtors : {}
+        extab : {}
+        extabindex : {}
+    } > pseudo_rom
+
+    GROUP : {    
+       .__uninitialized_intc_handlertable ALIGN(0x10) : {}
+       .data   : {}
+       .sdata  : {}
+       .sbss   : {}
+       .sdata2 : {}
+       .sbss2  : {}
+       .bss    : {}
+    } > internal_ram
+}
+
+/* Metrowerks Code Warrior compiler address designations */
+
+_stack_addr = ADDR(stack)+SIZEOF(stack);
+_stack_end  = ADDR(stack);
+_heap_addr  = ADDR(heap);
+_heap_end   = ADDR(heap)+SIZEOF(heap);
+
+/* Exceptions Handlers Location (used in Exceptions.c for IVPR initialization) */
+
+EXCEPTION_HANDLERS = ADDR(exception_handlers);
