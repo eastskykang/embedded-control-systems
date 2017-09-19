@@ -1,0 +1,423 @@
+Model {
+  Name			  "virtual_wheel_discrete"
+  Version		  5.1
+  SaveDefaultBlockParams  on
+  SampleTimeColors	  off
+  LibraryLinkDisplay	  "none"
+  WideLines		  off
+  ShowLineDimensions	  off
+  ShowPortDataTypes	  off
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  ShowStorageClass	  off
+  SortedOrder		  off
+  RecordCoverage	  off
+  CovPath		  "/"
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeVarName	  "covCumulativeData"
+  CovCumulativeReport	  off
+  DataTypeOverride	  "UseLocalSettings"
+  MinMaxOverflowLogging	  "UseLocalSettings"
+  MinMaxOverflowArchiveMode "Overwrite"
+  BlockNameDataTip	  off
+  BlockParametersDataTip  on
+  BlockDescriptionStringDataTip	off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Sun Oct 22 10:29:22 2000"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "jfr"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Thu Oct 20 16:25:00 2005"
+  ModelVersionFormat	  "1.%<AutoIncrement:30>"
+  ConfigurationManager	  "none"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  AccelSystemTargetFile	  "accel.tlc"
+  AccelTemplateMakefile	  "accel_default_tmf"
+  AccelMakeCommand	  "make_rtw"
+  TryForcingSFcnDF	  off
+  ExtModeBatchMode	  off
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "oneshot"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  off
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock on
+  BufferReuse		  on
+  Solver		  "ode4"
+  SolverMode		  "Auto"
+  StartTime		  "0.0"
+  StopTime		  "tfinal"
+  MaxOrder		  5
+  MaxStep		  "auto"
+  MinStep		  "auto"
+  MaxNumMinSteps	  "-1"
+  InitialStep		  "auto"
+  FixedStep		  "auto"
+  RelTol		  "1e-3"
+  AbsTol		  "auto"
+  OutputOption		  "RefineOutputTimes"
+  OutputTimes		  "[]"
+  Refine		  "1"
+  LoadExternalInput	  off
+  ExternalInput		  "[t, u]"
+  LoadInitialState	  off
+  InitialState		  "xInitial"
+  SaveTime		  on
+  TimeSaveName		  "tout"
+  SaveState		  off
+  StateSaveName		  "xout"
+  SaveOutput		  on
+  OutputSaveName	  "yout"
+  SaveFinalState	  off
+  FinalStateName	  "xFinal"
+  SaveFormat		  "Array"
+  Decimation		  "1"
+  LimitDataPoints	  off
+  MaxDataPoints		  "1000"
+  SignalLoggingName	  "sigsOut"
+  ConsistencyChecking	  "none"
+  ArrayBoundsChecking	  "none"
+  AlgebraicLoopMsg	  "warning"
+  BlockPriorityViolationMsg "warning"
+  MinStepSizeMsg	  "warning"
+  InheritedTsInSrcMsg	  "warning"
+  DiscreteInheritContinuousMsg "warning"
+  MultiTaskRateTransMsg	  "error"
+  SingleTaskRateTransMsg  "none"
+  CheckForMatrixSingularity "none"
+  IntegerOverflowMsg	  "warning"
+  Int32ToFloatConvMsg	  "warning"
+  ParameterDowncastMsg	  "error"
+  ParameterOverflowMsg	  "error"
+  ParameterPrecisionLossMsg "warning"
+  UnderSpecifiedDataTypeMsg "none"
+  UnnecessaryDatatypeConvMsg "none"
+  VectorMatrixConversionMsg "none"
+  InvalidFcnCallConnMsg	  "error"
+  SignalLabelMismatchMsg  "none"
+  UnconnectedInputMsg	  "warning"
+  UnconnectedOutputMsg	  "warning"
+  UnconnectedLineMsg	  "warning"
+  SfunCompatibilityCheckMsg "none"
+  RTWInlineParameters	  off
+  BlockReductionOpt	  on
+  BooleanDataType	  off
+  ConditionallyExecuteInputs on
+  ParameterPooling	  on
+  OptimizeBlockIOStorage  on
+  AssertionControl	  "UseLocalSettings"
+  ProdHWDeviceType	  "Microprocessor"
+  ProdHWWordLengths	  "8,16,32,32"
+  RTWSystemTargetFile	  "grt.tlc"
+  RTWTemplateMakefile	  "grt_default_tmf"
+  RTWMakeCommand	  "make_rtw"
+  RTWGenerateCodeOnly	  off
+  RTWRetainRTWFile	  off
+  TLCProfiler		  off
+  TLCDebug		  off
+  TLCCoverage		  off
+  TLCAssertion		  off
+  RTWOptions		  "-aEnforceIntegerDowncast=1 -aFoldNonRolledExpr=1 -a"
+"InlineInvariantSignals=1 -aInlineParameters=0 -aLocalBlockOutputs=1 -aRollThr"
+"eshold=5 -aZeroInternalMemoryAtStartup=1 -aZeroExternalMemoryAtStartup=1 -aIn"
+"itFltsAndDblsToZero=1 -aGenerateReport=0 -aGenCodeOnly=0 -aRTWVerbose=1 -aInc"
+"ludeHyperlinkInReport=0 -aLaunchReport=0 -aForceParamTrailComments=0 -aGenera"
+"teComments=1 -aIgnoreCustomStorageClasses=1 -aIncHierarchyInIds=0 -aMaxRTWIdL"
+"en=31 -aShowEliminatedStatements=0 -aPrefixModelToSubsysFcnNames=1 -aIncDataT"
+"ypeInIds=0 -aInsertBlockDesc=0 -aSimulinkBlockComments=1 -aInlinedPrmAccess="
+"\"Literals\"  -aSuppressErrorStatus=0 -aModelReferenceCompliant=0 -aSupportNo"
+"nInlinedSFcns=1 -aSupportContinuousTime=1 -aSupportComplex=1 -aSupportNonFini"
+"te=1 -aSupportAbsoluteTime=1 -aTargetFcnLib=\"ansi_tfl_tmw.mat\" -aMultiInsta"
+"nceERTCode=0 -aLogVarNameModifier=\"rt_\" -aIsPILTarget=0 -aCombineOutputUpda"
+"teFcns=0 -aGenerateASAP2=0 -aGenerateSampleERTMain=0 -aGenerateFullHeader=1 -"
+"aUtilityFuncGeneration=\"Auto\" -aIncludeFileDelimiter=\"Auto\" -aIncludeMdlT"
+"erminateFcn=1 -aPurelyIntegerCode=0 -aERTCustomFileBanners=0 -aRTWCAPIStates="
+"0 -aRTWCAPIParams=0 -aRTWCAPISignals=0 -aMatFileLogging=0 -aGenFloatMathFcnCa"
+"lls=\"ANSI_C\" -aExtModeMexFile=\"ext_comm\" -aExtModeTransport=0 -aExtModeSt"
+"aticAllocSize=1000000 -aExtModeTesting=0 -aExtModeStaticAlloc=0 -aExtMode=0  "
+  SimulationMode	  "normal"
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      DiscreteIntegrator
+      IntegratorMethod	      "Integration: Forward Euler"
+      ExternalReset	      "none"
+      InitialConditionSource  "internal"
+      InitialCondition	      "0"
+      SampleTime	      "1"
+      LimitOutput	      off
+      UpperSaturationLimit    "inf"
+      LowerSaturationLimit    "-inf"
+      ShowSaturationPort      off
+      ShowStatePort	      off
+      RTWStateStorageClass    "Auto"
+    }
+    Block {
+      BlockType		      Gain
+      Gain		      "1"
+      Multiplication	      "Element-wise(K.*u)"
+      ParameterDataTypeMode   "Same as input"
+      ParameterDataType	      "sfix(16)"
+      ParameterScalingMode    "Best Precision: Matrix-wise"
+      ParameterScaling	      "2^0"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      Step
+      Time		      "1"
+      Before		      "0"
+      After		      "1"
+      SampleTime	      "-1"
+      VectorParams1D	      on
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      Sum
+      IconShape		      "rectangular"
+      Inputs		      "++"
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "tp245624"
+    Location		    [208, 80, 1017, 452]
+    Open		    off
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      Gain
+      Name		      "1/virtual inertia"
+      Position		      [265, 95, 300, 135]
+      Gain		      "1/Jw"
+    }
+    Block {
+      BlockType		      DiscreteIntegrator
+      Name		      "Discrete-Time\nIntegrator"
+      Ports		      [1, 1]
+      Position		      [345, 95, 380, 135]
+      IntegratorMethod	      "Integration: Forward Euler"
+      ExternalReset	      "none"
+      InitialConditionSource  "internal"
+      SampleTime	      "T"
+    }
+    Block {
+      BlockType		      DiscreteIntegrator
+      Name		      "Discrete-Time\nIntegrator1"
+      Ports		      [1, 1]
+      Position		      [440, 95, 475, 135]
+      IntegratorMethod	      "Integration: Forward Euler"
+      ExternalReset	      "none"
+      InitialConditionSource  "internal"
+      SampleTime	      "T"
+    }
+    Block {
+      BlockType		      Step
+      Name		      "Step"
+      Position		      [55, 100, 85, 130]
+      Time		      "step_time"
+      After		      "Theta_z_0"
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Sum
+      Name		      "Sum"
+      Ports		      [2, 1]
+      Position		      [150, 105, 170, 125]
+      ShowName		      off
+      IconShape		      "round"
+      Inputs		      "|+-"
+    }
+    Block {
+      BlockType		      Gain
+      Name		      "spring \nconstant"
+      Position		      [190, 94, 220, 136]
+      Gain		      "k"
+    }
+    Block {
+      BlockType		      Outport
+      Name		      "Virtual wheel \n   Position"
+      Position		      [535, 108, 565, 122]
+    }
+    Block {
+      BlockType		      Outport
+      Name		      "angular speed"
+      Position		      [425, 43, 455, 57]
+      Port		      "2"
+    }
+    Block {
+      BlockType		      Outport
+      Name		      "wheel Position"
+      Position		      [155, 53, 185, 67]
+      Port		      "3"
+    }
+    Block {
+      BlockType		      Outport
+      Name		      "torque"
+      Position		      [285, 48, 315, 62]
+      Port		      "4"
+    }
+    Line {
+      SrcBlock		      "Discrete-Time\nIntegrator1"
+      SrcPort		      1
+      Points		      [15, 0]
+      Branch {
+	DstBlock		"Virtual wheel \n   Position"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, 85; -335, 0]
+	DstBlock		"Sum"
+	DstPort			2
+      }
+    }
+    Line {
+      SrcBlock		      "Sum"
+      SrcPort		      1
+      DstBlock		      "spring \nconstant"
+      DstPort		      1
+    }
+    Line {
+      Labels		      [0, 0]
+      SrcBlock		      "Step"
+      SrcPort		      1
+      Points		      [30, 0]
+      Branch {
+	Points			[0, -55]
+	DstBlock		"wheel Position"
+	DstPort			1
+      }
+      Branch {
+	DstBlock		"Sum"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "spring \nconstant"
+      SrcPort		      1
+      Points		      [15, 0]
+      Branch {
+	DstBlock		"1/virtual inertia"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, -60]
+	DstBlock		"torque"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "1/virtual inertia"
+      SrcPort		      1
+      DstBlock		      "Discrete-Time\nIntegrator"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Discrete-Time\nIntegrator"
+      SrcPort		      1
+      Points		      [10, 0]
+      Branch {
+	Points			[0, -65]
+	DstBlock		"angular speed"
+	DstPort			1
+      }
+      Branch {
+	DstBlock		"Discrete-Time\nIntegrator1"
+	DstPort			1
+      }
+    }
+    Annotation {
+      Name		      "thetaw"
+      Position		      [509, 93]
+    }
+    Annotation {
+      Name		      "thetawdot"
+      Position		      [421, 94]
+    }
+    Annotation {
+      Name		      "thetawddot"
+      Position		      [323, 93]
+    }
+    Annotation {
+      Name		      "thetaz"
+      Position		      [131, 130]
+      FontName		      "Arial"
+    }
+  }
+}
