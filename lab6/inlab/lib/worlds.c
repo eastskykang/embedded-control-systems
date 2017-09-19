@@ -21,6 +21,7 @@
 #include <worlds.h>
 #include <mpc5553.h>
 
+
 float virtualSpring(float angle) {
     /* Compute the torque for the virtual spring based
      on the current angle (lab 4) */
@@ -57,7 +58,10 @@ float virtualSpringDamper(float angle, float velocity) {
     float torque = 0;
 
     float k = 50.0;             // Nmm/deg
-    float b = 1.2296;           // Nmm/(deg/s) 
+    //float b = 0;           // Nmm/(deg/s) 
+    float b = 0.9;           // Nmm/(deg/s) 
+    //float b = 1.2296;           // Nmm/(deg/s) 
+    //float b = 12;           // Nmm/(deg/s) 
 
     float angle_0 = 0.0;         //  0 deg
 
@@ -72,12 +76,15 @@ float virtualWallDamper(float angle, float velocity) {
     on the current angle and velocity (lab 6)*/
     float torque = 0;
 
-    float k = 20000.0;              // Nmm/deg
-    float b = k * TIMESTEP / 2;     // Nmm/(deg/s) 
+    float k = 20000.0;                      // Nmm/deg
+    float b = k * TIMESTEP / 2;       // Nmm/(deg/s) 
 
     float angle_0 = WALL_POSITION;         
 
-    torque = k * (angle - angle_0) + b * velocity;
+    if (angle > angle_0)
+        torque = k * (angle - angle_0) + b * velocity;
+    else
+        torque = 0.0;
 
     return torque;
 }
@@ -87,8 +94,25 @@ float virtualSpringMass(float angle) {
      on the current angle (lab 6)
      Use TIMESTEP as defined in worlds.h*/
     float torque = 0;
-    /*fill in here*/
-    return torque;
+
+    float k = 17.78;                // Nmm/deg
+    float J = 0.4503;                    
+
+    // initial mass angle and velocity
+    static float mass_angle = 0.0;
+    static float mass_velocity = 0.0;                    
+
+    torque = k * (angle - mass_angle);
+    
+    // mass angle is updated
+    mass_angle = mass_angle 
+        + mass_velocity * TIMESTEP 
+        + 0.5 * (torque / J) * TIMESTEP * TIMESTEP;
+
+    // mass velocity is updated
+    mass_velocity = mass_velocity + torque / J * TIMESTEP;
+
+    return -torque;
 }
 
 
@@ -96,8 +120,26 @@ float virtualSpringMassDamper(float angle, float velocity) {
     /* Compute the torque for the virtual spring-mass-damper system
      based on the current angle and velocity (lab 6)
      Use TIMESTEP as defined in worlds.h*/
-    /*fill in here*/
     float torque=0;
+
+    float k = 17.78;                // Nmm/deg
+    float b = k * TIMESTEP;                
+    float J = 0.4503;                    
+
+    // initial mass angle and velocity
+    static float mass_angle = 0.0;
+    static float mass_velocity = 0.0;                    
+
+    torque = k * (angle - mass_angle) + b * (velocity - mass_velocity);
+    
+    // mass angle is updated
+    mass_angle = mass_angle 
+        + mass_velocity * TIMESTEP 
+        + 0.5 * (torque / J) * TIMESTEP * TIMESTEP;
+
+    // mass velocity is updated
+    mass_velocity = mass_velocity + torque / J * TIMESTEP;
+
     return torque;
 }
 
@@ -106,7 +148,23 @@ float virtualSpringMassDamperEx(float angle, float velocity, float K, float M) {
      based on the current angle and velocity (lab 6), adjust spring constant K and mass M
      Use TIMESTEP as defined in worlds.h*/
     float torque=0;
-    /*fill in here*/
+
+    float b = K * TIMESTEP;                
+
+    // initial mass angle and velocity
+    static float mass_angle = 0.0;
+    static float mass_velocity = 0.0;                    
+
+    torque = K * (angle - mass_angle) + b * (velocity - mass_velocity);
+    
+    // mass angle is updated
+    mass_angle = mass_angle 
+        + mass_velocity * TIMESTEP 
+        + 0.5 * (torque / M) * TIMESTEP * TIMESTEP;
+
+    // mass velocity is updated
+    mass_velocity = mass_velocity + torque / M * TIMESTEP;
+
     return torque;
 }
 
@@ -115,7 +173,17 @@ float virtualKnob(float angle, float velocity){
      based on the current angle and velocity (lab 6)
      Use TIMESTEP as defined in worlds.h
     */
+    
     float torque = 0;
+
+    //float k = 50.0;             // Nmm/deg
+    float b = 0.2;
+    
+    if ((int)angle % 10 == 0) 
+        b = 1;
+
+    torque = b * velocity;
+    
     return torque;
 }
 

@@ -77,7 +77,7 @@ legend('\theta_w (deg)','d\theta_w/dt (deg/sec)',...
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%55
  
- b = ????????;   % damping constant in N-mm/(degree/sec)
+ b = 0;   % damping constant in N-mm/(degree/sec)
 char_roots_Bn0_cont = roots([Jw b k]);    % characteristic roots
 tfinal = 10;             % final time for simulation (seconds)
  
