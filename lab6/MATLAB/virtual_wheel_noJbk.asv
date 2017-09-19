@@ -1,4 +1,4 @@
-
+%% section1
 % Simulates the motion of a haptic wheel attached to a virtual wheel whose
 % rotational intertia is J_w. The wheels are attached through a shaft
 % with torsional spring constant k. 
@@ -74,7 +74,7 @@ legend('\theta_w (deg)','d\theta_w/dt (deg/sec)',...
        '\theta_z (deg)','torque (N-mm)','torque limit',3)
 
 
-   
+%% section2   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%55
  
  b = ????????;   % damping constant in N-mm/(degree/sec)
