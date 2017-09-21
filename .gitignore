@@ -5,3 +5,9 @@
 *.mot
 *.bin
 
+.autosave
+.mexw32
+slprj
+*rappid_rtw
+
+.DS_Store
