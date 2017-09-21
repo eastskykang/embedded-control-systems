@@ -1,0 +1,123 @@
+<HTML>
+<HEAD>
+<TITLE>RTW Report - Exceptions.c </TITLE>
+<STYLE> .LN { font-style: italic; color: #888888 } </STYLE>
+<STYLE> .CT { font-style: italic; color: #117755 } </STYLE>
+<STYLE> .PP { font-style: bold;   color: #992211 } </STYLE>
+<STYLE> .KW { font-style: bold;   color: #112266 } </STYLE>
+<STYLE> .DT { font-style: bold;   color: #112266 } </STYLE>
+<SCRIPT language="JavaScript" type="text/javascript">
+<!--
+function rtwHilite(aBlock,aParentSID) {
+ aParentSID = "";
+ try {
+    window.location.href="matlab: if ~isempty(which('private/rtwbindmodel')), rtwprivate rtwbindmodel 'C:\\Users\\Embed_Sys_course\\git\\lab\\lab7\\prelab2\\VirtualWall.mdl' 'C:\\Users\\Embed_Sys_course\\git\\lab\\lab7\\prelab2\\VirtualWall_rappid_rtw' '', end; rtwprivate code2model "+aBlock+" "+aParentSID+";"
+ } catch (e) { 
+ }
+} // end rtwHilite
+//-->
+</SCRIPT>
+</HEAD>
+<BODY BGCOLOR="#eeeeee" TEXT="#1122aa" ONLOAD="if (top) { if (top.rtwFileOnLoad) top.rtwFileOnLoad(window);} ">
+<P>
+<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="6" WIDTH="100%" HEIGHT="100%"><TR><TD WIDTH="100%" VALIGN="top" BGCOLOR="#ffffff">
+<H4>File: <A HREF="file:///C:\Users\Embed_Sys_course\git\lab\lab7\prelab2\VirtualWall_rappid_rtw\Exceptions.c" TARGET="rtwreport_document_frame">C:\Users\Embed_Sys_course\git\lab\lab7\prelab2\VirtualWall_rappid_rtw\Exceptions.c</A></H4>
+<PRE id="RTWcode">
+<SPAN><A CLASS="LN" NAME="1">    1   </A><SPAN CLASS="CT">/* target specific file */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="2">    2   </A><SPAN CLASS="CT">/* FILE: Exceptions.c</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="3">    3   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="4">    4   </A><SPAN CLASS="CT"> *  DESCRIPTION: Setup of IVPR to point to the EXCEPTION_HANDLERS memory area </SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="5">    5   </A><SPAN CLASS="CT"> *               defined in the linker command file.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="6">    6   </A><SPAN CLASS="CT"> *               Default setup of the IVORxx registers. </SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="7">    7   </A><SPAN CLASS="CT">*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="8">    8   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="9">    9   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="10">   10   </A><SPAN CLASS="CT">/*----------------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="11">   11   </A><SPAN CLASS="CT">/* Includes                                                                   */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="12">   12   </A><SPAN CLASS="CT">/*----------------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="13">   13   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="14">   14   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">include</SPAN> <FONT COLOR="#992211">&quot;Exceptions.h&quot;</FONT> <SPAN CLASS="CT">/* Implement functions from this file */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="15">   15   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="16">   16   </A><SPAN CLASS="CT">/*----------------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="17">   17   </A><SPAN CLASS="CT">/* Function Implementations                                                   */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="18">   18   </A><SPAN CLASS="CT">/*----------------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="19">   19   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="20">   20   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">pragma</SPAN> push <SPAN CLASS="CT">/* Save the current state */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="21">   21   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">pragma</SPAN> section code_type <FONT COLOR="#1122ff">&quot;.__exception_handlers&quot;</FONT>
+</SPAN><SPAN><A CLASS="LN" NAME="22">   22   </A><SPAN CLASS="CT">/* Symbol EXCEPTION_HANDLERS is defined in the application linker command file (.lcf) </SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="23">   23   </A><SPAN CLASS="CT">   It is defined to the start of the code memory area used for the .__exception_handlers section. </SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="24">   24   </A><SPAN CLASS="CT">*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="25">   25   </A><SPAN CLASS="CT">/*lint -esym(752, EXCEPTION_HANDLERS) */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="26">   26   </A>__declspec(section <FONT COLOR="#1122ff">&quot;.__exception_handlers&quot;</FONT>) <SPAN CLASS="DT">extern</SPAN> <SPAN CLASS="DT">long</SPAN> EXCEPTION_HANDLERS;  
+</SPAN><SPAN><A CLASS="LN" NAME="27">   27   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">pragma</SPAN> force_active on
+</SPAN><SPAN><A CLASS="LN" NAME="28">   28   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">pragma</SPAN> interrupt on
+</SPAN><SPAN><A CLASS="LN" NAME="29">   29   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">pragma</SPAN> function_align 16 <SPAN CLASS="CT">/* We use 16 bytes alignment for Exception handlers */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="30">   30   </A><SPAN CLASS="DT">void</SPAN> <A NAME="fcn_EXCEP_DefaultExceptionHandler">EXCEP_DefaultExceptionHandler</A>(<SPAN CLASS="DT">void</SPAN>)
+</SPAN><SPAN><A CLASS="LN" NAME="31">   31   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="32">   32   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="33">   33   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="34">   34   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">pragma</SPAN> interrupt off
+</SPAN><SPAN><A CLASS="LN" NAME="35">   35   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">pragma</SPAN> force_active off
+</SPAN><SPAN><A CLASS="LN" NAME="36">   36   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">pragma</SPAN> pop
+</SPAN><SPAN><A CLASS="LN" NAME="37">   37   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="38">   38   </A>__asm <SPAN CLASS="DT">void</SPAN> <A NAME="fcn_EXCEP_InitExceptionHandlers">EXCEP_InitExceptionHandlers</A>(<SPAN CLASS="DT">void</SPAN>)
+</SPAN><SPAN><A CLASS="LN" NAME="39">   39   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="40">   40   </A>nofralloc
+</SPAN><SPAN><A CLASS="LN" NAME="41">   41   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="42">   42   </A>    <SPAN CLASS="CT">/* Set the IVPR to the Exception Handlers memory area defined in the lcf file */</SPAN> 
+</SPAN><SPAN><A CLASS="LN" NAME="43">   43   </A>    lis     r0, EXCEPTION_HANDLERS@h
+</SPAN><SPAN><A CLASS="LN" NAME="44">   44   </A>    ori     r0, r0, EXCEPTION_HANDLERS@l
+</SPAN><SPAN><A CLASS="LN" NAME="45">   45   </A>    mtivpr  r0
+</SPAN><SPAN><A CLASS="LN" NAME="46">   46   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="47">   47   </A>    <SPAN CLASS="CT">/* Set all IVOR registers to the Default Exception Handler */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="48">   48   </A>    lis     r0, <A HREF="Exceptions_c.html#fcn_EXCEP_DefaultExceptionHandler" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_EXCEP_DefaultExceptionHandler');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">EXCEP_DefaultExceptionHandler</FONT></A>@h
+</SPAN><SPAN><A CLASS="LN" NAME="49">   49   </A>    ori     r0, r0, <A HREF="Exceptions_c.html#fcn_EXCEP_DefaultExceptionHandler" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_EXCEP_DefaultExceptionHandler');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">EXCEP_DefaultExceptionHandler</FONT></A>@l
+</SPAN><SPAN><A CLASS="LN" NAME="50">   50   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="51">   51   </A>    <SPAN CLASS="CT">/* IVOR0 Critical input (SPR 400) */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="52">   52   </A>    mtivor0 r0
+</SPAN><SPAN><A CLASS="LN" NAME="53">   53   </A>    <SPAN CLASS="CT">/* IVOR1 Machine check interrupt (SPR 401) */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="54">   54   </A>    mtivor1 r0
+</SPAN><SPAN><A CLASS="LN" NAME="55">   55   </A>    <SPAN CLASS="CT">/* IVOR2 Data storage interrupt (SPR 402) */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="56">   56   </A>    mtivor2 r0
+</SPAN><SPAN><A CLASS="LN" NAME="57">   57   </A>    <SPAN CLASS="CT">/* IVOR3 Instruction storage interrupt (SPR 403) */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="58">   58   </A>    mtivor3 r0
+</SPAN><SPAN><A CLASS="LN" NAME="59">   59   </A>    <SPAN CLASS="CT">/* IVOR4 External input interrupt (SPR 404) */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="60">   60   </A>    mtivor4 r0
+</SPAN><SPAN><A CLASS="LN" NAME="61">   61   </A>    <SPAN CLASS="CT">/* IVOR5 Alignment interrupt (SPR 405) */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="62">   62   </A>    mtivor5 r0
+</SPAN><SPAN><A CLASS="LN" NAME="63">   63   </A>    <SPAN CLASS="CT">/* IVOR6 Program interrupt (SPR 406) */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="64">   64   </A>    mtivor6 r0
+</SPAN><SPAN><A CLASS="LN" NAME="65">   65   </A>    <SPAN CLASS="CT">/* IVOR7 Floating-point unavailable interrupt (SPR 407) */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="66">   66   </A>    mtivor7 r0
+</SPAN><SPAN><A CLASS="LN" NAME="67">   67   </A>    <SPAN CLASS="CT">/* IVOR8 System call interrupt (SPR 408) */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="68">   68   </A>    mtivor8 r0
+</SPAN><SPAN><A CLASS="LN" NAME="69">   69   </A>    <SPAN CLASS="CT">/* IVOR9 Auxiliary processor (SPR 409) */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="70">   70   </A>    mtivor9 r0
+</SPAN><SPAN><A CLASS="LN" NAME="71">   71   </A>    <SPAN CLASS="CT">/* IVOR10 Decrementer interrupt (SPR 410) */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="72">   72   </A>    mtivor10 r0
+</SPAN><SPAN><A CLASS="LN" NAME="73">   73   </A>    <SPAN CLASS="CT">/* IVOR11 Fixed-interval timer interrupt (SPR 411) */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="74">   74   </A>    mtivor11 r0
+</SPAN><SPAN><A CLASS="LN" NAME="75">   75   </A>    <SPAN CLASS="CT">/* IVOR12 Watchdog timer interrupt (SPR 412) */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="76">   76   </A>    mtivor12 r0
+</SPAN><SPAN><A CLASS="LN" NAME="77">   77   </A>    <SPAN CLASS="CT">/* IVOR13 Data TLB error interrupt (SPR 413) */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="78">   78   </A>    mtivor13 r0        
+</SPAN><SPAN><A CLASS="LN" NAME="79">   79   </A>    <SPAN CLASS="CT">/* IVOR14 Instruction TLB error interrupt (SPR 414) */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="80">   80   </A>    mtivor14 r0  
+</SPAN><SPAN><A CLASS="LN" NAME="81">   81   </A>    <SPAN CLASS="CT">/* IVOR15 Debug interrupt (SPR 415) */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="82">   82   </A>    mtivor15 r0 
+</SPAN><SPAN><A CLASS="LN" NAME="83">   83   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="84">   84   </A>    <SPAN CLASS="CT">/* IVOR32 SPE APU unavailable interrupt (SPR 528) */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="85">   85   </A>    mtivor32 r0 
+</SPAN><SPAN><A CLASS="LN" NAME="86">   86   </A>    <SPAN CLASS="CT">/* IVOR33 SPE floating-point data exception interrupt (SPR 529) */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="87">   87   </A>    mtivor33 r0 
+</SPAN><SPAN><A CLASS="LN" NAME="88">   88   </A>    <SPAN CLASS="CT">/* IVOR34 SPE floating-point round exception interrupt (SPR 530) */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="89">   89   </A>    mtivor34 r0
+</SPAN><SPAN><A CLASS="LN" NAME="90">   90   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="91">   91   </A>    blr
+</SPAN><SPAN><A CLASS="LN" NAME="92">   92   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="93">   93   </A>
+</SPAN></PRE>
+</TD></TR></TABLE>
+</P>
+</BODY>
+</HTML>

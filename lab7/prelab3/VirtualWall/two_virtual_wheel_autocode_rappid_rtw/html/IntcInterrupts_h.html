@@ -1,0 +1,90 @@
+<HTML>
+<HEAD>
+<TITLE>RTW Report - IntcInterrupts.h </TITLE>
+<STYLE> .LN { font-style: italic; color: #888888 } </STYLE>
+<STYLE> .CT { font-style: italic; color: #117755 } </STYLE>
+<STYLE> .PP { font-style: bold;   color: #992211 } </STYLE>
+<STYLE> .KW { font-style: bold;   color: #112266 } </STYLE>
+<STYLE> .DT { font-style: bold;   color: #112266 } </STYLE>
+<SCRIPT language="JavaScript" type="text/javascript">
+<!--
+function rtwHilite(aBlock,aParentSID) {
+ aParentSID = "";
+ try {
+    window.location.href="matlab: if ~isempty(which('private/rtwbindmodel')), rtwprivate rtwbindmodel 'C:\\Users\\Embed_Sys_course\\git\\lab\\lab7\\prelab3\\VirtualWall\\two_virtual_wheel_autocode.mdl' 'C:\\Users\\Embed_Sys_course\\git\\lab\\lab7\\prelab3\\VirtualWall\\two_virtual_wheel_autocode_rappid_rtw' '', end; rtwprivate code2model "+aBlock+" "+aParentSID+";"
+ } catch (e) { 
+ }
+} // end rtwHilite
+//-->
+</SCRIPT>
+</HEAD>
+<BODY BGCOLOR="#eeeeee" TEXT="#1122aa" ONLOAD="if (top) { if (top.rtwFileOnLoad) top.rtwFileOnLoad(window);} ">
+<P>
+<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="6" WIDTH="100%" HEIGHT="100%"><TR><TD WIDTH="100%" VALIGN="top" BGCOLOR="#ffffff">
+<H4>File: <A HREF="file:///C:\Users\Embed_Sys_course\git\lab\lab7\prelab3\VirtualWall\two_virtual_wheel_autocode_rappid_rtw\IntcInterrupts.h" TARGET="rtwreport_document_frame">C:\Users\Embed_Sys_course\git\lab\lab7\prelab3\VirtualWall\two_virtual_wheel_autocode_rappid_rtw\IntcInterrupts.h</A></H4>
+<PRE id="RTWcode">
+<SPAN><A CLASS="LN" NAME="1">    1   </A><SPAN CLASS="CT">/* target specific file */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="2">    2   </A><SPAN CLASS="CT">/**</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="3">    3   </A><SPAN CLASS="CT"> * FILE: IntcInterrupts.h</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="4">    4   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="5">    5   </A><SPAN CLASS="CT"> *  DESCRIPTION: Contains defines for utilizing the Interrupt Controller in the MPC5500. </SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="6">    6   </A><SPAN CLASS="CT"> *   There is also the function prototypes for the common interrupt handling </SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="7">    7   </A><SPAN CLASS="CT"> *   routines to be used on the MPC55xx (PowerPC Zen core).</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="8">    8   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="9">    9   </A><SPAN CLASS="CT"> */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="10">   10   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="11">   11   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">ifndef</SPAN> _INTCINTERRUPTS_H_
+</SPAN><SPAN><A CLASS="LN" NAME="12">   12   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> _INTCINTERRUPTS_H_
+</SPAN><SPAN><A CLASS="LN" NAME="13">   13   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="14">   14   </A><SPAN CLASS="CT">/*----------------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="15">   15   </A><SPAN CLASS="CT">/* Types                                                                      */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="16">   16   </A><SPAN CLASS="CT">/*----------------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="17">   17   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="18">   18   </A><SPAN CLASS="CT">/** All interrupt handlers should be of this type */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="19">   19   </A><SPAN CLASS="KW">typedef</SPAN> <SPAN CLASS="DT">void</SPAN>(*INTCInterruptFn)(<SPAN CLASS="DT">void</SPAN>);
+</SPAN><SPAN><A CLASS="LN" NAME="20">   20   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="21">   21   </A><SPAN CLASS="CT">/*----------------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="22">   22   </A><SPAN CLASS="CT">/* Function declarations                                                      */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="23">   23   </A><SPAN CLASS="CT">/*----------------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="24">   24   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="25">   25   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">ifdef</SPAN> __cplusplus
+</SPAN><SPAN><A CLASS="LN" NAME="26">   26   </A><SPAN CLASS="DT">extern</SPAN> <FONT COLOR="#1122ff">&quot;C&quot;</FONT> <B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="27">   27   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">endif</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="28">   28   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="29">   29   </A><SPAN CLASS="CT">/**</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="30">   30   </A><SPAN CLASS="CT"> * This function will setup the PowerPC Zen core to jump to an Interrupt Service Routine</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="31">   31   </A><SPAN CLASS="CT"> * handler. This function can be used from user_init() (no stack frame, no memory access).</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="32">   32   </A><SPAN CLASS="CT"> */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="33">   33   </A>__asm <SPAN CLASS="DT">void</SPAN> <A HREF="IntcInterrupts_c.html#fcn_INTC_InitINTCInterrupts" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_INTC_InitINTCInterrupts');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">INTC_InitINTCInterrupts</FONT></A>(<SPAN CLASS="DT">void</SPAN>);
+</SPAN><SPAN><A CLASS="LN" NAME="34">   34   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="35">   35   </A><SPAN CLASS="CT">/**</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="36">   36   </A><SPAN CLASS="CT"> * This function can be used to install an interrupt handler for a given</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="37">   37   </A><SPAN CLASS="CT"> * interrupt vector. It will also set the Priority Status Register for the</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="38">   38   </A><SPAN CLASS="CT"> * source to the one given.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="39">   39   </A><SPAN CLASS="CT"> * parameter handlerFn: The function to call when the interrupt occurs.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="40">   40   </A><SPAN CLASS="CT"> * parameter vectoryNum: The number of the INTC Interrupt Request Source we wish </SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="41">   41   </A><SPAN CLASS="CT"> * to install the handler for.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="42">   42   </A><SPAN CLASS="CT"> * parameter psrPriority: The priority to set in the Interrupt Controller Priority</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="43">   43   </A><SPAN CLASS="CT"> * Select Register.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="44">   44   </A><SPAN CLASS="CT"> */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="45">   45   </A><SPAN CLASS="DT">void</SPAN> <A HREF="IntcInterrupts_c.html#fcn_INTC_InstallINTCInterruptHandler" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_INTC_InstallINTCInterruptHandler');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">INTC_InstallINTCInterruptHandler</FONT></A>(INTCInterruptFn handlerFn, <SPAN CLASS="DT">unsigned</SPAN> <SPAN CLASS="DT">short</SPAN> vectorNum,
+</SPAN><SPAN><A CLASS="LN" NAME="46">   46   </A>                                      <SPAN CLASS="DT">unsigned</SPAN> <SPAN CLASS="DT">char</SPAN> psrPriority);
+</SPAN><SPAN><A CLASS="LN" NAME="47">   47   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="48">   48   </A><SPAN CLASS="CT">/**</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="49">   49   </A><SPAN CLASS="CT"> * This function is used to Handle the interrupt source by jumping to the ISR</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="50">   50   </A><SPAN CLASS="CT"> * branch table (IACKR)</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="51">   51   </A><SPAN CLASS="CT"> */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="52">   52   </A><SPAN CLASS="DT">void</SPAN> <A HREF="IntcInterrupts_c.html#fcn_INTC_INTCInterruptHandler" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_INTC_INTCInterruptHandler');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">INTC_INTCInterruptHandler</FONT></A>(<SPAN CLASS="DT">void</SPAN>);
+</SPAN><SPAN><A CLASS="LN" NAME="53">   53   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="54">   54   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">ifdef</SPAN> __cplusplus
+</SPAN><SPAN><A CLASS="LN" NAME="55">   55   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="56">   56   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">endif</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="57">   57   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="58">   58   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">endif</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="59">   59   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="60">   60   </A>
+</SPAN></PRE>
+</TD></TR></TABLE>
+</P>
+</BODY>
+</HTML>

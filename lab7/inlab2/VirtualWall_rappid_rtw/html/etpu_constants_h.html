@@ -1,0 +1,89 @@
+<HTML>
+<HEAD>
+<TITLE>RTW Report - etpu_constants.h </TITLE>
+<STYLE> .LN { font-style: italic; color: #888888 } </STYLE>
+<STYLE> .CT { font-style: italic; color: #117755 } </STYLE>
+<STYLE> .PP { font-style: bold;   color: #992211 } </STYLE>
+<STYLE> .KW { font-style: bold;   color: #112266 } </STYLE>
+<STYLE> .DT { font-style: bold;   color: #112266 } </STYLE>
+<SCRIPT language="JavaScript" type="text/javascript">
+<!--
+function rtwHilite(aBlock,aParentSID) {
+ aParentSID = "";
+ try {
+    window.location.href="matlab: if ~isempty(which('private/rtwbindmodel')), rtwprivate rtwbindmodel 'C:\\Users\\Embed_Sys_course\\git\\lab\\lab7\\inlab2\\VirtualWall.mdl' 'C:\\Users\\Embed_Sys_course\\git\\lab\\lab7\\inlab2\\VirtualWall_rappid_rtw' '', end; rtwprivate code2model "+aBlock+" "+aParentSID+";"
+ } catch (e) { 
+ }
+} // end rtwHilite
+//-->
+</SCRIPT>
+</HEAD>
+<BODY BGCOLOR="#eeeeee" TEXT="#1122aa" ONLOAD="if (top) { if (top.rtwFileOnLoad) top.rtwFileOnLoad(window);} ">
+<P>
+<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="6" WIDTH="100%" HEIGHT="100%"><TR><TD WIDTH="100%" VALIGN="top" BGCOLOR="#ffffff">
+<H4>File: <A HREF="file:///C:\Users\Embed_Sys_course\git\lab\lab7\inlab2\VirtualWall_rappid_rtw\etpu_constants.h" TARGET="rtwreport_document_frame">C:\Users\Embed_Sys_course\git\lab\lab7\inlab2\VirtualWall_rappid_rtw\etpu_constants.h</A></H4>
+<PRE id="RTWcode">
+<SPAN><A CLASS="LN" NAME="1">    1   </A><SPAN CLASS="CT">/********************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="2">    2   </A><SPAN CLASS="CT">/* FILE NAME: etpu_constants   .h                   COPYRIGHT (c) MOTOROLA 2003 */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="3">    3   </A><SPAN CLASS="CT">/* VERSION:  0.0                                    All Rights Reserved         */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="4">    4   </A><SPAN CLASS="CT">/*                                                                              */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="5">    5   </A><SPAN CLASS="CT">/* DESCRIPTION: This file contains all the function prototype, data type        */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="6">    6   </A><SPAN CLASS="CT">/*              declaration, constants definition etc. for etpu_engine system.c.*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="7">    7   </A><SPAN CLASS="CT">/*                                                                              */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="8">    8   </A><SPAN CLASS="CT">/*==============================================================================*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="9">    9   </A><SPAN CLASS="CT">/* UPDATE HISTORY                                                               */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="10">   10   </A><SPAN CLASS="CT">/* REV      AUTHOR        DATE	    DESCRIPTION OF CHANGE                       */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="11">   11   </A><SPAN CLASS="CT">/* ---      -------      --------    ---------------------                      */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="12">   12   </A><SPAN CLASS="CT">/* 0.0      Ming Li      12/02/03    Initial creation                           */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="13">   13   </A><SPAN CLASS="CT">/********************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="14">   14   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="15">   15   </A><SPAN CLASS="CT">/*--------------------------------------------------------------------+</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="16">   16   </A><SPAN CLASS="CT">   |                           Include Header Files                      |</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="17">   17   </A><SPAN CLASS="CT">   +--------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="18">   18   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="19">   19   </A><SPAN CLASS="CT">/*--------------------------------------------------------------------+</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="20">   20   </A><SPAN CLASS="CT">   |                           Macro Definition                          |</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="21">   21   </A><SPAN CLASS="CT">   +--------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="22">   22   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="23">   23   </A><SPAN CLASS="CT">/*--------------------------------------------------------------------+</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="24">   24   </A><SPAN CLASS="CT">   |                           Constants Definition                      |</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="25">   25   </A><SPAN CLASS="CT">   +--------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="26">   26   </A><SPAN CLASS="CT">/* define general constants */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="27">   27   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> ETPU_PSE_RAM_OFFSET            0x1000
+</SPAN><SPAN><A CLASS="LN" NAME="28">   28   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> PARAM_OUT_RANGE                -5
+</SPAN><SPAN><A CLASS="LN" NAME="29">   29   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> INVALID_ETPU_CHAN              -6
+</SPAN><SPAN><A CLASS="LN" NAME="30">   30   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="31">   31   </A><SPAN CLASS="CT">/*********************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="32">   32   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="33">   33   </A><SPAN CLASS="CT"> * Copyright:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="34">   34   </A><SPAN CLASS="CT"> *	MOTOROLA, INC. All Rights Reserved.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="35">   35   </A><SPAN CLASS="CT"> *  You are hereby granted a copyright license to use, modify, and</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="36">   36   </A><SPAN CLASS="CT"> *  distribute the SOFTWARE so long as this entire notice is</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="37">   37   </A><SPAN CLASS="CT"> *  retained without alteration in any modified and/or redistributed</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="38">   38   </A><SPAN CLASS="CT"> *  versions, and that such modified versions are clearly identified</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="39">   39   </A><SPAN CLASS="CT"> *  as such. No licenses are granted by implication, estoppel or</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="40">   40   </A><SPAN CLASS="CT"> *  otherwise under any patents or trademarks of Motorola, Inc. This</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="41">   41   </A><SPAN CLASS="CT"> *  software is provided on an "AS IS" basis and without warranty.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="42">   42   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="43">   43   </A><SPAN CLASS="CT"> *  To the maximum extent permitted by applicable law, MOTOROLA</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="44">   44   </A><SPAN CLASS="CT"> *  DISCLAIMS ALL WARRANTIES WHETHER EXPRESS OR IMPLIED, INCLUDING</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="45">   45   </A><SPAN CLASS="CT"> *  IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="46">   46   </A><SPAN CLASS="CT"> *  PURPOSE AND ANY WARRANTY AGAINST INFRINGEMENT WITH REGARD TO THE</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="47">   47   </A><SPAN CLASS="CT"> *  SOFTWARE (INCLUDING ANY MODIFIED VERSIONS THEREOF) AND ANY</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="48">   48   </A><SPAN CLASS="CT"> *  ACCOMPANYING WRITTEN MATERIALS.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="49">   49   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="50">   50   </A><SPAN CLASS="CT"> *  To the maximum extent permitted by applicable law, IN NO EVENT</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="51">   51   </A><SPAN CLASS="CT"> *  SHALL MOTOROLA BE LIABLE FOR ANY DAMAGES WHATSOEVER (INCLUDING</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="52">   52   </A><SPAN CLASS="CT"> *  WITHOUT LIMITATION, DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="53">   53   </A><SPAN CLASS="CT"> *  INTERRUPTION, LOSS OF BUSINESS INFORMATION, OR OTHER PECUNIARY</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="54">   54   </A><SPAN CLASS="CT"> *  LOSS) ARISING OF THE USE OR INABILITY TO USE THE SOFTWARE.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="55">   55   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="56">   56   </A><SPAN CLASS="CT"> *  Motorola assumes no responsibility for the maintenance and support</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="57">   57   </A><SPAN CLASS="CT"> *  of this software</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="58">   58   </A><SPAN CLASS="CT"> ********************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="59">   59   </A>
+</SPAN></PRE>
+</TD></TR></TABLE>
+</P>
+</BODY>
+</HTML>

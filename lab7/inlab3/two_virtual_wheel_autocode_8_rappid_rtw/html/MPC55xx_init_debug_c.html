@@ -1,0 +1,101 @@
+<HTML>
+<HEAD>
+<TITLE>RTW Report - MPC55xx_init_debug.c </TITLE>
+<STYLE> .LN { font-style: italic; color: #888888 } </STYLE>
+<STYLE> .CT { font-style: italic; color: #117755 } </STYLE>
+<STYLE> .PP { font-style: bold;   color: #992211 } </STYLE>
+<STYLE> .KW { font-style: bold;   color: #112266 } </STYLE>
+<STYLE> .DT { font-style: bold;   color: #112266 } </STYLE>
+<SCRIPT language="JavaScript" type="text/javascript">
+<!--
+function rtwHilite(aBlock,aParentSID) {
+ aParentSID = "";
+ try {
+    window.location.href="matlab: if ~isempty(which('private/rtwbindmodel')), rtwprivate rtwbindmodel 'C:\\Users\\Embed_Sys_course\\git\\lab\\lab7\\inlab3\\two_virtual_wheel_autocode_8.mdl' 'C:\\Users\\Embed_Sys_course\\git\\lab\\lab7\\inlab3\\two_virtual_wheel_autocode_8_rappid_rtw' '', end; rtwprivate code2model "+aBlock+" "+aParentSID+";"
+ } catch (e) { 
+ }
+} // end rtwHilite
+//-->
+</SCRIPT>
+</HEAD>
+<BODY BGCOLOR="#eeeeee" TEXT="#1122aa" ONLOAD="if (top) { if (top.rtwFileOnLoad) top.rtwFileOnLoad(window);} ">
+<P>
+<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="6" WIDTH="100%" HEIGHT="100%"><TR><TD WIDTH="100%" VALIGN="top" BGCOLOR="#ffffff">
+<H4>File: <A HREF="file:///C:\Users\Embed_Sys_course\git\lab\lab7\inlab3\two_virtual_wheel_autocode_8_rappid_rtw\MPC55xx_init_debug.c" TARGET="rtwreport_document_frame">C:\Users\Embed_Sys_course\git\lab\lab7\inlab3\two_virtual_wheel_autocode_8_rappid_rtw\MPC55xx_init_debug.c</A></H4>
+<PRE id="RTWcode">
+<SPAN><A CLASS="LN" NAME="1">    1   </A><SPAN CLASS="CT">/* target specific file */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="2">    2   </A><SPAN CLASS="CT">/*</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="3">    3   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="4">    4   </A><SPAN CLASS="CT"> * FILE : MPC55xx_init_debug.c</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="5">    5   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="6">    6   </A><SPAN CLASS="CT"> * DESCRIPTION:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="7">    7   </A><SPAN CLASS="CT"> *  This file contains the MPC55xx derivative needed initializations. </SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="8">    8   </A><SPAN CLASS="CT"> *  MPC55xx_init_debug.c is only used when willing to debug in RAM. Otherwize, </SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="9">    9   </A><SPAN CLASS="CT"> *  MPC55xx_init.c shall be used.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="10">   10   </A><SPAN CLASS="CT"> *  usr_init() is called by the startup code of the application at initialization time</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="11">   11   </A><SPAN CLASS="CT"> *  You can add needed hardware initializations here.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="12">   12   </A><SPAN CLASS="CT"> */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="13">   13   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="14">   14   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">include</SPAN> <FONT COLOR="#992211">&quot;Exceptions.h&quot;</FONT>    <SPAN CLASS="CT">/* IVPR and default exception handlers setup */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="15">   15   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">include</SPAN> <FONT COLOR="#992211">&quot;INTCInterrupts.h&quot;</FONT> <SPAN CLASS="CT">/* INTC Interrupts Requests configuration */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="16">   16   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">include</SPAN> <FONT COLOR="#992211">&quot;MPC5554_HWInit.h&quot;</FONT>
+</SPAN><SPAN><A CLASS="LN" NAME="17">   17   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="18">   18   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">pragma</SPAN> section code_type <FONT COLOR="#1122ff">&quot;.init&quot;</FONT>
+</SPAN><SPAN><A CLASS="LN" NAME="19">   19   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="20">   20   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> INIT_DERIVATIVE_INTERNAL_SETUP 0
+</SPAN><SPAN><A CLASS="LN" NAME="21">   21   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> INIT_EXTERNAL_BUS_INTERFACE_SETUP 0
+</SPAN><SPAN><A CLASS="LN" NAME="22">   22   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="23">   23   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">ifndef</SPAN> INIT_DERIVATIVE_INTERNAL_SETUP
+</SPAN><SPAN><A CLASS="LN" NAME="24">   24   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">pragma</SPAN> <SPAN CLASS="PP">error</SPAN> INIT_DERIVATIVE_INTERNAL_SETUP should be defined !
+</SPAN><SPAN><A CLASS="LN" NAME="25">   25   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">endif</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="26">   26   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="27">   27   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">ifndef</SPAN> INIT_EXTERNAL_BUS_INTERFACE_SETUP
+</SPAN><SPAN><A CLASS="LN" NAME="28">   28   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">pragma</SPAN> <SPAN CLASS="PP">error</SPAN> INIT_EXTERNAL_BUS_INTERFACE_SETUP should be defined !
+</SPAN><SPAN><A CLASS="LN" NAME="29">   29   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">endif</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="30">   30   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="31">   31   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">ifdef</SPAN> __cplusplus
+</SPAN><SPAN><A CLASS="LN" NAME="32">   32   </A><SPAN CLASS="DT">extern</SPAN> <FONT COLOR="#1122ff">&quot;C&quot;</FONT> <B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="33">   33   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">endif</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="34">   34   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="35">   35   </A><SPAN CLASS="DT">extern</SPAN> __asm <SPAN CLASS="DT">void</SPAN> __start();
+</SPAN><SPAN><A CLASS="LN" NAME="36">   36   </A>__asm <SPAN CLASS="DT">void</SPAN> <A HREF="MPC55xx_init_debug_c.html#fcn_usr_init" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_usr_init');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">usr_init</FONT></A>();
+</SPAN><SPAN><A CLASS="LN" NAME="37">   37   </A><SPAN CLASS="CT">/*lint -esym(752,__start) */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="38">   38   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="39">   39   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">ifdef</SPAN> __cplusplus
+</SPAN><SPAN><A CLASS="LN" NAME="40">   40   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="41">   41   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">endif</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="42">   42   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="43">   43   </A><SPAN CLASS="CT">/*****************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="44">   44   </A><SPAN CLASS="CT">/* usr_init():                                                   */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="45">   45   </A><SPAN CLASS="CT">/*   Define here the needed hardware initializations at startup  */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="46">   46   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="47">   47   </A>__asm <SPAN CLASS="DT">void</SPAN> <A NAME="fcn_usr_init">usr_init</A>()
+</SPAN><SPAN><A CLASS="LN" NAME="48">   48   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="49">   49   </A>    <SPAN CLASS="CT">/* Add needed hardware initializations in this function */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="50">   50   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="51">   51   </A>    nofralloc
+</SPAN><SPAN><A CLASS="LN" NAME="52">   52   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="53">   53   </A>    mflr     r31                         <SPAN CLASS="CT">/* Save off return address in NV reg */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="54">   54   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="55">   55   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">if</SPAN> INIT_DERIVATIVE_INTERNAL_SETUP==1
+</SPAN><SPAN><A CLASS="LN" NAME="56">   56   </A>    bl      <A HREF="MPC5554_HWInit_c.html#fcn_INIT_Derivative" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_INIT_Derivative');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">INIT_Derivative</FONT></A>              <SPAN CLASS="CT">/* Derivative specific hardware initializations */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="57">   57   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">endif</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="58">   58   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">if</SPAN> INIT_EXTERNAL_BUS_INTERFACE_SETUP==1
+</SPAN><SPAN><A CLASS="LN" NAME="59">   59   </A>    bl      <A HREF="MPC5554_HWInit_c.html#fcn_INIT_ExternalBusAndMemory" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_INIT_ExternalBusAndMemory');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">INIT_ExternalBusAndMemory</FONT></A>    <SPAN CLASS="CT">/* Set up access to external memory (inc. chip select and MMU) */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="60">   60   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">endif</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="61">   61   </A>    bl      <A HREF="Exceptions_c.html#fcn_EXCEP_InitExceptionHandlers" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_EXCEP_InitExceptionHandlers');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">EXCEP_InitExceptionHandlers</FONT></A>   <SPAN CLASS="CT">/* Set up Default Exception handling */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="62">   62   </A>    bl      <A HREF="IntcInterrupts_c.html#fcn_INTC_InitINTCInterrupts" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_INTC_InitINTCInterrupts');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">INTC_InitINTCInterrupts</FONT></A>       <SPAN CLASS="CT">/* Set up INTC Interrupts Requests handling */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="63">   63   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="64">   64   </A>    mtlr    r31                          <SPAN CLASS="CT">/* Get saved return address */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="65">   65   </A>    
+</SPAN><SPAN><A CLASS="LN" NAME="66">   66   </A>    blr
+</SPAN><SPAN><A CLASS="LN" NAME="67">   67   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="68">   68   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="69">   69   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="70">   70   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="71">   71   </A>
+</SPAN></PRE>
+</TD></TR></TABLE>
+</P>
+</BODY>
+</HTML>

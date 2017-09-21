@@ -1,0 +1,162 @@
+<HTML>
+<HEAD>
+<TITLE>RTW Report - rtw_continuous.h </TITLE>
+<STYLE> .LN { font-style: italic; color: #888888 } </STYLE>
+<STYLE> .CT { font-style: italic; color: #117755 } </STYLE>
+<STYLE> .PP { font-style: bold;   color: #992211 } </STYLE>
+<STYLE> .KW { font-style: bold;   color: #112266 } </STYLE>
+<STYLE> .DT { font-style: bold;   color: #112266 } </STYLE>
+<SCRIPT language="JavaScript" type="text/javascript">
+<!--
+function rtwHilite(aBlock,aParentSID) {
+ aParentSID = "";
+ try {
+    window.location.href="matlab: if ~isempty(which('private/rtwbindmodel')), rtwprivate rtwbindmodel 'C:\\Users\\Embed_Sys_course\\git\\lab\\lab7\\prelab3\\VirtualWall\\two_virtual_wheel_autocode.mdl' 'C:\\Users\\Embed_Sys_course\\git\\lab\\lab7\\prelab3\\VirtualWall\\two_virtual_wheel_autocode_rappid_rtw' '', end; rtwprivate code2model "+aBlock+" "+aParentSID+";"
+ } catch (e) { 
+ }
+} // end rtwHilite
+//-->
+</SCRIPT>
+</HEAD>
+<BODY BGCOLOR="#eeeeee" TEXT="#1122aa" ONLOAD="if (top) { if (top.rtwFileOnLoad) top.rtwFileOnLoad(window);} ">
+<P>
+<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="6" WIDTH="100%" HEIGHT="100%"><TR><TD WIDTH="100%" VALIGN="top" BGCOLOR="#ffffff">
+<H4>File: <A HREF="file:///C:\Users\Embed_Sys_course\git\lab\lab7\prelab3\VirtualWall\two_virtual_wheel_autocode_rappid_rtw\rtw_continuous.h" TARGET="rtwreport_document_frame">C:\Users\Embed_Sys_course\git\lab\lab7\prelab3\VirtualWall\two_virtual_wheel_autocode_rappid_rtw\rtw_continuous.h</A></H4>
+<PRE id="RTWcode">
+<SPAN><A CLASS="LN" NAME="1">    1   </A><SPAN CLASS="CT">/*</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="2">    2   </A><SPAN CLASS="CT"> * Copyright 1990-2009 The MathWorks, Inc.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="3">    3   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="4">    4   </A><SPAN CLASS="CT"> * File: rtw_continuous.h     $Revision: 1.1.6.3 $</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="5">    5   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="6">    6   </A><SPAN CLASS="CT"> * Abstract:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="7">    7   </A><SPAN CLASS="CT"> *   Type definitions for continuous-time support.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="8">    8   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="9">    9   </A><SPAN CLASS="CT"> */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="10">   10   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="11">   11   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">ifndef</SPAN> __RTW_CONTINUOUS_H__
+</SPAN><SPAN><A CLASS="LN" NAME="12">   12   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> __RTW_CONTINUOUS_H__
+</SPAN><SPAN><A CLASS="LN" NAME="13">   13   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="14">   14   </A><SPAN CLASS="CT">/* For models registering MassMatrix */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="15">   15   </A><SPAN CLASS="KW">typedef</SPAN> <SPAN CLASS="KW">enum</SPAN> <B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="16">   16   </A>  SS_MATRIX_NONE,
+</SPAN><SPAN><A CLASS="LN" NAME="17">   17   </A>  SS_MATRIX_CONSTANT,
+</SPAN><SPAN><A CLASS="LN" NAME="18">   18   </A>  SS_MATRIX_TIMEDEP,
+</SPAN><SPAN><A CLASS="LN" NAME="19">   19   </A>  SS_MATRIX_STATEDEP
+</SPAN><SPAN><A CLASS="LN" NAME="20">   20   </A><B>}</B> <A NAME="type_ssMatrixType">ssMatrixType</A>;
+</SPAN><SPAN><A CLASS="LN" NAME="21">   21   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="22">   22   </A><SPAN CLASS="KW">typedef</SPAN> <SPAN CLASS="KW">enum</SPAN> <B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="23">   23   </A>  SOLVER_MODE_AUTO,                    <SPAN CLASS="CT">/* only occurs in</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="24">   24   </A><SPAN CLASS="CT">                                          mdlInitializeSizes/mdlInitializeSampleTimes */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="25">   25   </A>  SOLVER_MODE_SINGLETASKING,
+</SPAN><SPAN><A CLASS="LN" NAME="26">   26   </A>  SOLVER_MODE_MULTITASKING
+</SPAN><SPAN><A CLASS="LN" NAME="27">   27   </A><B>}</B> <A NAME="type_SolverMode">SolverMode</A>;
+</SPAN><SPAN><A CLASS="LN" NAME="28">   28   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="29">   29   </A><SPAN CLASS="KW">typedef</SPAN> <SPAN CLASS="KW">enum</SPAN> <B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="30">   30   </A>  MINOR_TIME_STEP,
+</SPAN><SPAN><A CLASS="LN" NAME="31">   31   </A>  MAJOR_TIME_STEP
+</SPAN><SPAN><A CLASS="LN" NAME="32">   32   </A><B>}</B> <A NAME="type_SimTimeStep">SimTimeStep</A>;
+</SPAN><SPAN><A CLASS="LN" NAME="33">   33   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="34">   34   </A><SPAN CLASS="CT">/* =============================================================================</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="35">   35   </A><SPAN CLASS="CT"> * Model methods object</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="36">   36   </A><SPAN CLASS="CT"> * =============================================================================</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="37">   37   </A><SPAN CLASS="CT"> */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="38">   38   </A><SPAN CLASS="KW">typedef</SPAN> <SPAN CLASS="DT">void</SPAN> (*rtMdlInitializeSizesFcn)(<SPAN CLASS="DT">void</SPAN> *rtModel);
+</SPAN><SPAN><A CLASS="LN" NAME="39">   39   </A><SPAN CLASS="KW">typedef</SPAN> <SPAN CLASS="DT">void</SPAN> (*rtMdlInitializeSampleTimesFcn)(<SPAN CLASS="DT">void</SPAN> *rtModel);
+</SPAN><SPAN><A CLASS="LN" NAME="40">   40   </A><SPAN CLASS="KW">typedef</SPAN> <SPAN CLASS="DT">void</SPAN> (*rtMdlStartFcn)(<SPAN CLASS="DT">void</SPAN> *rtModel);
+</SPAN><SPAN><A CLASS="LN" NAME="41">   41   </A><SPAN CLASS="KW">typedef</SPAN> <SPAN CLASS="DT">void</SPAN> (*rtMdlOutputsFcn)(<SPAN CLASS="DT">void</SPAN> *rtModel, <A HREF="rtwtypes_h.html#type_int_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int_T</FONT></A> tid);
+</SPAN><SPAN><A CLASS="LN" NAME="42">   42   </A><SPAN CLASS="KW">typedef</SPAN> <SPAN CLASS="DT">void</SPAN> (*rtMdlUpdateFcn)(<SPAN CLASS="DT">void</SPAN> *rtModel, <A HREF="rtwtypes_h.html#type_int_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int_T</FONT></A> tid);
+</SPAN><SPAN><A CLASS="LN" NAME="43">   43   </A><SPAN CLASS="KW">typedef</SPAN> <SPAN CLASS="DT">void</SPAN> (*rtMdlDerivativesFcn)(<SPAN CLASS="DT">void</SPAN> *rtModel);
+</SPAN><SPAN><A CLASS="LN" NAME="44">   44   </A><SPAN CLASS="KW">typedef</SPAN> <SPAN CLASS="DT">void</SPAN> (*rtMdlProjectionFcn)(<SPAN CLASS="DT">void</SPAN> *rtModel);
+</SPAN><SPAN><A CLASS="LN" NAME="45">   45   </A><SPAN CLASS="KW">typedef</SPAN> <SPAN CLASS="DT">void</SPAN> (*rtMdlMassMatrixFcn)(<SPAN CLASS="DT">void</SPAN> *rtModel);
+</SPAN><SPAN><A CLASS="LN" NAME="46">   46   </A><SPAN CLASS="KW">typedef</SPAN> <SPAN CLASS="DT">void</SPAN> (*rtMdlForcingFunctionFcn)(<SPAN CLASS="DT">void</SPAN> *rtModel);
+</SPAN><SPAN><A CLASS="LN" NAME="47">   47   </A><SPAN CLASS="KW">typedef</SPAN> <SPAN CLASS="DT">void</SPAN> (*rtMdlTerminateFcn)(<SPAN CLASS="DT">void</SPAN> *rtModel);
+</SPAN><SPAN><A CLASS="LN" NAME="48">   48   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="49">   49   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">ifdef</SPAN> RT_MALLOC
+</SPAN><SPAN><A CLASS="LN" NAME="50">   50   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="51">   51   </A><SPAN CLASS="KW">typedef</SPAN> <A HREF="rtwtypes_h.html#type_real_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_real_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real_T</FONT></A> (*rtMdlDiscreteEventsFcn)(<SPAN CLASS="DT">void</SPAN> *pModel,
+</SPAN><SPAN><A CLASS="LN" NAME="52">   52   </A>  <A HREF="rtwtypes_h.html#type_int_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int_T</FONT></A> rtmNumSampTimes,
+</SPAN><SPAN><A CLASS="LN" NAME="53">   53   </A>  <SPAN CLASS="DT">void</SPAN> *rtmTimingData,
+</SPAN><SPAN><A CLASS="LN" NAME="54">   54   </A>  <A HREF="rtwtypes_h.html#type_int_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int_T</FONT></A> *rtmSampleHitPtr,
+</SPAN><SPAN><A CLASS="LN" NAME="55">   55   </A>  <A HREF="rtwtypes_h.html#type_int_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int_T</FONT></A> *rtmPerTaskSampleHits);
+</SPAN><SPAN><A CLASS="LN" NAME="56">   56   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="57">   57   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">endif</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="58">   58   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="59">   59   </A><SPAN CLASS="KW">typedef</SPAN> <SPAN CLASS="KW">struct</SPAN> _RTWRTModelMethodsInfo_tag <B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="60">   60   </A>  <SPAN CLASS="DT">void</SPAN> *rtModelPtr;
+</SPAN><SPAN><A CLASS="LN" NAME="61">   61   </A>  rtMdlInitializeSizesFcn rtmInitSizesFcn;
+</SPAN><SPAN><A CLASS="LN" NAME="62">   62   </A>  rtMdlInitializeSampleTimesFcn rtmInitSampTimesFcn;
+</SPAN><SPAN><A CLASS="LN" NAME="63">   63   </A>  rtMdlStartFcn rtmStartFcn;
+</SPAN><SPAN><A CLASS="LN" NAME="64">   64   </A>  rtMdlOutputsFcn rtmOutputsFcn;
+</SPAN><SPAN><A CLASS="LN" NAME="65">   65   </A>  rtMdlUpdateFcn rtmUpdateFcn;
+</SPAN><SPAN><A CLASS="LN" NAME="66">   66   </A>  rtMdlDerivativesFcn rtmDervisFcn;
+</SPAN><SPAN><A CLASS="LN" NAME="67">   67   </A>  rtMdlProjectionFcn rtmProjectionFcn;
+</SPAN><SPAN><A CLASS="LN" NAME="68">   68   </A>  rtMdlMassMatrixFcn rtmMassMatrixFcn;
+</SPAN><SPAN><A CLASS="LN" NAME="69">   69   </A>  rtMdlForcingFunctionFcn rtmForcingFunctionFcn;
+</SPAN><SPAN><A CLASS="LN" NAME="70">   70   </A>  rtMdlTerminateFcn rtmTerminateFcn;
+</SPAN><SPAN><A CLASS="LN" NAME="71">   71   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="72">   72   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">ifdef</SPAN> RT_MALLOC
+</SPAN><SPAN><A CLASS="LN" NAME="73">   73   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="74">   74   </A>  rtMdlDiscreteEventsFcn rtmDiscreteEventsFcn;
+</SPAN><SPAN><A CLASS="LN" NAME="75">   75   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="76">   76   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">endif</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="77">   77   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="78">   78   </A><B>}</B> <A NAME="type_RTWRTModelMethodsInfo">RTWRTModelMethodsInfo</A>;
+</SPAN><SPAN><A CLASS="LN" NAME="79">   79   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="80">   80   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> rtmiSetRTModelPtr(M,rtmp)      ((M).rtModelPtr = (rtmp))
+</SPAN><SPAN><A CLASS="LN" NAME="81">   81   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> rtmiGetRTModelPtr(M)           (M).rtModelPtr
+</SPAN><SPAN><A CLASS="LN" NAME="82">   82   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> rtmiSetInitSizesFcn(M,fp) \
+</SPAN><SPAN><A CLASS="LN" NAME="83">   83   </A> ((M).rtmInitSizesFcn = ((rtMdlInitializeSizesFcn)(fp)))
+</SPAN><SPAN><A CLASS="LN" NAME="84">   84   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> rtmiSetInitSampTimesFcn(M,fp) \
+</SPAN><SPAN><A CLASS="LN" NAME="85">   85   </A> ((M).rtmInitSampTimesFcn = ((rtMdlInitializeSampleTimesFcn)(fp)))
+</SPAN><SPAN><A CLASS="LN" NAME="86">   86   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> rtmiSetStartFcn(M,fp) \
+</SPAN><SPAN><A CLASS="LN" NAME="87">   87   </A> ((M).rtmStartFcn = ((rtMdlStartFcn)(fp)))
+</SPAN><SPAN><A CLASS="LN" NAME="88">   88   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> rtmiSetOutputsFcn(M,fp) \
+</SPAN><SPAN><A CLASS="LN" NAME="89">   89   </A> ((M).rtmOutputsFcn = ((rtMdlOutputsFcn)(fp)))
+</SPAN><SPAN><A CLASS="LN" NAME="90">   90   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> rtmiSetUpdateFcn(M,fp) \
+</SPAN><SPAN><A CLASS="LN" NAME="91">   91   </A> ((M).rtmUpdateFcn = ((rtMdlUpdateFcn)(fp)))
+</SPAN><SPAN><A CLASS="LN" NAME="92">   92   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> rtmiSetDervisFcn(M,fp) \
+</SPAN><SPAN><A CLASS="LN" NAME="93">   93   </A> ((M).rtmDervisFcn = ((rtMdlDerivativesFcn)(fp)))
+</SPAN><SPAN><A CLASS="LN" NAME="94">   94   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> rtmiSetProjectionFcn(M,fp) \
+</SPAN><SPAN><A CLASS="LN" NAME="95">   95   </A> ((M).rtmProjectionFcn = ((rtMdlProjectionFcn)(fp)))
+</SPAN><SPAN><A CLASS="LN" NAME="96">   96   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> rtmiSetMassMatrixFcn(M,fp) \
+</SPAN><SPAN><A CLASS="LN" NAME="97">   97   </A> ((M).rtmMassMatrixFcn = ((rtMdlMassMatrixFcn)(fp)))
+</SPAN><SPAN><A CLASS="LN" NAME="98">   98   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> rtmiSetForcingFunctionFcn(M,fp) \
+</SPAN><SPAN><A CLASS="LN" NAME="99">   99   </A> ((M).rtmForcingFunctionFcn = ((rtMdlForcingFunctionFcn)(fp)))
+</SPAN><SPAN><A CLASS="LN" NAME="100">  100   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> rtmiSetTerminateFcn(M,fp) \
+</SPAN><SPAN><A CLASS="LN" NAME="101">  101   </A> ((M).rtmTerminateFcn = ((rtMdlTerminateFcn)(fp)))
+</SPAN><SPAN><A CLASS="LN" NAME="102">  102   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">ifdef</SPAN> RT_MALLOC
+</SPAN><SPAN><A CLASS="LN" NAME="103">  103   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> rtmiSetDiscreteEventsFcn(M,fp) \
+</SPAN><SPAN><A CLASS="LN" NAME="104">  104   </A> ((M).rtmDiscreteEventsFcn = ((rtMdlDiscreteEventsFcn)(fp)))
+</SPAN><SPAN><A CLASS="LN" NAME="105">  105   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">endif</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="106">  106   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="107">  107   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> rtmiInitializeSizes(M) \
+</SPAN><SPAN><A CLASS="LN" NAME="108">  108   </A> ((*(M).rtmInitSizesFcn)((M).rtModelPtr))
+</SPAN><SPAN><A CLASS="LN" NAME="109">  109   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> rtmiInitializeSampleTimes(M) \
+</SPAN><SPAN><A CLASS="LN" NAME="110">  110   </A> ((*(M).rtmInitSampTimesFcn)((M).rtModelPtr))
+</SPAN><SPAN><A CLASS="LN" NAME="111">  111   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> rtmiStart(M) \
+</SPAN><SPAN><A CLASS="LN" NAME="112">  112   </A> ((*(M).rtmStartFcn)((M).rtModelPtr))
+</SPAN><SPAN><A CLASS="LN" NAME="113">  113   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> rtmiOutputs(M, tid) \
+</SPAN><SPAN><A CLASS="LN" NAME="114">  114   </A> ((*(M).rtmOutputsFcn)((M).rtModelPtr,tid))
+</SPAN><SPAN><A CLASS="LN" NAME="115">  115   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> rtmiUpdate(M, tid) \
+</SPAN><SPAN><A CLASS="LN" NAME="116">  116   </A> ((*(M).rtmUpdateFcn)((M).rtModelPtr,tid))
+</SPAN><SPAN><A CLASS="LN" NAME="117">  117   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> rtmiDerivatives(M) \
+</SPAN><SPAN><A CLASS="LN" NAME="118">  118   </A> ((*(M).rtmDervisFcn)((M).rtModelPtr))
+</SPAN><SPAN><A CLASS="LN" NAME="119">  119   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> rtmiProjection(M) \
+</SPAN><SPAN><A CLASS="LN" NAME="120">  120   </A> ((*(M).rtmProjectionFcn)((M).rtModelPtr))
+</SPAN><SPAN><A CLASS="LN" NAME="121">  121   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> rtmiMassMatrix(M) \
+</SPAN><SPAN><A CLASS="LN" NAME="122">  122   </A> ((*(M).rtmMassMatrixFcn)((M).rtModelPtr))
+</SPAN><SPAN><A CLASS="LN" NAME="123">  123   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> rtmiForcingFunction(M) \
+</SPAN><SPAN><A CLASS="LN" NAME="124">  124   </A> ((*(M).rtmForcingFunctionFcn)((M).rtModelPtr))
+</SPAN><SPAN><A CLASS="LN" NAME="125">  125   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> rtmiTerminate(M) \
+</SPAN><SPAN><A CLASS="LN" NAME="126">  126   </A> ((*(M).rtmTerminateFcn)((M).rtModelPtr))
+</SPAN><SPAN><A CLASS="LN" NAME="127">  127   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">ifdef</SPAN> RT_MALLOC
+</SPAN><SPAN><A CLASS="LN" NAME="128">  128   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> rtmiDiscreteEvents(M,x1,x2,x3,x4) \
+</SPAN><SPAN><A CLASS="LN" NAME="129">  129   </A> ((*(M).rtmDiscreteEventsFcn)((M).rtModelPtr,(x1),(x2),(x3),(x4)))
+</SPAN><SPAN><A CLASS="LN" NAME="130">  130   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">endif</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="131">  131   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">endif</SPAN>                                 <SPAN CLASS="CT">/* __RTW_CONTINUOUS_H__ */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="132">  132   </A>
+</SPAN></PRE>
+</TD></TR></TABLE>
+</P>
+</BODY>
+</HTML>

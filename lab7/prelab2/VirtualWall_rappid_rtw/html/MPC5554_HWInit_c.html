@@ -1,0 +1,317 @@
+<HTML>
+<HEAD>
+<TITLE>RTW Report - MPC5554_HWInit.c </TITLE>
+<STYLE> .LN { font-style: italic; color: #888888 } </STYLE>
+<STYLE> .CT { font-style: italic; color: #117755 } </STYLE>
+<STYLE> .PP { font-style: bold;   color: #992211 } </STYLE>
+<STYLE> .KW { font-style: bold;   color: #112266 } </STYLE>
+<STYLE> .DT { font-style: bold;   color: #112266 } </STYLE>
+<SCRIPT language="JavaScript" type="text/javascript">
+<!--
+function rtwHilite(aBlock,aParentSID) {
+ aParentSID = "";
+ try {
+    window.location.href="matlab: if ~isempty(which('private/rtwbindmodel')), rtwprivate rtwbindmodel 'C:\\Users\\Embed_Sys_course\\git\\lab\\lab7\\prelab2\\VirtualWall.mdl' 'C:\\Users\\Embed_Sys_course\\git\\lab\\lab7\\prelab2\\VirtualWall_rappid_rtw' '', end; rtwprivate code2model "+aBlock+" "+aParentSID+";"
+ } catch (e) { 
+ }
+} // end rtwHilite
+//-->
+</SCRIPT>
+</HEAD>
+<BODY BGCOLOR="#eeeeee" TEXT="#1122aa" ONLOAD="if (top) { if (top.rtwFileOnLoad) top.rtwFileOnLoad(window);} ">
+<P>
+<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="6" WIDTH="100%" HEIGHT="100%"><TR><TD WIDTH="100%" VALIGN="top" BGCOLOR="#ffffff">
+<H4>File: <A HREF="file:///C:\Users\Embed_Sys_course\git\lab\lab7\prelab2\VirtualWall_rappid_rtw\MPC5554_HWInit.c" TARGET="rtwreport_document_frame">C:\Users\Embed_Sys_course\git\lab\lab7\prelab2\VirtualWall_rappid_rtw\MPC5554_HWInit.c</A></H4>
+<PRE id="RTWcode">
+<SPAN><A CLASS="LN" NAME="1">    1   </A><SPAN CLASS="CT">/*</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="2">    2   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="3">    3   </A><SPAN CLASS="CT"> * FILE : MPC5554_HWInit.c</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="4">    4   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="5">    5   </A><SPAN CLASS="CT"> * DESCRIPTION:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="6">    6   </A><SPAN CLASS="CT"> *  This file contains all MPC5554 derivative needed initializations,</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="7">    7   </A><SPAN CLASS="CT"> *  and all initializations for the MPC5554 boards which are supported.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="8">    8   </A><SPAN CLASS="CT"> *  This includes setting up the External Bus Interface to allow access</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="9">    9   </A><SPAN CLASS="CT"> *  to memory on the external bus, and ensuring there is a valid entry in</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="10">   10   </A><SPAN CLASS="CT"> *  the MMU for the external memory access.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="11">   11   </A><SPAN CLASS="CT"> */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="12">   12   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="13">   13   </A><SPAN CLASS="CT">/*----------------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="14">   14   </A><SPAN CLASS="CT">/* Includes                                                                   */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="15">   15   </A><SPAN CLASS="CT">/*----------------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="16">   16   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">include</SPAN> <FONT COLOR="#992211">&quot;MPC5554.h&quot;</FONT>                   <SPAN CLASS="CT">/* MPC55xx platform development header            */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="17">   17   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">include</SPAN> <FONT COLOR="#992211">&quot;MPC5554_HWInit.h&quot;</FONT>
+</SPAN><SPAN><A CLASS="LN" NAME="18">   18   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">ifdef</SPAN> __cplusplus
+</SPAN><SPAN><A CLASS="LN" NAME="19">   19   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="20">   20   </A><SPAN CLASS="DT">extern</SPAN> <FONT COLOR="#1122ff">&quot;C&quot;</FONT> <B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="21">   21   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="22">   22   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">endif</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="23">   23   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="24">   24   </A>  <SPAN CLASS="CT">/*******************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="25">   25   </A>  <SPAN CLASS="CT">/* MPC5554 derivative specific hardware initialization */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="26">   26   </A>  <SPAN CLASS="CT">/*******************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="27">   27   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="28">   28   </A>  <SPAN CLASS="CT">/* Symbol L2SRAM_LOCATION is defined in the application linker command file (.lcf)</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="29">   29   </A><SPAN CLASS="CT">     It is defined to the start of the L2SRAM of the MPC5554.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="30">   30   </A><SPAN CLASS="CT">   */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="31">   31   </A>  <SPAN CLASS="CT">/*lint -esym(752, L2SRAM_LOCATION) */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="32">   32   </A>  <SPAN CLASS="DT">extern</SPAN> <SPAN CLASS="DT">long</SPAN> L2SRAM_LOCATION;
+</SPAN><SPAN><A CLASS="LN" NAME="33">   33   </A>  __asm <SPAN CLASS="DT">void</SPAN> <A NAME="fcn_INIT_Derivative">INIT_Derivative</A>(<SPAN CLASS="DT">void</SPAN>)
+</SPAN><SPAN><A CLASS="LN" NAME="34">   34   </A>  <B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="35">   35   </A>    nofralloc
+</SPAN><SPAN><A CLASS="LN" NAME="36">   36   </A>      <SPAN CLASS="CT">/* MPC5554 L2SRAM initialization code                         */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="37">   37   </A>      lis r11,L2SRAM_LOCATION@h        <SPAN CLASS="CT">/* Base address of the L2SRAM, 64-bit word aligned */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="38">   38   </A>      ori r11,r11,L2SRAM_LOCATION@l
+</SPAN><SPAN><A CLASS="LN" NAME="39">   39   </A>      li r12,512                       <SPAN CLASS="CT">/* Loop counter to get all of L2SRAM; 64k/4 bytes/32 GPRs = 512 */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="40">   40   </A>      mtctr r12
+</SPAN><SPAN><A CLASS="LN" NAME="41">   41   </A>      init_l2sram_loop:
+</SPAN><SPAN><A CLASS="LN" NAME="42">   42   </A>      stmw r0,0(r11)                   <SPAN CLASS="CT">/* Write all 32 GPRs to L2SRAM */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="43">   43   </A>      addi r11,r11,128                 <SPAN CLASS="CT">/* Inc the ram ptr; 32 GPRs * 4 bytes = 128 */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="44">   44   </A>      bdnz init_l2sram_loop            <SPAN CLASS="CT">/* Loop for 64k of L2SRAM */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="45">   45   </A>      blr
+</SPAN><SPAN><A CLASS="LN" NAME="46">   46   </A>  <B>}</B>                                    <SPAN CLASS="CT">/*******************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="47">   47   </A>  <SPAN CLASS="CT">/* MPC5554 boards specific hardware initializations    */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="48">   48   </A>  <SPAN CLASS="CT">/*******************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="49">   49   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="50">   50   </A>  <SPAN CLASS="CT">/** This macro allows to use C defined address with the inline assembler */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="51">   51   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> MAKE_HLI_COMPATIBLE(hli_name, c_expr) enum <B>{</B> hli_name=   <SPAN CLASS="CT">/*lint -e30*/</SPAN>\
+</SPAN><SPAN><A CLASS="LN" NAME="52">   52   </A> ((int)(c_expr)) <B>}</B>;
+</SPAN><SPAN><A CLASS="LN" NAME="53">   53   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="54">   54   </A>  <SPAN CLASS="CT">/*----------------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="55">   55   </A>  <SPAN CLASS="CT">/* Function declarations                                                      */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="56">   56   </A>  <SPAN CLASS="CT">/*----------------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="57">   57   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="58">   58   </A>  <SPAN CLASS="CT">/* Initialize a set of contiguous PCRs */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="59">   59   </A>  __asm <SPAN CLASS="DT">void</SPAN> <A HREF="MPC5554_HWInit_c.html#fcn_InitPCRs" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_InitPCRs');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">InitPCRs</FONT></A>(<SPAN CLASS="DT">void</SPAN>);
+</SPAN><SPAN><A CLASS="LN" NAME="60">   60   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="61">   61   </A>  <SPAN CLASS="CT">/* Initialize the SIU External Bus Interface */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="62">   62   </A>  __asm <SPAN CLASS="DT">void</SPAN> <A HREF="MPC5554_HWInit_c.html#fcn___initSIUExtBusInterface" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var___initSIUExtBusInterface');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">__initSIUExtBusInterface</FONT></A>(<SPAN CLASS="DT">void</SPAN>);
+</SPAN><SPAN><A CLASS="LN" NAME="63">   63   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="64">   64   </A>  <SPAN CLASS="CT">/* Initialize the used EBI Chip Selects */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="65">   65   </A>  __asm <SPAN CLASS="DT">void</SPAN> <A HREF="MPC5554_HWInit_c.html#fcn___initEBIChipSelects" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var___initEBIChipSelects');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">__initEBIChipSelects</FONT></A>(<SPAN CLASS="DT">void</SPAN>);
+</SPAN><SPAN><A CLASS="LN" NAME="66">   66   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="67">   67   </A>  <SPAN CLASS="CT">/* Write one MMU Table Entry */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="68">   68   </A>  __asm <SPAN CLASS="DT">void</SPAN> <A HREF="MPC5554_HWInit_c.html#fcn_WriteMMUTableEntry" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_WriteMMUTableEntry');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">WriteMMUTableEntry</FONT></A>( <SPAN CLASS="DT">void</SPAN> );
+</SPAN><SPAN><A CLASS="LN" NAME="69">   69   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="70">   70   </A>  <SPAN CLASS="CT">/* Initialize the needed MMU Table entries */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="71">   71   </A>  __asm <SPAN CLASS="DT">void</SPAN> <A HREF="MPC5554_HWInit_c.html#fcn___initMMUExternalMemory" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var___initMMUExternalMemory');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">__initMMUExternalMemory</FONT></A>(<SPAN CLASS="DT">void</SPAN>);
+</SPAN><SPAN><A CLASS="LN" NAME="72">   72   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="73">   73   </A>  <SPAN CLASS="CT">/*----------------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="74">   74   </A>  <SPAN CLASS="CT">/* Function implementations                                                   */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="75">   75   </A>  <SPAN CLASS="CT">/*----------------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="76">   76   </A>  __asm <SPAN CLASS="DT">void</SPAN> <A NAME="fcn_INIT_ExternalBusAndMemory">INIT_ExternalBusAndMemory</A>(<SPAN CLASS="DT">void</SPAN>)
+</SPAN><SPAN><A CLASS="LN" NAME="77">   77   </A>  <B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="78">   78   </A>    nofralloc
+</SPAN><SPAN><A CLASS="LN" NAME="79">   79   </A>      mflr r28
+</SPAN><SPAN><A CLASS="LN" NAME="80">   80   </A>      <SPAN CLASS="CT">/* Initialize the SIU External Bus Interface */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="81">   81   </A>      bl <A HREF="MPC5554_HWInit_c.html#fcn___initSIUExtBusInterface" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var___initSIUExtBusInterface');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">__initSIUExtBusInterface</FONT></A>
+</SPAN><SPAN><A CLASS="LN" NAME="82">   82   </A>      <SPAN CLASS="CT">/* Initialize the used EBI Chip Selects */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="83">   83   </A>      bl <A HREF="MPC5554_HWInit_c.html#fcn___initEBIChipSelects" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var___initEBIChipSelects');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">__initEBIChipSelects</FONT></A>
+</SPAN><SPAN><A CLASS="LN" NAME="84">   84   </A>      <SPAN CLASS="CT">/* Initialize the needed MMU Table entries */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="85">   85   </A>      bl <A HREF="MPC5554_HWInit_c.html#fcn___initMMUExternalMemory" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var___initMMUExternalMemory');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">__initMMUExternalMemory</FONT></A>
+</SPAN><SPAN><A CLASS="LN" NAME="86">   86   </A>      mtlr r28
+</SPAN><SPAN><A CLASS="LN" NAME="87">   87   </A>      blr
+</SPAN><SPAN><A CLASS="LN" NAME="88">   88   </A>  <B>}</B>                                    <SPAN CLASS="CT">/*----------------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="89">   89   </A>  <SPAN CLASS="CT">/* External Memory Locations from lcf file                                    */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="90">   90   </A>  <SPAN CLASS="CT">/*----------------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="91">   91   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">if</SPAN> INIT_USED_BOARD==MPC5554DEMO_AXM_0321
+</SPAN><SPAN><A CLASS="LN" NAME="92">   92   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="93">   93   </A>  <SPAN CLASS="CT">/* Symbol AXM_0321_EXTERNAL_RAM is defined in the application linker command file (.lcf)</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="94">   94   </A><SPAN CLASS="CT">     It is defined to the start of the external memory on the MPC5554DEMO_AXM-0321 board</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="95">   95   </A><SPAN CLASS="CT">   */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="96">   96   </A>  <SPAN CLASS="DT">extern</SPAN> <SPAN CLASS="DT">unsigned</SPAN> <SPAN CLASS="DT">long</SPAN> AXM_0321_EXTERNAL_RAM[];
+</SPAN><SPAN><A CLASS="LN" NAME="97">   97   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="98">   98   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">endif</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="99">   99   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="100">  100   </A>  <SPAN CLASS="CT">/*----------------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="101">  101   </A>  <SPAN CLASS="CT">/* SIU External Bus Interface                                                 */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="102">  102   </A>  <SPAN CLASS="CT">/*----------------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="103">  103   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="104">  104   </A>  <SPAN CLASS="CT">/* Initialize a set of contiguous PCRs:               */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="105">  105   </A>  <SPAN CLASS="CT">/* r3: the firts PCR to initialize                    */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="106">  106   </A>  <SPAN CLASS="CT">/* r4: the value to write in the PCRs                 */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="107">  107   </A>  <SPAN CLASS="CT">/* r5: the number of PCRs to initialize               */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="108">  108   </A>  __asm <SPAN CLASS="DT">void</SPAN> <A NAME="fcn_InitPCRs">InitPCRs</A>(<SPAN CLASS="DT">void</SPAN>)
+</SPAN><SPAN><A CLASS="LN" NAME="109">  109   </A>  <B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="110">  110   </A>    nofralloc
+</SPAN><SPAN><A CLASS="LN" NAME="111">  111   </A>      mtctr r5                         <SPAN CLASS="CT">/* intialize ctr with the number of PCRs to initialize */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="112">  112   </A>      pcr_init_loop:
+</SPAN><SPAN><A CLASS="LN" NAME="113">  113   </A>      sth r4,0(r3)                     <SPAN CLASS="CT">/* Write r4 to current PCR address */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="114">  114   </A>      addi r3,r3, 2                    <SPAN CLASS="CT">/* Inc the memory ptr by 2 to point to the next PCR */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="115">  115   </A>      bdnz pcr_init_loop               <SPAN CLASS="CT">/* Loop for ctr PCRs */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="116">  116   </A>      blr
+</SPAN><SPAN><A CLASS="LN" NAME="117">  117   </A>  <B>}</B>                                    <SPAN CLASS="CT">/* Initialize the SIU External Bus Interface */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="118">  118   </A>  __asm <SPAN CLASS="DT">void</SPAN> <A NAME="fcn___initSIUExtBusInterface">__initSIUExtBusInterface</A>(<SPAN CLASS="DT">void</SPAN>)
+</SPAN><SPAN><A CLASS="LN" NAME="119">  119   </A>  <B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="120">  120   </A>    MAKE_HLI_COMPATIBLE(SIU_PCR0,&amp;SIU.PCR[0].R)
+</SPAN><SPAN><A CLASS="LN" NAME="121">  121   </A>      MAKE_HLI_COMPATIBLE(SIU_PCR4,&amp;SIU.PCR[4].R)
+</SPAN><SPAN><A CLASS="LN" NAME="122">  122   </A>      MAKE_HLI_COMPATIBLE(SIU_PCR28,&amp;SIU.PCR[28].R)
+</SPAN><SPAN><A CLASS="LN" NAME="123">  123   </A>      MAKE_HLI_COMPATIBLE(SIU_PCR62,&amp;SIU.PCR[62].R)
+</SPAN><SPAN><A CLASS="LN" NAME="124">  124   </A>      MAKE_HLI_COMPATIBLE(SIU_PCR64,&amp;SIU.PCR[64].R)
+</SPAN><SPAN><A CLASS="LN" NAME="125">  125   </A>      MAKE_HLI_COMPATIBLE(SIU_PCR68,&amp;SIU.PCR[68].R)
+</SPAN><SPAN><A CLASS="LN" NAME="126">  126   </A>      nofralloc
+</SPAN><SPAN><A CLASS="LN" NAME="127">  127   </A>      mflr r27
+</SPAN><SPAN><A CLASS="LN" NAME="128">  128   </A>      <SPAN CLASS="CT">/*  This initializes the MPC5554 external bus</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="129">  129   </A><SPAN CLASS="CT">         Set up the pins</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="130">  130   </A><SPAN CLASS="CT">         Address bus PCR 4 - 27</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="131">  131   </A><SPAN CLASS="CT">         Configure address bus pins</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="132">  132   </A><SPAN CLASS="CT">       */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="133">  133   </A>      lis r3,SIU_PCR4@h                <SPAN CLASS="CT">/* First PCR Address bus is PCR 4 */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="134">  134   </A>      ori r3,r3,SIU_PCR4@l
+</SPAN><SPAN><A CLASS="LN" NAME="135">  135   </A>      li r5,24                         <SPAN CLASS="CT">/* Loop counter to get all address bus PCR (4 to 27) -&gt; 24 PCRs  */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="136">  136   </A>      li r4, 0x0440                    <SPAN CLASS="CT">/* PCRs initialization value */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="137">  137   </A>      bl <A HREF="MPC5554_HWInit_c.html#fcn_InitPCRs" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_InitPCRs');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">InitPCRs</FONT></A>
+</SPAN><SPAN><A CLASS="LN" NAME="138">  138   </A>      <SPAN CLASS="CT">/*  Data bus PCR 28-59</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="139">  139   </A><SPAN CLASS="CT">         Configure data bus pins</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="140">  140   </A><SPAN CLASS="CT">       */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="141">  141   </A>      lis r3,SIU_PCR28@h               <SPAN CLASS="CT">/* First PCR for data bus is PCR 28 */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="142">  142   </A>      ori r3,r3,SIU_PCR28@l
+</SPAN><SPAN><A CLASS="LN" NAME="143">  143   </A>      li r5,32                         <SPAN CLASS="CT">/* Loop counter to get all data bus PCR (28-59) -&gt; 32 PCRs  */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="144">  144   </A>      li r4, 0x0440                    <SPAN CLASS="CT">/* PCRs initialization value */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="145">  145   </A>      bl <A HREF="MPC5554_HWInit_c.html#fcn_InitPCRs" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_InitPCRs');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">InitPCRs</FONT></A>
+</SPAN><SPAN><A CLASS="LN" NAME="146">  146   </A>      <SPAN CLASS="CT">/*  Configure minimum bus control pins</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="147">  147   </A><SPAN CLASS="CT">         RD/WR  & BDIP PCR 62/63</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="148">  148   </A><SPAN CLASS="CT">       */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="149">  149   </A>      lis r3,SIU_PCR62@h               <SPAN CLASS="CT">/* First PCR for is PCR 62 */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="150">  150   </A>      ori r3,r3,SIU_PCR62@l
+</SPAN><SPAN><A CLASS="LN" NAME="151">  151   </A>      li r5,2                          <SPAN CLASS="CT">/* Loop counter to get all PCR (62-63) -&gt; 2 PCRs  */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="152">  152   </A>      li r4, 0x0440                    <SPAN CLASS="CT">/* PCRs initialization value */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="153">  153   </A>      bl <A HREF="MPC5554_HWInit_c.html#fcn_InitPCRs" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_InitPCRs');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">InitPCRs</FONT></A>
+</SPAN><SPAN><A CLASS="LN" NAME="154">  154   </A>      <SPAN CLASS="CT">/*  WE[0-4] PCR 64-67</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="155">  155   </A><SPAN CLASS="CT">       */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="156">  156   </A>      lis r3,SIU_PCR64@h               <SPAN CLASS="CT">/* First PCR for is PCR 64 */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="157">  157   </A>      ori r3,r3,SIU_PCR64@l
+</SPAN><SPAN><A CLASS="LN" NAME="158">  158   </A>      li r5,4                          <SPAN CLASS="CT">/* Loop counter to get all PCR (64-67) -&gt; 4 PCRs  */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="159">  159   </A>      li r4, 0x0443                    <SPAN CLASS="CT">/* PCRs initialization value */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="160">  160   </A>      bl <A HREF="MPC5554_HWInit_c.html#fcn_InitPCRs" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_InitPCRs');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">InitPCRs</FONT></A>
+</SPAN><SPAN><A CLASS="LN" NAME="161">  161   </A>      <SPAN CLASS="CT">/*  OE & TS</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="162">  162   </A><SPAN CLASS="CT">       */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="163">  163   </A>      lis r3,SIU_PCR68@h               <SPAN CLASS="CT">/* First PCR for is PCR 68 */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="164">  164   </A>      ori r3,r3,SIU_PCR68@l
+</SPAN><SPAN><A CLASS="LN" NAME="165">  165   </A>      li r5,2                          <SPAN CLASS="CT">/* Loop counter to get all PCR (68-69) -&gt; 2 PCRs  */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="166">  166   </A>      li r4, 0x0443                    <SPAN CLASS="CT">/* PCRs initialization value */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="167">  167   </A>      bl <A HREF="MPC5554_HWInit_c.html#fcn_InitPCRs" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_InitPCRs');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">InitPCRs</FONT></A>
+</SPAN><SPAN><A CLASS="LN" NAME="168">  168   </A>      <SPAN CLASS="CT">/*  Configure the chip selects</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="169">  169   </A><SPAN CLASS="CT">         CS[0-3]</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="170">  170   </A><SPAN CLASS="CT">       */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="171">  171   </A>      lis r3,SIU_PCR0@h                <SPAN CLASS="CT">/* First PCR for is PCR 0 */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="172">  172   </A>      ori r3,r3,SIU_PCR0@l
+</SPAN><SPAN><A CLASS="LN" NAME="173">  173   </A>      li r5,4                          <SPAN CLASS="CT">/* Loop counter to get all PCR (0-3) -&gt; 4 PCRs  */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="174">  174   </A>      li r4, 0x0443                    <SPAN CLASS="CT">/* PCRs initialization value */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="175">  175   </A>      bl <A HREF="MPC5554_HWInit_c.html#fcn_InitPCRs" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_InitPCRs');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">InitPCRs</FONT></A>
+</SPAN><SPAN><A CLASS="LN" NAME="176">  176   </A>      mtlr r27
+</SPAN><SPAN><A CLASS="LN" NAME="177">  177   </A>      blr
+</SPAN><SPAN><A CLASS="LN" NAME="178">  178   </A>  <B>}</B>                                    <SPAN CLASS="CT">/*----------------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="179">  179   </A>  <SPAN CLASS="CT">/* EBI Chip Selects                                                           */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="180">  180   </A>  <SPAN CLASS="CT">/*----------------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="181">  181   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="182">  182   </A>  <SPAN CLASS="CT">/* Initialize the used EBI Chip Selects */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="183">  183   </A>  __asm <SPAN CLASS="DT">void</SPAN> <A NAME="fcn___initEBIChipSelects">__initEBIChipSelects</A>(<SPAN CLASS="DT">void</SPAN>)
+</SPAN><SPAN><A CLASS="LN" NAME="184">  184   </A>  <B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="185">  185   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="186">  186   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">if</SPAN> INIT_USED_BOARD==MPC5554DEMO_AXM_0321
+</SPAN><SPAN><A CLASS="LN" NAME="187">  187   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="188">  188   </A>    MAKE_HLI_COMPATIBLE(EBBI_CS0_BR,&amp;EBI.CS[0].BR.R)
+</SPAN><SPAN><A CLASS="LN" NAME="189">  189   </A>      MAKE_HLI_COMPATIBLE(EBBI_CS0_OR,&amp;EBI.CS[0].OR.R)
+</SPAN><SPAN><A CLASS="LN" NAME="190">  190   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">endif</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="191">  191   </A>      nofralloc
+</SPAN><SPAN><A CLASS="LN" NAME="192">  192   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">if</SPAN> INIT_USED_BOARD==MPC5554DEMO_AXM_0321
+</SPAN><SPAN><A CLASS="LN" NAME="193">  193   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="194">  194   </A>    <SPAN CLASS="CT">/*  CY7C1338 512K External SRAM - 4 beat burst, 0 wait</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="195">  195   </A><SPAN CLASS="CT">       Set up Memory Controller CS0 @ AXM_0321_EXTERNAL_RAM</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="196">  196   </A><SPAN CLASS="CT">     */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="197">  197   </A>    <SPAN CLASS="CT">/*  EBI.CS[0].BR.R = (unsigned long)AXM_0321_EXTERNAL_RAM | 0x41UL;</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="198">  198   </A><SPAN CLASS="CT">     */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="199">  199   </A>    lis r3,AXM_0321_EXTERNAL_RAM@h
+</SPAN><SPAN><A CLASS="LN" NAME="200">  200   </A>      addi r0,r3,AXM_0321_EXTERNAL_RAM@l
+</SPAN><SPAN><A CLASS="LN" NAME="201">  201   </A>      ori r0,r0,0x0041
+</SPAN><SPAN><A CLASS="LN" NAME="202">  202   </A>      lis r3,EBBI_CS0_BR@ha
+</SPAN><SPAN><A CLASS="LN" NAME="203">  203   </A>      ori r3,r3,EBBI_CS0_BR@l
+</SPAN><SPAN><A CLASS="LN" NAME="204">  204   </A>      stw r0,0(r3)
+</SPAN><SPAN><A CLASS="LN" NAME="205">  205   </A>    <SPAN CLASS="CT">/*  EBI.CS[0].OR.R = 0xfff80000;</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="206">  206   </A><SPAN CLASS="CT">     */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="207">  207   </A>      lis r0,0xfff8
+</SPAN><SPAN><A CLASS="LN" NAME="208">  208   </A>      lis r3,EBBI_CS0_OR@h
+</SPAN><SPAN><A CLASS="LN" NAME="209">  209   </A>      ori r3,r3,EBBI_CS0_OR@l
+</SPAN><SPAN><A CLASS="LN" NAME="210">  210   </A>      stw r0,0(r3)
+</SPAN><SPAN><A CLASS="LN" NAME="211">  211   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">endif</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="212">  212   </A>      blr
+</SPAN><SPAN><A CLASS="LN" NAME="213">  213   </A>  <B>}</B>                                    <SPAN CLASS="CT">/*----------------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="214">  214   </A>  <SPAN CLASS="CT">/* Writing to MMU Table Entries                                               */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="215">  215   </A>  <SPAN CLASS="CT">/*----------------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="216">  216   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="217">  217   </A>  <SPAN CLASS="CT">/* Write one MMU Table Entry:               */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="218">  218   </A>  <SPAN CLASS="CT">/* r3, r4, r5 and r6 must hold              */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="219">  219   </A>  <SPAN CLASS="CT">/* the values of MAS0, MAS1, MAS2 and MAS3  */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="220">  220   </A>  __asm <SPAN CLASS="DT">void</SPAN> <A NAME="fcn_WriteMMUTableEntry">WriteMMUTableEntry</A>( <SPAN CLASS="DT">void</SPAN> )
+</SPAN><SPAN><A CLASS="LN" NAME="221">  221   </A>  <B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="222">  222   </A>    nofralloc
+</SPAN><SPAN><A CLASS="LN" NAME="223">  223   </A>      <SPAN CLASS="CT">/* Write MMU Assist Register 0 (MAS0); SPR 624 */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="224">  224   </A>      mtspr 624, r3
+</SPAN><SPAN><A CLASS="LN" NAME="225">  225   </A>      <SPAN CLASS="CT">/* Write MMU Assist Register 1 (MAS1); SPR 625 */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="226">  226   </A>      mtspr 625, r4
+</SPAN><SPAN><A CLASS="LN" NAME="227">  227   </A>      <SPAN CLASS="CT">/* Write MMU Assist Register 2 (MAS2); SPR 626 */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="228">  228   </A>      mtspr 626, r5
+</SPAN><SPAN><A CLASS="LN" NAME="229">  229   </A>      <SPAN CLASS="CT">/* Write MMU Assist Register 3 (MAS3); SPR 627 */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="230">  230   </A>      mtspr 627, r6
+</SPAN><SPAN><A CLASS="LN" NAME="231">  231   </A>      <SPAN CLASS="CT">/* Write the table entry */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="232">  232   </A>      tlbwe
+</SPAN><SPAN><A CLASS="LN" NAME="233">  233   </A>      blr
+</SPAN><SPAN><A CLASS="LN" NAME="234">  234   </A>  <B>}</B>                                    <SPAN CLASS="CT">/* Initialize the needed MMU Table entries */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="235">  235   </A>  __asm <SPAN CLASS="DT">void</SPAN> <A NAME="fcn___initMMUExternalMemory">__initMMUExternalMemory</A>(<SPAN CLASS="DT">void</SPAN>)
+</SPAN><SPAN><A CLASS="LN" NAME="236">  236   </A>  <B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="237">  237   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="238">  238   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">if</SPAN> INIT_USED_BOARD==MPC5554DEMO_AXM_0321
+</SPAN><SPAN><A CLASS="LN" NAME="239">  239   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="240">  240   </A>    <SPAN CLASS="CT">/* Set up MMU for External Memory</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="241">  241   </A><SPAN CLASS="CT">       Base address = 0x2000_0000</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="242">  242   </A><SPAN CLASS="CT">       16 MByte Memory Space, Not Guarded, Cachable, All Access</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="243">  243   </A><SPAN CLASS="CT">     */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="244">  244   </A>    MAKE_HLI_COMPATIBLE(AXM_0321_EXT_RAM_MAS0_VALUE,MAS0_VALUE(2))
+</SPAN><SPAN><A CLASS="LN" NAME="245">  245   </A>    <SPAN CLASS="CT">/* 16 MB memory space, valid, protected, global which matches with all process IDs */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="246">  246   </A>      MAKE_HLI_COMPATIBLE(AXM_0321_EXT_RAM_MAS1_VALUE,MAS1_VALUE(V_VALID,
+</SPAN><SPAN><A CLASS="LN" NAME="247">  247   </A>      IPROT_PROTECTED, TID_GLOBAL, 0, TSIZE_16MB))
+</SPAN><SPAN><A CLASS="LN" NAME="248">  248   </A>      MAKE_HLI_COMPATIBLE(AXM_0321_EXT_RAM_MAS2_FLAGS,MAS2_FLAGS
+</SPAN><SPAN><A CLASS="LN" NAME="249">  249   </A>                          (SHARED_CACHE_STATE_NOT_USED, WRITE_BACK, CACHEABLE,
+</SPAN><SPAN><A CLASS="LN" NAME="250">  250   </A>      MEM_COHERENCE_NREQ, NOT_GUARDED, BIG_ENDIAN ))
+</SPAN><SPAN><A CLASS="LN" NAME="251">  251   </A>      MAKE_HLI_COMPATIBLE(AXM_0321_EXT_RAM_MAS3_FLAGS,MAS3_FLAGS
+</SPAN><SPAN><A CLASS="LN" NAME="252">  252   </A>                          (READ_WRITE_EXECUTE))
+</SPAN><SPAN><A CLASS="LN" NAME="253">  253   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">endif</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="254">  254   </A>      nofralloc
+</SPAN><SPAN><A CLASS="LN" NAME="255">  255   </A>      mflr r27
+</SPAN><SPAN><A CLASS="LN" NAME="256">  256   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">if</SPAN> INIT_USED_BOARD==MPC5554DEMO_AXM_0321
+</SPAN><SPAN><A CLASS="LN" NAME="257">  257   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="258">  258   </A>    <SPAN CLASS="CT">/* load r3 with MAS0 value */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="259">  259   </A>    lis r3,AXM_0321_EXT_RAM_MAS0_VALUE@h
+</SPAN><SPAN><A CLASS="LN" NAME="260">  260   </A>      ori r3,r3,AXM_0321_EXT_RAM_MAS0_VALUE@l
+</SPAN><SPAN><A CLASS="LN" NAME="261">  261   </A>      <SPAN CLASS="CT">/* load r4 with MAS1 value */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="262">  262   </A>      lis r4,AXM_0321_EXT_RAM_MAS1_VALUE@h
+</SPAN><SPAN><A CLASS="LN" NAME="263">  263   </A>      ori r4,r4,AXM_0321_EXT_RAM_MAS1_VALUE@l
+</SPAN><SPAN><A CLASS="LN" NAME="264">  264   </A>      <SPAN CLASS="CT">/* load r5 with the external RAM address from the lcf file */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="265">  265   </A>      lis r5,AXM_0321_EXTERNAL_RAM@h
+</SPAN><SPAN><A CLASS="LN" NAME="266">  266   </A>      ori r5,r5,AXM_0321_EXTERNAL_RAM@l
+</SPAN><SPAN><A CLASS="LN" NAME="267">  267   </A>      <SPAN CLASS="CT">/* mask with 0xfffff000 */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="268">  268   </A>      clrrwi r5,r5,12
+</SPAN><SPAN><A CLASS="LN" NAME="269">  269   </A>      <SPAN CLASS="CT">/* copy the masked external ram address to r6 also */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="270">  270   </A>      mr r6,r5
+</SPAN><SPAN><A CLASS="LN" NAME="271">  271   </A>      <SPAN CLASS="CT">/* end MAS2 setup in r3 */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="272">  272   </A>      ori r5,r5,AXM_0321_EXT_RAM_MAS2_FLAGS@l
+</SPAN><SPAN><A CLASS="LN" NAME="273">  273   </A>      <SPAN CLASS="CT">/* end MAS3 setup in r4 */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="274">  274   </A>      ori r6,r6,AXM_0321_EXT_RAM_MAS3_FLAGS@l
+</SPAN><SPAN><A CLASS="LN" NAME="275">  275   </A>      <SPAN CLASS="CT">/* write the MMU entry defined through r3, r4, r5 and r6 */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="276">  276   </A>      bl <A HREF="MPC5554_HWInit_c.html#fcn_WriteMMUTableEntry" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_WriteMMUTableEntry');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">WriteMMUTableEntry</FONT></A>
+</SPAN><SPAN><A CLASS="LN" NAME="277">  277   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">endif</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="278">  278   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="279">  279   </A>    mtlr r27
+</SPAN><SPAN><A CLASS="LN" NAME="280">  280   </A>      blr
+</SPAN><SPAN><A CLASS="LN" NAME="281">  281   </A>  <B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="282">  282   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="283">  283   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">ifdef</SPAN> __cplusplus
+</SPAN><SPAN><A CLASS="LN" NAME="284">  284   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="285">  285   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="286">  286   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">endif</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="287">  287   </A>
+</SPAN></PRE>
+</TD></TR></TABLE>
+</P>
+</BODY>
+</HTML>

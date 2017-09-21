@@ -1,0 +1,764 @@
+<HTML>
+<HEAD>
+<TITLE>RTW Report - eTPU_util.c </TITLE>
+<STYLE> .LN { font-style: italic; color: #888888 } </STYLE>
+<STYLE> .CT { font-style: italic; color: #117755 } </STYLE>
+<STYLE> .PP { font-style: bold;   color: #992211 } </STYLE>
+<STYLE> .KW { font-style: bold;   color: #112266 } </STYLE>
+<STYLE> .DT { font-style: bold;   color: #112266 } </STYLE>
+<SCRIPT language="JavaScript" type="text/javascript">
+<!--
+function rtwHilite(aBlock,aParentSID) {
+ aParentSID = "";
+ try {
+    window.location.href="matlab: if ~isempty(which('private/rtwbindmodel')), rtwprivate rtwbindmodel 'C:\\Users\\Embed_Sys_course\\git\\lab\\lab7\\inlab3\\two_virtual_wheel_autocode_8.mdl' 'C:\\Users\\Embed_Sys_course\\git\\lab\\lab7\\inlab3\\two_virtual_wheel_autocode_8_rappid_rtw' '', end; rtwprivate code2model "+aBlock+" "+aParentSID+";"
+ } catch (e) { 
+ }
+} // end rtwHilite
+//-->
+</SCRIPT>
+</HEAD>
+<BODY BGCOLOR="#eeeeee" TEXT="#1122aa" ONLOAD="if (top) { if (top.rtwFileOnLoad) top.rtwFileOnLoad(window);} ">
+<P>
+<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="6" WIDTH="100%" HEIGHT="100%"><TR><TD WIDTH="100%" VALIGN="top" BGCOLOR="#ffffff">
+<H4>File: <A HREF="file:///C:\Users\Embed_Sys_course\git\lab\lab7\inlab3\two_virtual_wheel_autocode_8_rappid_rtw\eTPU_util.c" TARGET="rtwreport_document_frame">C:\Users\Embed_Sys_course\git\lab\lab7\inlab3\two_virtual_wheel_autocode_8_rappid_rtw\eTPU_util.c</A></H4>
+<PRE id="RTWcode">
+<SPAN><A CLASS="LN" NAME="1">    1   </A><SPAN CLASS="CT">/**************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="2">    2   </A><SPAN CLASS="CT"> * FILE NAME: $RCSfile: etpu_util.c,v $      COPYRIGHT (c) Freescale 2004 *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="3">    3   </A><SPAN CLASS="CT"> * DESCRIPTION:                                     All Rights Reserved   *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="4">    4   </A><SPAN CLASS="CT"> * This file contains useful macros and functions for using the eTPU.     *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="5">    5   </A><SPAN CLASS="CT"> *========================================================================*</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="6">    6   </A><SPAN CLASS="CT"> * ORIGINAL AUTHOR: Jeff Loeliger [r12110]                                *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="7">    7   </A><SPAN CLASS="CT"> * $Log: etpu_util.c,v $</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="8">    8   </A><SPAN CLASS="CT"> * Revision 1.9  2006/12/11 19:12:31  r66544</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="9">    9   </A><SPAN CLASS="CT"> * issue:271</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="10">   10   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="11">   11   </A><SPAN CLASS="CT"> * Preparing for toolbox release 1.0.1. Fixing warnings</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="12">   12   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="13">   13   </A><SPAN CLASS="CT"> * Revision 1.8  2006/04/18 22:06:30  r61406</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="14">   14   </A><SPAN CLASS="CT"> * *** empty log message ***</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="15">   15   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="16">   16   </A><SPAN CLASS="CT"> * Revision 1.7  2006/04/17 14:05:17  r61406</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="17">   17   </A><SPAN CLASS="CT"> * *** empty log message ***</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="18">   18   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="19">   19   </A><SPAN CLASS="CT"> * Revision 1.6  2006/04/14 20:58:02  r61406</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="20">   20   </A><SPAN CLASS="CT"> * *** empty log message ***</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="21">   21   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="22">   22   </A><SPAN CLASS="CT"> * Revision 2.0  2004/11/30 16:10:32  r12110</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="23">   23   </A><SPAN CLASS="CT"> * -Updated functions to remove requirement for etpu_config.h file.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="24">   24   </A><SPAN CLASS="CT"> * -Added new memset32 function to clear eTPU code memory.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="25">   25   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="26">   26   </A><SPAN CLASS="CT"> * Revision 1.1  2004/11/12 10:39:23  r12110</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="27">   27   </A><SPAN CLASS="CT"> * Initial version checked into CVS.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="28">   28   </A><SPAN CLASS="CT"> *........................................................................*</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="29">   29   </A><SPAN CLASS="CT"> * 0.01  J. Loeliger  13/Jun/03  Initial version of file.                 *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="30">   30   </A><SPAN CLASS="CT"> * 0.02  J. Loeliger  19/Mar/04  Change function prefix to fs_ for        *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="31">   31   </A><SPAN CLASS="CT"> *                                Freescale semiconductor.                *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="32">   32   </A><SPAN CLASS="CT"> * 0.03  J. Loeliger  26/Mar/04  Updated after debug.                     *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="33">   33   </A><SPAN CLASS="CT"> * 0.04  J. Loeliger  26/May/04  Updated comments.                        *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="34">   34   </A><SPAN CLASS="CT"> *       M. Brejl                Fixed problem with *fs_etpu_data_ram.    *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="35">   35   </A><SPAN CLASS="CT"> *       M.Princ                 Renamed fs_mpc5500_timer_start to        *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="36">   36   </A><SPAN CLASS="CT"> *                                fs_timer_start.                         *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="37">   37   </A><SPAN CLASS="CT"> *                               Added new functions to access parameter  *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="38">   38   </A><SPAN CLASS="CT"> *                                Ram using different data sizes.         *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="39">   39   </A><SPAN CLASS="CT"> * 0.05  J. Loeliger  16/Jul/04  Updated to match new mpc5554 header files*</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="40">   40   </A><SPAN CLASS="CT"> * 0.06  J. Loeliger  16/Aug/04  Updated malloc to round correctly.       *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="41">   41   </A><SPAN CLASS="CT"> * 0.1   J. Loeliger  01/Sep/04  Added fs_etpu_malloc2 function.          *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="42">   42   </A><SPAN CLASS="CT"> **************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="43">   43   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="44">   44   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">ifndef</SPAN> _ETPU_UTIL_C_
+</SPAN><SPAN><A CLASS="LN" NAME="45">   45   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> _ETPU_UTIL_C_
+</SPAN><SPAN><A CLASS="LN" NAME="46">   46   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">include</SPAN> <FONT COLOR="#992211">&quot;etpu_util.h&quot;</FONT>                 <SPAN CLASS="CT">/* prototypes and useful defines */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="47">   47   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="48">   48   </A><SPAN CLASS="DT">extern</SPAN> <A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> <A HREF="eTPU_vars_h.html#var_fs_etpu_code_start" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_fs_etpu_code_start');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">fs_etpu_code_start</FONT></A>;
+</SPAN><SPAN><A CLASS="LN" NAME="49">   49   </A><SPAN CLASS="DT">extern</SPAN> <A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> <A HREF="eTPU_vars_h.html#var_fs_etpu_data_ram_start" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_fs_etpu_data_ram_start');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">fs_etpu_data_ram_start</FONT></A>;
+</SPAN><SPAN><A CLASS="LN" NAME="50">   50   </A><SPAN CLASS="DT">extern</SPAN> <A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> <A HREF="eTPU_vars_h.html#var_fs_etpu_data_ram_end" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_fs_etpu_data_ram_end');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">fs_etpu_data_ram_end</FONT></A>;
+</SPAN><SPAN><A CLASS="LN" NAME="51">   51   </A><SPAN CLASS="DT">extern</SPAN> <A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> <A HREF="eTPU_vars_h.html#var_fs_etpu_data_ram_ext" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_fs_etpu_data_ram_ext');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">fs_etpu_data_ram_ext</FONT></A>;
+</SPAN><SPAN><A CLASS="LN" NAME="52">   52   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="53">   53   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="54">   54   </A><SPAN CLASS="CT">   FUNCTION     : fs_etpu_init</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="55">   55   </A><SPAN CLASS="CT">   PURPOSE      : To initialize the eTPU module.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="56">   56   </A><SPAN CLASS="CT">   1. Conditionally Load eTPU code into memory.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="57">   57   </A><SPAN CLASS="CT">   2. Initialize global registers.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="58">   58   </A><SPAN CLASS="CT">   a. MISC vale</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="59">   59   </A><SPAN CLASS="CT">   b. TCR pre-scalers</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="60">   60   </A><SPAN CLASS="CT">   3. Copy initial values of global variables to data RAM</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="61">   61   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 5 parameters:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="62">   62   </A><SPAN CLASS="CT">   p_etpu_config: This is the structure used to initialize the eTPU</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="63">   63   </A><SPAN CLASS="CT"> *code: This is a pointer to an image of the eTPU code.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="64">   64   </A><SPAN CLASS="CT">   code_size: This is the size of the eTPU code in bytes.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="65">   65   </A><SPAN CLASS="CT"> *globals: This is a pointer to the global eTPU data that needs</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="66">   66   </A><SPAN CLASS="CT">   to be initialized.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="67">   67   </A><SPAN CLASS="CT">   globals_size: This is the size of the global data in bytes.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="68">   68   </A><SPAN CLASS="CT">   RETURNS NOTES: Error code is channel could not be initialized. Error code that</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="69">   69   </A><SPAN CLASS="CT">   can be returned are:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="70">   70   </A><SPAN CLASS="CT">   FS_ETPU_ERROR_CODESIZE: When the code is to big for the</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="71">   71   </A><SPAN CLASS="CT">   available memory.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="72">   72   </A><SPAN CLASS="CT">   WARNING      : This function does not configure the pins only the eTPU-&gt;</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="73">   73   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="74">   74   </A><A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> <A NAME="fcn_fs_etpu_init">fs_etpu_init</A>(<SPAN CLASS="KW">struct</SPAN> etpu_config_t p_etpu_config, <A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> *code,
+</SPAN><SPAN><A CLASS="LN" NAME="75">   75   </A>                      <A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> code_size, <A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> *globals, <A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A>
+</SPAN><SPAN><A CLASS="LN" NAME="76">   76   </A>                      globals_size, <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> load_microcode)
+</SPAN><SPAN><A CLASS="LN" NAME="77">   77   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="78">   78   </A>  <A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> *code_end;
+</SPAN><SPAN><A CLASS="LN" NAME="79">   79   </A>  <A HREF="typedefs_h.html#type_int32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_t</FONT></A> unused_code_ram;
+</SPAN><SPAN><A CLASS="LN" NAME="80">   80   </A>  unused_code_ram = (<A HREF="typedefs_h.html#type_int32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_t</FONT></A>) (((eTPU-&gt;MCR.B.SCMSIZE + 1 ) * 2048) - code_size);
+</SPAN><SPAN><A CLASS="LN" NAME="81">   81   </A>  <SPAN CLASS="KW">if</SPAN> (unused_code_ram &lt; 0 )
+</SPAN><SPAN><A CLASS="LN" NAME="82">   82   </A>    <SPAN CLASS="KW">return</SPAN>((<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A>)FS_ETPU_ERROR_CODESIZE);
+</SPAN><SPAN><A CLASS="LN" NAME="83">   83   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="84">   84   </A>  <SPAN CLASS="CT">/* 1. Conditionally Load microcode */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="85">   85   </A>  <SPAN CLASS="KW">if</SPAN> (load_microcode==1) <B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="86">   86   </A>    <SPAN CLASS="CT">/* In order for the MISC function to work with code that is small than</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="87">   87   </A><SPAN CLASS="CT">       the code memory any unused locations must be set to zero. */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="88">   88   </A>    <SPAN CLASS="CT">/* enable writting to SCM */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="89">   89   </A>    eTPU-&gt;ECR_A.B.MDIS = 1;            <SPAN CLASS="CT">/* stop eTPU_A */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="90">   90   </A>    eTPU-&gt;ECR_B.B.MDIS = 1;            <SPAN CLASS="CT">/* stop eTPU_B */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="91">   91   </A>    eTPU-&gt;MCR.B.VIS = 1;               <SPAN CLASS="CT">/* enable CPU writes to eTPU code memory */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="92">   92   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="93">   93   </A>    <SPAN CLASS="CT">/* Copy microcode */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="94">   94   </A>    code_end = fs_memcpy32( (<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A>*)fs_etpu_code_start, code, code_size);
+</SPAN><SPAN><A CLASS="LN" NAME="95">   95   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="96">   96   </A>    <SPAN CLASS="CT">/* Clear rest of program memory */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="97">   97   </A>    fs_memset32( code_end, 0, unused_code_ram);
+</SPAN><SPAN><A CLASS="LN" NAME="98">   98   </A>    eTPU-&gt;MCR.B.VIS = 0;               <SPAN CLASS="CT">/* disable CPU writes to eTPU code memory */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="99">   99   </A>  <B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="100">  100   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="101">  101   </A>  <SPAN CLASS="CT">/* Configure MISC */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="102">  102   </A>  eTPU-&gt;MISCCMPR.R = p_etpu_config.misc;<SPAN CLASS="CT">/*write MISC value before enabled in MCR */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="103">  103   </A>  eTPU-&gt;MCR.R = p_etpu_config.mcr;
+</SPAN><SPAN><A CLASS="LN" NAME="104">  104   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="105">  105   </A>  <SPAN CLASS="CT">/* Configure Engine 1 */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="106">  106   </A>  eTPU-&gt;ECR_A.R = p_etpu_config.ecr_a;
+</SPAN><SPAN><A CLASS="LN" NAME="107">  107   </A>  eTPU-&gt;TBCR_A.R = p_etpu_config.tbcr_a;
+</SPAN><SPAN><A CLASS="LN" NAME="108">  108   </A>  eTPU-&gt;REDCR_A.R = p_etpu_config.stacr_a;
+</SPAN><SPAN><A CLASS="LN" NAME="109">  109   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="110">  110   </A>  <SPAN CLASS="CT">/* Configure Engine 2 */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="111">  111   </A>  <SPAN CLASS="CT">/* Not all parts have a second eTPU engine, if you these write are ignored. */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="112">  112   </A>  eTPU-&gt;ECR_B.R = p_etpu_config.ecr_b;
+</SPAN><SPAN><A CLASS="LN" NAME="113">  113   </A>  eTPU-&gt;TBCR_B.R = p_etpu_config.tbcr_b;
+</SPAN><SPAN><A CLASS="LN" NAME="114">  114   </A>  eTPU-&gt;REDCR_B.R = p_etpu_config.stacr_b;
+</SPAN><SPAN><A CLASS="LN" NAME="115">  115   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="116">  116   </A>  <SPAN CLASS="CT">/* 3. Copy intial global values to parameter RAM. */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="117">  117   </A>  fs_free_param = fs_memcpy32 ( (<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A>*)fs_etpu_data_ram_start, globals,
+</SPAN><SPAN><A CLASS="LN" NAME="118">  118   </A>    globals_size);
+</SPAN><SPAN><A CLASS="LN" NAME="119">  119   </A>  <SPAN CLASS="KW">return</SPAN>(0);
+</SPAN><SPAN><A CLASS="LN" NAME="120">  120   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="121">  121   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="122">  122   </A><A HREF="typedefs_h.html#type_int16_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int16_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int16_t</FONT></A> <A NAME="fcn_fs_etpu_chan_init">fs_etpu_chan_init</A>(<A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel, <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> function, <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> mode, \
+</SPAN><SPAN><A CLASS="LN" NAME="123">  123   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="124">  124   </A><A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> num_param, <A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> config, <A HREF="typedefs_h.html#type_uint16_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint16_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint16_t</FONT></A> func_frame)
+</SPAN><SPAN><A CLASS="LN" NAME="125">  125   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="126">  126   </A>  <A HREF="typedefs_h.html#type_int16_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int16_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int16_t</FONT></A> errorCode = 0;
+</SPAN><SPAN><A CLASS="LN" NAME="127">  127   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="128">  128   </A>  <SPAN CLASS="CT">/*</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="129">  129   </A><SPAN CLASS="CT">     if (func_frame == 0)</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="130">  130   </A><SPAN CLASS="CT">     {</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="131">  131   </A><SPAN CLASS="CT">     func_frame = mc_etpu_malloc(num_param);</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="132">  132   </A><SPAN CLASS="CT"></SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="133">  133   </A><SPAN CLASS="CT">     if (func_frame == 0)</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="134">  134   </A><SPAN CLASS="CT">     errorCode = ETPU_ERROR_MALLOC;</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="135">  135   </A><SPAN CLASS="CT">     }</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="136">  136   </A><SPAN CLASS="CT">   */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="137">  137   </A>  eTPU-&gt;CHAN[channel].CR.R |= config + (function&lt;&lt;16) + (func_frame&gt;&gt;3);
+</SPAN><SPAN><A CLASS="LN" NAME="138">  138   </A>  eTPU-&gt;CHAN[channel].SCR.R |= mode;
+</SPAN><SPAN><A CLASS="LN" NAME="139">  139   </A>  <SPAN CLASS="KW">return</SPAN>(errorCode);
+</SPAN><SPAN><A CLASS="LN" NAME="140">  140   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="141">  141   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="142">  142   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="143">  143   </A><SPAN CLASS="CT">   FUNCTION     : fs_etpu_data_ram</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="144">  144   </A><SPAN CLASS="CT">   PURPOSE      : This function returns a pointer to the start of the data RAM for</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="145">  145   </A><SPAN CLASS="CT">   the specified channel.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="146">  146   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 1 parameter:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="147">  147   </A><SPAN CLASS="CT">   channel: The eTPU channel number.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="148">  148   </A><SPAN CLASS="CT">   RETURNS NOTES: A pointer to the start of the data RAM for the channel.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="149">  149   </A><SPAN CLASS="CT">   WARNING      : This function does no error cheching, if the channel has not</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="150">  150   </A><SPAN CLASS="CT">   been initialized then an undefined value will be returned</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="151">  151   </A><SPAN CLASS="CT">   (normally this will be a value of 0).</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="152">  152   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="153">  153   </A><A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> *<A NAME="fcn_fs_etpu_data_ram">fs_etpu_data_ram</A>(<A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel)
+</SPAN><SPAN><A CLASS="LN" NAME="154">  154   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="155">  155   </A>  <SPAN CLASS="KW">return</SPAN>((<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A>*)((<A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A>*)fs_etpu_data_ram_start + (eTPU-&gt;CHAN[channel].
+</SPAN><SPAN><A CLASS="LN" NAME="156">  156   </A>           CR.B.CPBA &lt;&lt; 3)));
+</SPAN><SPAN><A CLASS="LN" NAME="157">  157   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="158">  158   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="159">  159   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="160">  160   </A><SPAN CLASS="CT">   FUNCTION     : fs_etpu_set_hsr</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="161">  161   </A><SPAN CLASS="CT">   PURPOSE      : This function sets the Host Service Request (HSR) register of the</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="162">  162   </A><SPAN CLASS="CT">   specified eTPU channel.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="163">  163   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 2 parameters:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="164">  164   </A><SPAN CLASS="CT">   channel: The eTPU channel number.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="165">  165   </A><SPAN CLASS="CT">   hsr: The HSR value to send to the channel.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="166">  166   </A><SPAN CLASS="CT">   RETURNS NOTES: none</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="167">  167   </A><SPAN CLASS="CT">   WARNING      : The CPU should check that the HSR field is 0 before calling this</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="168">  168   </A><SPAN CLASS="CT">   routine. If the HSR field is not 0 then the 2 values will be</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="169">  169   </A><SPAN CLASS="CT">   ORed together.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="170">  170   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="171">  171   </A><SPAN CLASS="DT">void</SPAN> <A NAME="fcn_fs_etpu_set_hsr">fs_etpu_set_hsr</A>(<A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel, <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> hsr)
+</SPAN><SPAN><A CLASS="LN" NAME="172">  172   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="173">  173   </A>  eTPU-&gt;CHAN[channel].HSRR.R = hsr;
+</SPAN><SPAN><A CLASS="LN" NAME="174">  174   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="175">  175   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="176">  176   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="177">  177   </A><SPAN CLASS="CT">   FUNCTION     : fs_etpu_get_hsr</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="178">  178   </A><SPAN CLASS="CT">   PURPOSE      : This function returns the current value of the Host Service</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="179">  179   </A><SPAN CLASS="CT">   Request (HSR) register of the specified eTPU channel.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="180">  180   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 1 parameter:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="181">  181   </A><SPAN CLASS="CT">   channel: The eTPU channel number.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="182">  182   </A><SPAN CLASS="CT">   RETURNS NOTES: Value of HSR register.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="183">  183   </A><SPAN CLASS="CT">   WARNING      :</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="184">  184   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="185">  185   </A><A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> <A NAME="fcn_fs_etpu_get_hsr">fs_etpu_get_hsr</A>(<A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel)
+</SPAN><SPAN><A CLASS="LN" NAME="186">  186   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="187">  187   </A>  <SPAN CLASS="KW">return</SPAN>( (<A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A>)eTPU-&gt;CHAN[channel].HSRR.R );
+</SPAN><SPAN><A CLASS="LN" NAME="188">  188   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="189">  189   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="190">  190   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="191">  191   </A><SPAN CLASS="CT">   FUNCTION     : fs_etpu_enable</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="192">  192   </A><SPAN CLASS="CT">   PURPOSE      : This function enables or changes the priority of an eTPU channel.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="193">  193   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 2 parameters:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="194">  194   </A><SPAN CLASS="CT">   channel: The eTPU channel number.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="195">  195   </A><SPAN CLASS="CT">   priority: The priority to be assigned to the channel. This</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="196">  196   </A><SPAN CLASS="CT">   should be assigned a value of: FS_ETPU_PRIORITY_HIGH,</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="197">  197   </A><SPAN CLASS="CT">   FS_ETPU_PRIORITY_MIDDLE or FS_ETPU_PRIORITY_LOW.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="198">  198   </A><SPAN CLASS="CT">   RETURNS NOTES: none.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="199">  199   </A><SPAN CLASS="CT">   WARNING      :</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="200">  200   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="201">  201   </A><SPAN CLASS="DT">void</SPAN> <A NAME="fcn_fs_etpu_enable">fs_etpu_enable</A>(<A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel, <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> priority)
+</SPAN><SPAN><A CLASS="LN" NAME="202">  202   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="203">  203   </A>  eTPU-&gt;CHAN[channel].CR.B.CPR = priority;
+</SPAN><SPAN><A CLASS="LN" NAME="204">  204   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="205">  205   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="206">  206   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="207">  207   </A><SPAN CLASS="CT">   FUNCTION     : fs_etpu_disable</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="208">  208   </A><SPAN CLASS="CT">   PURPOSE      : This function disables an eTPU channel.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="209">  209   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 1 parameter:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="210">  210   </A><SPAN CLASS="CT">   channel: The eTPU channel number.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="211">  211   </A><SPAN CLASS="CT">   RETURNS NOTES: none</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="212">  212   </A><SPAN CLASS="CT">   WARNING      : If the channel is currently being serviced then the service will</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="213">  213   </A><SPAN CLASS="CT">   complete.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="214">  214   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="215">  215   </A><SPAN CLASS="DT">void</SPAN> <A NAME="fcn_fs_etpu_disable">fs_etpu_disable</A>(<A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel)
+</SPAN><SPAN><A CLASS="LN" NAME="216">  216   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="217">  217   </A>  eTPU-&gt;CHAN[channel].CR.B.CPR = FS_ETPU_PRIORITY_DISABLE;
+</SPAN><SPAN><A CLASS="LN" NAME="218">  218   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="219">  219   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="220">  220   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="221">  221   </A><SPAN CLASS="CT">   FUNCTION     : fs_etpu_interrupt_enable</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="222">  222   </A><SPAN CLASS="CT">   PURPOSE      : This function enables an eTPU channel to generate interrupts.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="223">  223   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 1 parameter:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="224">  224   </A><SPAN CLASS="CT">   channel: The eTPU channel number.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="225">  225   </A><SPAN CLASS="CT">   RETURNS NOTES: none</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="226">  226   </A><SPAN CLASS="CT">   WARNING      : This enables the eTPU to send interrupts to an interruput</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="227">  227   </A><SPAN CLASS="CT">   controller. Additional configuration may be required for</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="228">  228   </A><SPAN CLASS="CT">   the CPU to recieve the interrupt.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="229">  229   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="230">  230   </A><SPAN CLASS="DT">void</SPAN> <A NAME="fcn_fs_etpu_interrupt_enable">fs_etpu_interrupt_enable</A>(<A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel)
+</SPAN><SPAN><A CLASS="LN" NAME="231">  231   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="232">  232   </A>  eTPU-&gt;CHAN[channel].CR.B.CIE = TRUE;
+</SPAN><SPAN><A CLASS="LN" NAME="233">  233   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="234">  234   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="235">  235   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="236">  236   </A><SPAN CLASS="CT">   FUNCTION     : fs_etpu_interrupt_disable</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="237">  237   </A><SPAN CLASS="CT">   PURPOSE      : This function disables an ETPU channel from generating interrupts.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="238">  238   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 1 parameter:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="239">  239   </A><SPAN CLASS="CT">   channel: The eTPU channel number.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="240">  240   </A><SPAN CLASS="CT">   RETURNS NOTES: none</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="241">  241   </A><SPAN CLASS="CT">   WARNING      : When interupts are disabled the eTPU interrupt status bits are</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="242">  242   </A><SPAN CLASS="CT">   still set and can be used to poll the interrupt status.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="243">  243   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="244">  244   </A><SPAN CLASS="DT">void</SPAN> <A NAME="fcn_fs_etpu_interrupt_disable">fs_etpu_interrupt_disable</A>(<A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel)
+</SPAN><SPAN><A CLASS="LN" NAME="245">  245   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="246">  246   </A>  eTPU-&gt;CHAN[channel].CR.B.CIE = FALSE;
+</SPAN><SPAN><A CLASS="LN" NAME="247">  247   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="248">  248   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="249">  249   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="250">  250   </A><SPAN CLASS="CT">   FUNCTION     : fs_etpu_dma_enable</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="251">  251   </A><SPAN CLASS="CT">   PURPOSE      : This function enables an ETPU channel to request DMA service.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="252">  252   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 1 parameter:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="253">  253   </A><SPAN CLASS="CT">   channel: The eTPU channel number.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="254">  254   </A><SPAN CLASS="CT">   RETURNS NOTES: none</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="255">  255   </A><SPAN CLASS="CT">   WARNING      : In a given device not all of the DMA requests may be connected</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="256">  256   </A><SPAN CLASS="CT">   to DMA channels.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="257">  257   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="258">  258   </A><SPAN CLASS="DT">void</SPAN> <A NAME="fcn_fs_etpu_dma_enable">fs_etpu_dma_enable</A>(<A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel)
+</SPAN><SPAN><A CLASS="LN" NAME="259">  259   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="260">  260   </A>  eTPU-&gt;CHAN[channel].CR.B.DTRE = TRUE;
+</SPAN><SPAN><A CLASS="LN" NAME="261">  261   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="262">  262   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="263">  263   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="264">  264   </A><SPAN CLASS="CT">   FUNCTION     : fs_etpu_dma_disable</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="265">  265   </A><SPAN CLASS="CT">   PURPOSE      : This function disables an eTPU channel from generating DMA requests.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="266">  266   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 1 parameter:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="267">  267   </A><SPAN CLASS="CT">   channel: The eTPU channel number.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="268">  268   </A><SPAN CLASS="CT">   RETURNS NOTES: none</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="269">  269   </A><SPAN CLASS="CT">   WARNING      : When DMA requests are disabled the eTPU DMA request status bits are</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="270">  270   </A><SPAN CLASS="CT">   still set and can be used to poll the DMA request status.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="271">  271   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="272">  272   </A><SPAN CLASS="DT">void</SPAN> <A NAME="fcn_fs_etpu_dma_disable">fs_etpu_dma_disable</A>(<A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel)
+</SPAN><SPAN><A CLASS="LN" NAME="273">  273   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="274">  274   </A>  eTPU-&gt;CHAN[channel].CR.B.DTRE = FALSE;
+</SPAN><SPAN><A CLASS="LN" NAME="275">  275   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="276">  276   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="277">  277   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="278">  278   </A><SPAN CLASS="CT">   FUNCTION     : fs_timer_start</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="279">  279   </A><SPAN CLASS="CT">   PURPOSE      : This function start the timebases.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="280">  280   </A><SPAN CLASS="CT">   INPUTS NOTES : none</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="281">  281   </A><SPAN CLASS="CT">   RETURNS NOTES: none</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="282">  282   </A><SPAN CLASS="CT">   WARNING      : This functions start the timebases of all timer modules on a device.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="283">  283   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="284">  284   </A><SPAN CLASS="DT">void</SPAN> <A NAME="fcn_fs_timer_start">fs_timer_start</A>(<SPAN CLASS="DT">void</SPAN>)
+</SPAN><SPAN><A CLASS="LN" NAME="285">  285   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="286">  286   </A>  eTPU-&gt;MCR.B.GTBE = 1;                <SPAN CLASS="CT">/* Global Time Base enabled - synchronous start of TCRs */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="287">  287   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="288">  288   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="289">  289   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="290">  290   </A><SPAN CLASS="CT">   FUNCTION     : fs_etpu_malloc</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="291">  291   </A><SPAN CLASS="CT">   PURPOSE      : This function allocates data RAM (parameter RAM) for a channel.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="292">  292   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 1 parameter:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="293">  293   </A><SPAN CLASS="CT">   num_bytes: this is the number of bytes of data RAM that is</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="294">  294   </A><SPAN CLASS="CT">   required by a channel. The number of bytes requested</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="295">  295   </A><SPAN CLASS="CT">   must be a multiple of 8 bytes because the eTPU</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="296">  296   </A><SPAN CLASS="CT">   alloactes memory in 8 byte blocks.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="297">  297   </A><SPAN CLASS="CT">   RETURNS NOTES: A pointer to allocated data RAM. If the requested amount of memory</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="298">  298   </A><SPAN CLASS="CT">   is larger than the available amount of memory then 0 will be</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="299">  299   </A><SPAN CLASS="CT">   returned.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="300">  300   </A><SPAN CLASS="CT">   WARNING      : This function is non-reentrant and uses the fr_free_param global.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="301">  301   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="302">  302   </A><A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> *<A NAME="fcn_fs_etpu_malloc">fs_etpu_malloc</A>(<A HREF="typedefs_h.html#type_uint16_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint16_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint16_t</FONT></A> num_bytes)
+</SPAN><SPAN><A CLASS="LN" NAME="303">  303   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="304">  304   </A>  <A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> *pba;
+</SPAN><SPAN><A CLASS="LN" NAME="305">  305   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="306">  306   </A>  <SPAN CLASS="CT">/*uint32_t x;*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="307">  307   </A>  pba = fs_free_param;
+</SPAN><SPAN><A CLASS="LN" NAME="308">  308   </A>  fs_free_param += (((num_bytes+7)&gt;&gt;3)&lt;&lt;1);
+</SPAN><SPAN><A CLASS="LN" NAME="309">  309   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="310">  310   </A>  <SPAN CLASS="CT">/*    x = (uint32_t) (((num_bytes+7)&gt;&gt;3)&lt;&lt;1);*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="311">  311   </A>  <SPAN CLASS="KW">if</SPAN> (fs_free_param &gt; (<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> *)fs_etpu_data_ram_end)
+</SPAN><SPAN><A CLASS="LN" NAME="312">  312   </A>    <SPAN CLASS="KW">return</SPAN>(0);
+</SPAN><SPAN><A CLASS="LN" NAME="313">  313   </A>  <SPAN CLASS="KW">else</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="314">  314   </A>    <SPAN CLASS="KW">return</SPAN>(pba);
+</SPAN><SPAN><A CLASS="LN" NAME="315">  315   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="316">  316   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="317">  317   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="318">  318   </A><SPAN CLASS="CT">   FUNCTION     : fs_etpu_malloc2</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="319">  319   </A><SPAN CLASS="CT">   PURPOSE      : This function is similar to fs_etpu_malloc. The difference is</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="320">  320   </A><SPAN CLASS="CT">   that this function first checks to see if the CPBA is not sero.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="321">  321   </A><SPAN CLASS="CT">   If it is not zero then it assumes the channel has already</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="322">  322   </A><SPAN CLASS="CT">   been initialized and does not allocate more data RAM to the</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="323">  323   </A><SPAN CLASS="CT">   channel.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="324">  324   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 2 parameters:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="325">  325   </A><SPAN CLASS="CT">   channel: The eTPU channel number.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="326">  326   </A><SPAN CLASS="CT">   num_bytes: this is the number of bytes of data RAM that is</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="327">  327   </A><SPAN CLASS="CT">   required by a channel. The number of bytes requested</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="328">  328   </A><SPAN CLASS="CT">   must be a multiple of 8 bytes because the eTPU</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="329">  329   </A><SPAN CLASS="CT">   alloactes memory in 8 byte blocks.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="330">  330   </A><SPAN CLASS="CT">   RETURNS NOTES: A pointer to allocated data RAM. If the requested amount of memory</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="331">  331   </A><SPAN CLASS="CT">   is larger than the available amount of memory then 0 will be</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="332">  332   </A><SPAN CLASS="CT">   returned.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="333">  333   </A><SPAN CLASS="CT">   WARNING      : This function is non-reentrant and uses the fr_free_param global.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="334">  334   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="335">  335   </A><A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> *<A NAME="fcn_fs_etpu_malloc2">fs_etpu_malloc2</A>(<A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel, <A HREF="typedefs_h.html#type_uint16_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint16_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint16_t</FONT></A> num_bytes)
+</SPAN><SPAN><A CLASS="LN" NAME="336">  336   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="337">  337   </A>  <A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> *pba;
+</SPAN><SPAN><A CLASS="LN" NAME="338">  338   </A>  <SPAN CLASS="KW">if</SPAN> (eTPU-&gt;CHAN[channel].CR.B.CPBA == 0 ) <B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="339">  339   </A>    pba = fs_free_param;
+</SPAN><SPAN><A CLASS="LN" NAME="340">  340   </A>    fs_free_param += (((num_bytes+7)&gt;&gt;3)&lt;&lt;1);
+</SPAN><SPAN><A CLASS="LN" NAME="341">  341   </A>    <SPAN CLASS="KW">if</SPAN> (fs_free_param &gt; (<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> *)fs_etpu_data_ram_end)
+</SPAN><SPAN><A CLASS="LN" NAME="342">  342   </A>      <SPAN CLASS="KW">return</SPAN>(0);
+</SPAN><SPAN><A CLASS="LN" NAME="343">  343   </A>    <SPAN CLASS="KW">else</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="344">  344   </A>      <SPAN CLASS="KW">return</SPAN>(pba);
+</SPAN><SPAN><A CLASS="LN" NAME="345">  345   </A>  <B>}</B> <SPAN CLASS="KW">else</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="346">  346   </A>    <SPAN CLASS="KW">return</SPAN>(fs_etpu_data_ram(channel));
+</SPAN><SPAN><A CLASS="LN" NAME="347">  347   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="348">  348   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="349">  349   </A><SPAN CLASS="CT">/* set local variables */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="350">  350   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="351">  351   </A><SPAN CLASS="CT">   FUNCTION     : fs_etpu_set_chan_local_32</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="352">  352   </A><SPAN CLASS="CT">   PURPOSE      : This function sets a 32 bit parameter for an eTPU channel.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="353">  353   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 3 parameters:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="354">  354   </A><SPAN CLASS="CT">   channel: The eTPU channel number.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="355">  355   </A><SPAN CLASS="CT">   offset: The offset to the variable. This must be a 32bit</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="356">  356   </A><SPAN CLASS="CT">   aligned value. This value is normally provided by</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="357">  357   </A><SPAN CLASS="CT">   the eTPU compiler.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="358">  358   </A><SPAN CLASS="CT">   value: The value to write to the paramater.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="359">  359   </A><SPAN CLASS="CT">   RETURNS NOTES: none</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="360">  360   </A><SPAN CLASS="CT">   WARNING      :</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="361">  361   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="362">  362   </A><SPAN CLASS="DT">void</SPAN> <A NAME="fcn_fs_etpu_set_chan_local_32">fs_etpu_set_chan_local_32</A>(<A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel, <A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> offset, <A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> value)
+</SPAN><SPAN><A CLASS="LN" NAME="363">  363   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="364">  364   </A>  *(<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> *)((<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A>)fs_etpu_data_ram_start + (eTPU-&gt;CHAN[channel].
+</SPAN><SPAN><A CLASS="LN" NAME="365">  365   </A>    CR.B.CPBA&lt;&lt;3) + offset) = value;
+</SPAN><SPAN><A CLASS="LN" NAME="366">  366   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="367">  367   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="368">  368   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="369">  369   </A><SPAN CLASS="CT">   FUNCTION     : fs_etpu_set_chan_local_24</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="370">  370   </A><SPAN CLASS="CT">   PURPOSE      : This function sets a 24 bit parameter for an eTPU channel.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="371">  371   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 3 parameters:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="372">  372   </A><SPAN CLASS="CT">   channel: The eTPU channel number.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="373">  373   </A><SPAN CLASS="CT">   offset: The offset to the variable. This must be a 24bit</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="374">  374   </A><SPAN CLASS="CT">   aligned value. This value is normally provided by</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="375">  375   </A><SPAN CLASS="CT">   the eTPU compiler.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="376">  376   </A><SPAN CLASS="CT">   value: The value to write to the paramater.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="377">  377   </A><SPAN CLASS="CT">   RETURNS NOTES: none</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="378">  378   </A><SPAN CLASS="CT">   WARNING      : This function uses the sign extended location of the data memory</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="379">  379   </A><SPAN CLASS="CT">   to write only 24 bits to the data memory. This 24 bit write is</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="380">  380   </A><SPAN CLASS="CT">   an atomic operation and does not effect the upper 8 bits of the</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="381">  381   </A><SPAN CLASS="CT">   32 bit value associated with the 24 bits.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="382">  382   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="383">  383   </A><SPAN CLASS="DT">void</SPAN> <A NAME="fcn_fs_etpu_set_chan_local_24">fs_etpu_set_chan_local_24</A>(<A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel, <A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> offset, <A HREF="eTPU_util_h.html#type_uint24_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint24_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint24_t</FONT></A> value)
+</SPAN><SPAN><A CLASS="LN" NAME="384">  384   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="385">  385   </A>  *(<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> *)((<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A>)fs_etpu_data_ram_ext + (eTPU-&gt;CHAN[channel].CR.B.CPBA&lt;&lt;
+</SPAN><SPAN><A CLASS="LN" NAME="386">  386   </A>    3) + offset-1) = value;
+</SPAN><SPAN><A CLASS="LN" NAME="387">  387   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="388">  388   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="389">  389   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="390">  390   </A><SPAN CLASS="CT">   FUNCTION     : fs_etpu_set_chan_local_16</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="391">  391   </A><SPAN CLASS="CT">   PURPOSE      : This function sets a 16 bit parameter for an eTPU channel.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="392">  392   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 3 parameters:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="393">  393   </A><SPAN CLASS="CT">   channel: The eTPU channel number.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="394">  394   </A><SPAN CLASS="CT">   offset: The offset to the variable. This must be a 16bit</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="395">  395   </A><SPAN CLASS="CT">   aligned value. This value is normally provided by</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="396">  396   </A><SPAN CLASS="CT">   the eTPU compiler.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="397">  397   </A><SPAN CLASS="CT">   value: The value to write to the paramater.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="398">  398   </A><SPAN CLASS="CT">   RETURNS NOTES: none</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="399">  399   </A><SPAN CLASS="CT">   WARNING      :</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="400">  400   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="401">  401   </A><SPAN CLASS="DT">void</SPAN> <A NAME="fcn_fs_etpu_set_chan_local_16">fs_etpu_set_chan_local_16</A>(<A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel, <A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> offset, <A HREF="typedefs_h.html#type_uint16_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint16_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint16_t</FONT></A> value)
+</SPAN><SPAN><A CLASS="LN" NAME="402">  402   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="403">  403   </A>  *(<A HREF="typedefs_h.html#type_uint16_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint16_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint16_t</FONT></A> *)((<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A>)fs_etpu_data_ram_start + (eTPU-&gt;CHAN[channel].
+</SPAN><SPAN><A CLASS="LN" NAME="404">  404   </A>    CR.B.CPBA&lt;&lt;3) + offset) = value;
+</SPAN><SPAN><A CLASS="LN" NAME="405">  405   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="406">  406   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="407">  407   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="408">  408   </A><SPAN CLASS="CT">   FUNCTION     : fs_etpu_set_chan_local_8</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="409">  409   </A><SPAN CLASS="CT">   PURPOSE      : This function sets a 8 bit parameter for an eTPU channel.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="410">  410   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 3 parameters:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="411">  411   </A><SPAN CLASS="CT">   channel: The eTPU channel number.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="412">  412   </A><SPAN CLASS="CT">   offset: The offset to the variable. This must be a 8bit</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="413">  413   </A><SPAN CLASS="CT">   aligned value. This value is normally provided by</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="414">  414   </A><SPAN CLASS="CT">   the eTPU compiler.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="415">  415   </A><SPAN CLASS="CT">   value: The value to write to the paramater.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="416">  416   </A><SPAN CLASS="CT">   RETURNS NOTES: none</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="417">  417   </A><SPAN CLASS="CT">   WARNING      :</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="418">  418   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="419">  419   </A><SPAN CLASS="DT">void</SPAN> <A NAME="fcn_fs_etpu_set_chan_local_8">fs_etpu_set_chan_local_8</A>(<A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel, <A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> offset, <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> value)
+</SPAN><SPAN><A CLASS="LN" NAME="420">  420   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="421">  421   </A>  *(<A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> *)((<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A>)fs_etpu_data_ram_start + (eTPU-&gt;CHAN[channel].CR.B.CPBA&lt;&lt;
+</SPAN><SPAN><A CLASS="LN" NAME="422">  422   </A>    3) + offset) = value;
+</SPAN><SPAN><A CLASS="LN" NAME="423">  423   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="424">  424   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="425">  425   </A><SPAN CLASS="CT">/* get local variables */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="426">  426   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="427">  427   </A><SPAN CLASS="CT">   FUNCTION     : fs_etpu_get_chan_local_32</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="428">  428   </A><SPAN CLASS="CT">   PURPOSE      : This function reads a 32 bit parameter for an eTPU channel.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="429">  429   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 2 parameters:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="430">  430   </A><SPAN CLASS="CT">   channel: The eTPU channel number.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="431">  431   </A><SPAN CLASS="CT">   offset: The offset to the variable. This must be a 32bit</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="432">  432   </A><SPAN CLASS="CT">   aligned value. This value is normally provided by</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="433">  433   </A><SPAN CLASS="CT">   the eTPU compiler.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="434">  434   </A><SPAN CLASS="CT">   RETURNS NOTES: The 32 bit value of the parameter.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="435">  435   </A><SPAN CLASS="CT">   WARNING      :</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="436">  436   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="437">  437   </A><A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> <A NAME="fcn_fs_etpu_get_chan_local_32">fs_etpu_get_chan_local_32</A>(<A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel, <A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> offset)
+</SPAN><SPAN><A CLASS="LN" NAME="438">  438   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="439">  439   </A>  <SPAN CLASS="KW">return</SPAN>(*(<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> *)((<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A>)fs_etpu_data_ram_start + (eTPU-&gt;CHAN[channel].
+</SPAN><SPAN><A CLASS="LN" NAME="440">  440   </A>           CR.B.CPBA&lt;&lt;3) + offset));
+</SPAN><SPAN><A CLASS="LN" NAME="441">  441   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="442">  442   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="443">  443   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="444">  444   </A><SPAN CLASS="CT">   FUNCTION     : fs_etpu_get_chan_local_24s</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="445">  445   </A><SPAN CLASS="CT">   PURPOSE      : This function reads a signed 24 bit parameter for an eTPU channel.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="446">  446   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 2 parameters:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="447">  447   </A><SPAN CLASS="CT">   channel: The eTPU channel number.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="448">  448   </A><SPAN CLASS="CT">   offset: The offset to the variable. This must be a 24bit</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="449">  449   </A><SPAN CLASS="CT">   aligned value. This value is normally provided by</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="450">  450   </A><SPAN CLASS="CT">   the eTPU compiler.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="451">  451   </A><SPAN CLASS="CT">   RETURNS NOTES: The signed 24 bit value of the parameter.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="452">  452   </A><SPAN CLASS="CT">   WARNING      : This function uses the signed area of the data memory.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="453">  453   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="454">  454   </A><A HREF="eTPU_util_h.html#type_int24_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int24_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int24_t</FONT></A> <A NAME="fcn_fs_etpu_get_chan_local_24s">fs_etpu_get_chan_local_24s</A>(<A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel, <A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> offset)
+</SPAN><SPAN><A CLASS="LN" NAME="455">  455   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="456">  456   </A>  <SPAN CLASS="KW">return</SPAN>((<A HREF="eTPU_util_h.html#type_int24_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int24_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int24_t</FONT></A>) (*(<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> *)((<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A>)fs_etpu_data_ram_ext + (eTPU-&gt;
+</SPAN><SPAN><A CLASS="LN" NAME="457">  457   </A>            CHAN[channel].CR.B.CPBA&lt;&lt;3) + offset-1)));
+</SPAN><SPAN><A CLASS="LN" NAME="458">  458   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="459">  459   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="460">  460   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="461">  461   </A><SPAN CLASS="CT">   FUNCTION     : fs_etpu_get_chan_local_24</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="462">  462   </A><SPAN CLASS="CT">   PURPOSE      : This function reads a unsigned 24 bit parameter for an eTPU channel.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="463">  463   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 2 parameters:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="464">  464   </A><SPAN CLASS="CT">   channel: The eTPU channel number.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="465">  465   </A><SPAN CLASS="CT">   offset: The offset to the variable. This must be a 24bit</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="466">  466   </A><SPAN CLASS="CT">   aligned value. This value is normally provided by</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="467">  467   </A><SPAN CLASS="CT">   the eTPU compiler.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="468">  468   </A><SPAN CLASS="CT">   RETURNS NOTES: The unsigned 24 bit value of the parameter.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="469">  469   </A><SPAN CLASS="CT">   WARNING      :</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="470">  470   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="471">  471   </A><A HREF="eTPU_util_h.html#type_uint24_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint24_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint24_t</FONT></A> <A NAME="fcn_fs_etpu_get_chan_local_24">fs_etpu_get_chan_local_24</A>(<A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel, <A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> offset)
+</SPAN><SPAN><A CLASS="LN" NAME="472">  472   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="473">  473   </A>  <SPAN CLASS="KW">return</SPAN>( 0x00FFFFFF &amp; (*(<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> *)((<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A>)fs_etpu_data_ram_ext +
+</SPAN><SPAN><A CLASS="LN" NAME="474">  474   </A>           (eTPU-&gt;CHAN[channel].CR.B.CPBA&lt;&lt;3) + offset-1)));
+</SPAN><SPAN><A CLASS="LN" NAME="475">  475   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="476">  476   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="477">  477   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="478">  478   </A><SPAN CLASS="CT">   FUNCTION     : fs_etpu_get_chan_local_16</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="479">  479   </A><SPAN CLASS="CT">   PURPOSE      : This function reads a 16 bit parameter for an eTPU channel.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="480">  480   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 2 parameters:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="481">  481   </A><SPAN CLASS="CT">   channel: The eTPU channel number.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="482">  482   </A><SPAN CLASS="CT">   offset: The offset to the variable. This must be a 16bit</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="483">  483   </A><SPAN CLASS="CT">   aligned value. This value is normally provided by</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="484">  484   </A><SPAN CLASS="CT">   the eTPU compiler.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="485">  485   </A><SPAN CLASS="CT">   RETURNS NOTES: The 16 bit value of the parameter.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="486">  486   </A><SPAN CLASS="CT">   WARNING      :</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="487">  487   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="488">  488   </A><A HREF="typedefs_h.html#type_uint16_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint16_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint16_t</FONT></A> <A NAME="fcn_fs_etpu_get_chan_local_16">fs_etpu_get_chan_local_16</A>(<A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel, <A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> offset)
+</SPAN><SPAN><A CLASS="LN" NAME="489">  489   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="490">  490   </A>  <SPAN CLASS="KW">return</SPAN>(*(<A HREF="typedefs_h.html#type_uint16_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint16_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint16_t</FONT></A> *)((<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A>)fs_etpu_data_ram_start + (eTPU-&gt;CHAN[channel].
+</SPAN><SPAN><A CLASS="LN" NAME="491">  491   </A>           CR.B.CPBA&lt;&lt;3) + offset));
+</SPAN><SPAN><A CLASS="LN" NAME="492">  492   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="493">  493   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="494">  494   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="495">  495   </A><SPAN CLASS="CT">   FUNCTION     : fs_etpu_get_chan_local_8</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="496">  496   </A><SPAN CLASS="CT">   PURPOSE      : This function reads a 8 bit parameter for an eTPU channel.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="497">  497   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 2 parameters:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="498">  498   </A><SPAN CLASS="CT">   channel: The eTPU channel number.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="499">  499   </A><SPAN CLASS="CT">   offset: The offset to the variable. This must be a 8bit</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="500">  500   </A><SPAN CLASS="CT">   aligned value. This value is normally provided by</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="501">  501   </A><SPAN CLASS="CT">   the eTPU compiler.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="502">  502   </A><SPAN CLASS="CT">   RETURNS NOTES: The 8 bit value of the parameter.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="503">  503   </A><SPAN CLASS="CT">   WARNING      :</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="504">  504   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="505">  505   </A><A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> <A NAME="fcn_fs_etpu_get_chan_local_8">fs_etpu_get_chan_local_8</A>(<A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel, <A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> offset)
+</SPAN><SPAN><A CLASS="LN" NAME="506">  506   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="507">  507   </A>  <SPAN CLASS="KW">return</SPAN>(*(<A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> *)((<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A>)fs_etpu_data_ram_start + (eTPU-&gt;CHAN[channel].
+</SPAN><SPAN><A CLASS="LN" NAME="508">  508   </A>           CR.B.CPBA&lt;&lt;3) + offset));
+</SPAN><SPAN><A CLASS="LN" NAME="509">  509   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="510">  510   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="511">  511   </A><SPAN CLASS="CT">/* set global variables */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="512">  512   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="513">  513   </A><SPAN CLASS="CT">   FUNCTION     : fs_etpu_set_global_32</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="514">  514   </A><SPAN CLASS="CT">   PURPOSE      : This function write to a 32 bit global variable.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="515">  515   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 2 parameters:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="516">  516   </A><SPAN CLASS="CT">   offset: The offset to the variable. This must be a 32bit</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="517">  517   </A><SPAN CLASS="CT">   aligned value. This value is normally provided by</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="518">  518   </A><SPAN CLASS="CT">   the eTPU compiler.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="519">  519   </A><SPAN CLASS="CT">   value: The value to write to the paramater.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="520">  520   </A><SPAN CLASS="CT">   RETURNS NOTES: none</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="521">  521   </A><SPAN CLASS="CT">   WARNING      :</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="522">  522   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="523">  523   </A><SPAN CLASS="DT">void</SPAN> <A NAME="fcn_fs_etpu_set_global_32">fs_etpu_set_global_32</A>(<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> offset, <A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> value)
+</SPAN><SPAN><A CLASS="LN" NAME="524">  524   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="525">  525   </A>  *(<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> *)((<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A>)fs_etpu_data_ram_start + offset) = value;
+</SPAN><SPAN><A CLASS="LN" NAME="526">  526   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="527">  527   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="528">  528   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="529">  529   </A><SPAN CLASS="CT">   FUNCTION     : fs_etpu_set_global_24</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="530">  530   </A><SPAN CLASS="CT">   PURPOSE      : This function write to a 24 bit global variable.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="531">  531   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 2 parameters:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="532">  532   </A><SPAN CLASS="CT">   offset: The offset to the variable. This must be a 24bit</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="533">  533   </A><SPAN CLASS="CT">   aligned value. This value is normally provided by</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="534">  534   </A><SPAN CLASS="CT">   the eTPU compiler.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="535">  535   </A><SPAN CLASS="CT">   value: The value to write to the paramater.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="536">  536   </A><SPAN CLASS="CT">   RETURNS NOTES: none</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="537">  537   </A><SPAN CLASS="CT">   WARNING      :</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="538">  538   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="539">  539   </A><SPAN CLASS="DT">void</SPAN> <A NAME="fcn_fs_etpu_set_global_24">fs_etpu_set_global_24</A>(<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> offset, <A HREF="eTPU_util_h.html#type_uint24_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint24_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint24_t</FONT></A> value)
+</SPAN><SPAN><A CLASS="LN" NAME="540">  540   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="541">  541   </A>  *(<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> *)((<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A>)fs_etpu_data_ram_ext + offset-1) = value;
+</SPAN><SPAN><A CLASS="LN" NAME="542">  542   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="543">  543   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="544">  544   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="545">  545   </A><SPAN CLASS="CT">   FUNCTION     : fs_etpu_set_global_16</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="546">  546   </A><SPAN CLASS="CT">   PURPOSE      : This function write to a 16 bit global variable.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="547">  547   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 2 parameters:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="548">  548   </A><SPAN CLASS="CT">   offset: The offset to the variable. This must be a 16bit</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="549">  549   </A><SPAN CLASS="CT">   aligned value. This value is normally provided by</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="550">  550   </A><SPAN CLASS="CT">   the eTPU compiler.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="551">  551   </A><SPAN CLASS="CT">   value: The value to write to the paramater.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="552">  552   </A><SPAN CLASS="CT">   RETURNS NOTES: none</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="553">  553   </A><SPAN CLASS="CT">   WARNING      :</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="554">  554   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="555">  555   </A><SPAN CLASS="DT">void</SPAN> <A NAME="fcn_fs_etpu_set_global_16">fs_etpu_set_global_16</A>(<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> offset, <A HREF="typedefs_h.html#type_uint16_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint16_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint16_t</FONT></A> value)
+</SPAN><SPAN><A CLASS="LN" NAME="556">  556   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="557">  557   </A>  *(<A HREF="typedefs_h.html#type_uint16_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint16_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint16_t</FONT></A> *)((<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A>)fs_etpu_data_ram_start + offset) = value;
+</SPAN><SPAN><A CLASS="LN" NAME="558">  558   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="559">  559   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="560">  560   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="561">  561   </A><SPAN CLASS="CT">   FUNCTION     : fs_etpu_set_global_8</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="562">  562   </A><SPAN CLASS="CT">   PURPOSE      : This function write to a 8 bit global variable.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="563">  563   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 2 parameters:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="564">  564   </A><SPAN CLASS="CT">   offset: The offset to the variable. This must be a 8bit</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="565">  565   </A><SPAN CLASS="CT">   aligned value. This value is normally provided by</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="566">  566   </A><SPAN CLASS="CT">   the eTPU compiler.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="567">  567   </A><SPAN CLASS="CT">   value: The value to write to the paramater.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="568">  568   </A><SPAN CLASS="CT">   RETURNS NOTES: none</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="569">  569   </A><SPAN CLASS="CT">   WARNING      :</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="570">  570   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="571">  571   </A><SPAN CLASS="DT">void</SPAN> <A NAME="fcn_fs_etpu_set_global_8">fs_etpu_set_global_8</A>(<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> offset, <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> value)
+</SPAN><SPAN><A CLASS="LN" NAME="572">  572   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="573">  573   </A>  *(<A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> *)((<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A>)fs_etpu_data_ram_start + offset) = value;
+</SPAN><SPAN><A CLASS="LN" NAME="574">  574   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="575">  575   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="576">  576   </A><SPAN CLASS="CT">/* get global variables */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="577">  577   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="578">  578   </A><SPAN CLASS="CT">   FUNCTION     : fs_etpu_get_global32</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="579">  579   </A><SPAN CLASS="CT">   PURPOSE      : This function reads a 32 bit global variable.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="580">  580   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 1 parameter:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="581">  581   </A><SPAN CLASS="CT">   offset: The offset to the variable. This must be a 32bit</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="582">  582   </A><SPAN CLASS="CT">   aligned value. This value is normally provided by</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="583">  583   </A><SPAN CLASS="CT">   the eTPU compiler.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="584">  584   </A><SPAN CLASS="CT">   RETURNS NOTES: The 32 bit value of the parameter.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="585">  585   </A><SPAN CLASS="CT">   WARNING      :</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="586">  586   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="587">  587   </A><A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> <A NAME="fcn_fs_etpu_get_global32">fs_etpu_get_global32</A>(<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> offset)
+</SPAN><SPAN><A CLASS="LN" NAME="588">  588   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="589">  589   </A>  <SPAN CLASS="KW">return</SPAN>(*(<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> *)((<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A>)fs_etpu_data_ram_start + offset));
+</SPAN><SPAN><A CLASS="LN" NAME="590">  590   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="591">  591   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="592">  592   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="593">  593   </A><SPAN CLASS="CT">   FUNCTION     : fs_etpu_get_global_24s</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="594">  594   </A><SPAN CLASS="CT">   PURPOSE      : This function reads a signed 24 bit global variable.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="595">  595   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 1 parameter:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="596">  596   </A><SPAN CLASS="CT">   offset: The offset to the variable. This must be a 24bit</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="597">  597   </A><SPAN CLASS="CT">   aligned value. This value is normally provided by</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="598">  598   </A><SPAN CLASS="CT">   the eTPU compiler.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="599">  599   </A><SPAN CLASS="CT">   RETURNS NOTES: The signed 24 bit value of the parameter.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="600">  600   </A><SPAN CLASS="CT">   WARNING      : This function uses the sign extended location of the data memory</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="601">  601   </A><SPAN CLASS="CT">   to write only 24 bits to the data memory. This 24 bit write is</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="602">  602   </A><SPAN CLASS="CT">   an atomic operation and does not effect the upper 8 bits of the</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="603">  603   </A><SPAN CLASS="CT">   32 bit value associated with the 24 bits.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="604">  604   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="605">  605   </A><A HREF="eTPU_util_h.html#type_int24_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int24_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int24_t</FONT></A> <A NAME="fcn_fs_etpu_get_global_24s">fs_etpu_get_global_24s</A>(<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> offset)
+</SPAN><SPAN><A CLASS="LN" NAME="606">  606   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="607">  607   </A>  <SPAN CLASS="KW">return</SPAN>((<A HREF="eTPU_util_h.html#type_int24_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int24_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int24_t</FONT></A>) (*(<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> *)((<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A>)fs_etpu_data_ram_ext + offset-1)));
+</SPAN><SPAN><A CLASS="LN" NAME="608">  608   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="609">  609   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="610">  610   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="611">  611   </A><SPAN CLASS="CT">   FUNCTION     : fs_etpu_get_global_24</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="612">  612   </A><SPAN CLASS="CT">   PURPOSE      : This function reads an unsigned 24 bit global variable.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="613">  613   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 1 parameter:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="614">  614   </A><SPAN CLASS="CT">   offset: The offset to the variable. This must be a 24bit</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="615">  615   </A><SPAN CLASS="CT">   aligned value. This value is normally provided by</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="616">  616   </A><SPAN CLASS="CT">   the eTPU compiler.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="617">  617   </A><SPAN CLASS="CT">   RETURNS NOTES: The unsigned 24 bit value of the parameter.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="618">  618   </A><SPAN CLASS="CT">   WARNING      :</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="619">  619   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="620">  620   </A><A HREF="eTPU_util_h.html#type_uint24_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint24_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint24_t</FONT></A> <A NAME="fcn_fs_etpu_get_global_24">fs_etpu_get_global_24</A>(<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> offset)
+</SPAN><SPAN><A CLASS="LN" NAME="621">  621   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="622">  622   </A>  <SPAN CLASS="KW">return</SPAN>( 0x00FFFFFF &amp; (*(<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> *)((<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A>)fs_etpu_data_ram_ext + offset-1)));
+</SPAN><SPAN><A CLASS="LN" NAME="623">  623   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="624">  624   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="625">  625   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="626">  626   </A><SPAN CLASS="CT">   FUNCTION     : fs_etpu_get_global_16</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="627">  627   </A><SPAN CLASS="CT">   PURPOSE      : This function reads a 16 bit global variable.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="628">  628   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 1 parameter:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="629">  629   </A><SPAN CLASS="CT">   offset: The offset to the variable. This must be a 16bit</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="630">  630   </A><SPAN CLASS="CT">   aligned value. This value is normally provided by</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="631">  631   </A><SPAN CLASS="CT">   the eTPU compiler.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="632">  632   </A><SPAN CLASS="CT">   RETURNS NOTES: The 16 bit value of the parameter.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="633">  633   </A><SPAN CLASS="CT">   WARNING      :</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="634">  634   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="635">  635   </A><A HREF="typedefs_h.html#type_uint16_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint16_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint16_t</FONT></A> <A NAME="fcn_fs_etpu_get_global_16">fs_etpu_get_global_16</A>(<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> offset)
+</SPAN><SPAN><A CLASS="LN" NAME="636">  636   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="637">  637   </A>  <SPAN CLASS="KW">return</SPAN>(*(<A HREF="typedefs_h.html#type_uint16_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint16_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint16_t</FONT></A> *)((<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A>)fs_etpu_data_ram_start + offset));
+</SPAN><SPAN><A CLASS="LN" NAME="638">  638   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="639">  639   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="640">  640   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="641">  641   </A><SPAN CLASS="CT">   FUNCTION     : fs_etpu_get_global_8</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="642">  642   </A><SPAN CLASS="CT">   PURPOSE      : This function reads a 8 bit global variable.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="643">  643   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 1 parameter:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="644">  644   </A><SPAN CLASS="CT">   offset: The offset to the variable. This must be a 8bit</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="645">  645   </A><SPAN CLASS="CT">   aligned value. This value is normally provided by</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="646">  646   </A><SPAN CLASS="CT">   the eTPU compiler.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="647">  647   </A><SPAN CLASS="CT">   RETURNS NOTES: The 8 bit value of the parameter.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="648">  648   </A><SPAN CLASS="CT">   WARNING      :</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="649">  649   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="650">  650   </A><A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> <A NAME="fcn_fs_etpu_get_global_8">fs_etpu_get_global_8</A>(<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> offset)
+</SPAN><SPAN><A CLASS="LN" NAME="651">  651   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="652">  652   </A>  <SPAN CLASS="KW">return</SPAN>(*(<A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> *)((<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A>)fs_etpu_data_ram_start + offset));
+</SPAN><SPAN><A CLASS="LN" NAME="653">  653   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="654">  654   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="655">  655   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="656">  656   </A><SPAN CLASS="CT">   FUNCTION     : fs_memcpy32</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="657">  657   </A><SPAN CLASS="CT">   PURPOSE      : This function is similar to the standard C memcpy() function</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="658">  658   </A><SPAN CLASS="CT">   however it copies 32 bit words rather than bytes.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="659">  659   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 3 parameters:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="660">  660   </A><SPAN CLASS="CT"> *dest: This is a pointer to the destination location</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="661">  661   </A><SPAN CLASS="CT"> *source this is a pointer to the source location</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="662">  662   </A><SPAN CLASS="CT">   size: This is the size of the data to copy in bytes.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="663">  663   </A><SPAN CLASS="CT">   RETURNS NOTES: A pointer to the end of the copied data.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="664">  664   </A><SPAN CLASS="CT">   WARNING      : The *dest and *source pointers should be aligned to a 32 bit</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="665">  665   </A><SPAN CLASS="CT">   address. If they are not it may cause memory exceptions. Moving</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="666">  666   </A><SPAN CLASS="CT">   data to the eTPU code memory that is not 32 bit aligned is</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="667">  667   </A><SPAN CLASS="CT">   undefined. The size should be a multiple of 4 to copy 32 bit</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="668">  668   </A><SPAN CLASS="CT">   value. If it is not it is rounded down.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="669">  669   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="670">  670   </A><A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> *<A NAME="fcn_fs_memcpy32">fs_memcpy32</A>(<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> *dest, <A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> *source, <A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> size)
+</SPAN><SPAN><A CLASS="LN" NAME="671">  671   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="672">  672   </A>  <A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> *p = dest;
+</SPAN><SPAN><A CLASS="LN" NAME="673">  673   </A>  <A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> *q = source;
+</SPAN><SPAN><A CLASS="LN" NAME="674">  674   </A>  size = size &gt;&gt;2;
+</SPAN><SPAN><A CLASS="LN" NAME="675">  675   </A>  <SPAN CLASS="KW">while</SPAN> (size--)
+</SPAN><SPAN><A CLASS="LN" NAME="676">  676   </A>    *p++ = *q++;
+</SPAN><SPAN><A CLASS="LN" NAME="677">  677   </A>  <SPAN CLASS="KW">return</SPAN> (p);
+</SPAN><SPAN><A CLASS="LN" NAME="678">  678   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="679">  679   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="680">  680   </A><SPAN CLASS="CT">/******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="681">  681   </A><SPAN CLASS="CT">   FUNCTION     : fs_memset32</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="682">  682   </A><SPAN CLASS="CT">   PURPOSE      : This function is similar to the standard C memset() function</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="683">  683   </A><SPAN CLASS="CT">   however it sets 32 bit words rather than bytes.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="684">  684   </A><SPAN CLASS="CT">   INPUTS NOTES : This function has 3 parameters:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="685">  685   </A><SPAN CLASS="CT"> *start: This is a pointer to the start location</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="686">  686   </A><SPAN CLASS="CT">   value: This is the value to write to memory</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="687">  687   </A><SPAN CLASS="CT">   size: This is the size of the data to copy in bytes.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="688">  688   </A><SPAN CLASS="CT">   RETURNS NOTES: none.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="689">  689   </A><SPAN CLASS="CT">   WARNING      : The *start pointer should be aligned to a 32 bit address. If</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="690">  690   </A><SPAN CLASS="CT">   it is not it may cause memory exceptions. Writing data to the</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="691">  691   </A><SPAN CLASS="CT">   eTPU code memory that is not 32 bit aligned is undefined. The</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="692">  692   </A><SPAN CLASS="CT">   size should be a multiple of 4 to copy 32 bit  value. If it</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="693">  693   </A><SPAN CLASS="CT">   is not it is rounded down.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="694">  694   </A><SPAN CLASS="CT"> ******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="695">  695   </A><SPAN CLASS="DT">void</SPAN> <A NAME="fcn_fs_memset32">fs_memset32</A>(<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> *start, <A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> value, <A HREF="typedefs_h.html#type_int32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_t</FONT></A> size)
+</SPAN><SPAN><A CLASS="LN" NAME="696">  696   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="697">  697   </A>  <A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> *p = start;
+</SPAN><SPAN><A CLASS="LN" NAME="698">  698   </A>  size = size &gt;&gt;2;
+</SPAN><SPAN><A CLASS="LN" NAME="699">  699   </A>  <SPAN CLASS="KW">while</SPAN> (size--)
+</SPAN><SPAN><A CLASS="LN" NAME="700">  700   </A>    *p++ = value;
+</SPAN><SPAN><A CLASS="LN" NAME="701">  701   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="702">  702   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="703">  703   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">endif</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="704">  704   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="705">  705   </A><SPAN CLASS="CT">/*********************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="706">  706   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="707">  707   </A><SPAN CLASS="CT"> * Copyright:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="708">  708   </A><SPAN CLASS="CT"> *	Freescale Semiconductor, INC. All Rights Reserved.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="709">  709   </A><SPAN CLASS="CT"> *  You are hereby granted a copyright license to use, modify, and</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="710">  710   </A><SPAN CLASS="CT"> *  distribute the SOFTWARE so long as this entire notice is</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="711">  711   </A><SPAN CLASS="CT"> *  retained without alteration in any modified and/or redistributed</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="712">  712   </A><SPAN CLASS="CT"> *  versions, and that such modified versions are clearly identified</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="713">  713   </A><SPAN CLASS="CT"> *  as such. No licenses are granted by implication, estoppel or</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="714">  714   </A><SPAN CLASS="CT"> *  otherwise under any patents or trademarks of Freescale</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="715">  715   </A><SPAN CLASS="CT"> *  Semiconductor, Inc. This software is provided on an "AS IS"</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="716">  716   </A><SPAN CLASS="CT"> *  basis and without warranty.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="717">  717   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="718">  718   </A><SPAN CLASS="CT"> *  To the maximum extent permitted by applicable law, Freescale</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="719">  719   </A><SPAN CLASS="CT"> *  Semiconductor DISCLAIMS ALL WARRANTIES WHETHER EXPRESS OR IMPLIED,</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="720">  720   </A><SPAN CLASS="CT"> *  INCLUDING IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="721">  721   </A><SPAN CLASS="CT"> *  PARTICULAR PURPOSE AND ANY WARRANTY AGAINST INFRINGEMENT WITH</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="722">  722   </A><SPAN CLASS="CT"> *  REGARD TO THE SOFTWARE (INCLUDING ANY MODIFIED VERSIONS THEREOF)</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="723">  723   </A><SPAN CLASS="CT"> *  AND ANY ACCOMPANYING WRITTEN MATERIALS.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="724">  724   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="725">  725   </A><SPAN CLASS="CT"> *  To the maximum extent permitted by applicable law, IN NO EVENT</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="726">  726   </A><SPAN CLASS="CT"> *  SHALL Freescale Semiconductor BE LIABLE FOR ANY DAMAGES WHATSOEVER</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="727">  727   </A><SPAN CLASS="CT"> *  (INCLUDING WITHOUT LIMITATION, DAMAGES FOR LOSS OF BUSINESS PROFITS,</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="728">  728   </A><SPAN CLASS="CT"> *  BUSINESS INTERRUPTION, LOSS OF BUSINESS INFORMATION, OR OTHER</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="729">  729   </A><SPAN CLASS="CT"> *  PECUNIARY LOSS) ARISING OF THE USE OR INABILITY TO USE THE SOFTWARE.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="730">  730   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="731">  731   </A><SPAN CLASS="CT"> *  Freescale Semiconductor assumes no responsibility for the</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="732">  732   </A><SPAN CLASS="CT"> *  maintenance and support of this software</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="733">  733   </A><SPAN CLASS="CT"> ********************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="734">  734   </A>
+</SPAN></PRE>
+</TD></TR></TABLE>
+</P>
+</BODY>
+</HTML>

@@ -1,0 +1,166 @@
+<HTML>
+<HEAD>
+<TITLE>RTW Report - rappid_main.c </TITLE>
+<STYLE> .LN { font-style: italic; color: #888888 } </STYLE>
+<STYLE> .CT { font-style: italic; color: #117755 } </STYLE>
+<STYLE> .PP { font-style: bold;   color: #992211 } </STYLE>
+<STYLE> .KW { font-style: bold;   color: #112266 } </STYLE>
+<STYLE> .DT { font-style: bold;   color: #112266 } </STYLE>
+<SCRIPT language="JavaScript" type="text/javascript">
+<!--
+function rtwHilite(aBlock,aParentSID) {
+ aParentSID = "";
+ try {
+    window.location.href="matlab: if ~isempty(which('private/rtwbindmodel')), rtwprivate rtwbindmodel 'C:\\Users\\Embed_Sys_course\\git\\lab\\lab7\\prelab3\\VirtualWall\\two_virtual_wheel_autocode.mdl' 'C:\\Users\\Embed_Sys_course\\git\\lab\\lab7\\prelab3\\VirtualWall\\two_virtual_wheel_autocode_rappid_rtw' '', end; rtwprivate code2model "+aBlock+" "+aParentSID+";"
+ } catch (e) { 
+ }
+} // end rtwHilite
+//-->
+</SCRIPT>
+</HEAD>
+<BODY BGCOLOR="#eeeeee" TEXT="#1122aa" ONLOAD="if (top) { if (top.rtwFileOnLoad) top.rtwFileOnLoad(window);} ">
+<P>
+<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="6" WIDTH="100%" HEIGHT="100%"><TR><TD WIDTH="100%" VALIGN="top" BGCOLOR="#ffffff">
+<H4>File: <A HREF="file:///C:\Users\Embed_Sys_course\git\lab\lab7\prelab3\VirtualWall\two_virtual_wheel_autocode_rappid_rtw\rappid_main.c" TARGET="rtwreport_document_frame">C:\Users\Embed_Sys_course\git\lab\lab7\prelab3\VirtualWall\two_virtual_wheel_autocode_rappid_rtw\rappid_main.c</A></H4>
+<PRE id="RTWcode">
+<SPAN><A CLASS="LN" NAME="1">    1   </A><SPAN CLASS="CT">/*</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="2">    2   </A><SPAN CLASS="CT"> * File: rappid_main.c</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="3">    3   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="4">    4   </A><SPAN CLASS="CT"> * Code generated for Simulink model 'two_virtual_wheel_autocode'.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="5">    5   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="6">    6   </A><SPAN CLASS="CT"> * Model version                  : 1.93</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="7">    7   </A><SPAN CLASS="CT"> * Simulink Coder version         : 8.1 (R2011b) 08-Jul-2011</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="8">    8   </A><SPAN CLASS="CT"> * TLC version                    : 8.1 (Jul  9 2011)</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="9">    9   </A><SPAN CLASS="CT"> * C/C++ source code generated on : Thu Sep 21 16:08:25 2017</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="10">   10   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="11">   11   </A><SPAN CLASS="CT"> * Target selection: rappid.tlc</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="12">   12   </A><SPAN CLASS="CT"> * Embedded hardware selection: 32-bit Generic</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="13">   13   </A><SPAN CLASS="CT"> * Emulation hardware selection:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="14">   14   </A><SPAN CLASS="CT"> *    Differs from embedded hardware (MATLAB Host)</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="15">   15   </A><SPAN CLASS="CT"> * Code generation objectives: Unspecified</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="16">   16   </A><SPAN CLASS="CT"> * Validation result: Not run</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="17">   17   </A><SPAN CLASS="CT"> */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="18">   18   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="19">   19   </A><SPAN CLASS="CT">/* Model's headers */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="20">   20   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">include</SPAN> <FONT COLOR="#992211">&quot;two_virtual_wheel_autocode.h&quot;</FONT>
+</SPAN><SPAN><A CLASS="LN" NAME="21">   21   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">include</SPAN> <FONT COLOR="#992211">&quot;RAppID_Blockset.h&quot;</FONT>
+</SPAN><SPAN><A CLASS="LN" NAME="22">   22   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="23">   23   </A><SPAN CLASS="DT">extern</SPAN> <SPAN CLASS="DT">const</SPAN> <A HREF="typedefs_h.html#type_vuint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_vuint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">vuint32_t</FONT></A> <A HREF="IntcIsrVectors_c.html#var_IntcIsrVectorTable" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_IntcIsrVectorTable');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">IntcIsrVectorTable</FONT></A>[];
+</SPAN><SPAN><A CLASS="LN" NAME="24">   24   </A><SPAN CLASS="DT">extern</SPAN> IVOR4Handler();                 <SPAN CLASS="CT">/* INTC */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="25">   25   </A><SPAN CLASS="DT">extern</SPAN> IVOR11Handler();                <SPAN CLASS="CT">/* FIT */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="26">   26   </A><SPAN CLASS="DT">void</SPAN> <A NAME="fcn_SYSTEM_INIT_TASK">SYSTEM_INIT_TASK</A>(<SPAN CLASS="DT">void</SPAN>)
+</SPAN><SPAN><A CLASS="LN" NAME="27">   27   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="28">   28   </A>  <SPAN CLASS="CT">/* Initialize model */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="29">   29   </A>  <A HREF="two_virtual_wheel_autocode_c.html#fcn_two_virtual_wheel_autocode_initialize" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_two_virtual_wheel_autocode_initialize');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">two_virtual_wheel_autocode_initialize</FONT></A>(1);
+</SPAN><SPAN><A CLASS="LN" NAME="30">   30   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="31">   31   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="32">   32   </A><SPAN CLASS="DT">void</SPAN> <A NAME="fcn_SYSTEM_TASK">SYSTEM_TASK</A>(<SPAN CLASS="DT">void</SPAN>)
+</SPAN><SPAN><A CLASS="LN" NAME="33">   33   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="34">   34   </A>  <A HREF="rtwtypes_h.html#type_boolean_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_boolean_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">boolean_T</FONT></A> eventFlags[2];             <SPAN CLASS="CT">/* Model has 2 rates */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="35">   35   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="36">   36   </A>  <SPAN CLASS="CT">/*</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="37">   37   </A><SPAN CLASS="CT">   * For a bare-board target (i.e., no operating system), the rates</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="38">   38   </A><SPAN CLASS="CT">   * that execute this base step are buffered locally to allow for</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="39">   39   </A><SPAN CLASS="CT">   * overlapping preemption.  The generated code includes function</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="40">   40   </A><SPAN CLASS="CT">   * writeCodeInfoFcn() which sets the rates</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="41">   41   </A><SPAN CLASS="CT">   * that need to run this time step.  The return values are 1 and 0</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="42">   42   </A><SPAN CLASS="CT">   * for true and false, respectively.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="43">   43   </A><SPAN CLASS="CT">   */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="44">   44   </A>  <A HREF="two_virtual_wheel_autocode_c.html#fcn_two_virtual_wheel_autocode_SetEventsForThisBaseStep" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_two_virtual_wheel_autocode_SetEventsForThisBaseStep');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">two_virtual_wheel_autocode_SetEventsForThisBaseStep</FONT></A>(eventFlags);
+</SPAN><SPAN><A CLASS="LN" NAME="45">   45   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="46">   46   </A>  <SPAN CLASS="CT">/* Set model inputs associated with base rate here */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="47">   47   </A>  <A HREF="two_virtual_wheel_autocode_c.html#fcn_two_virtual_wheel_autocode_step" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_two_virtual_wheel_autocode_step');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">two_virtual_wheel_autocode_step</FONT></A>(0);
+</SPAN><SPAN><A CLASS="LN" NAME="48">   48   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="49">   49   </A>  <SPAN CLASS="CT">/* Get model outputs here */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="50">   50   </A>  <SPAN CLASS="KW">if</SPAN> (eventFlags[1]) <B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="51">   51   </A>    <SPAN CLASS="CT">/* Set model inputs associated with subrates here */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="52">   52   </A>    <A HREF="two_virtual_wheel_autocode_c.html#fcn_two_virtual_wheel_autocode_step" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_two_virtual_wheel_autocode_step');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">two_virtual_wheel_autocode_step</FONT></A>(1);
+</SPAN><SPAN><A CLASS="LN" NAME="53">   53   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="54">   54   </A>    <SPAN CLASS="CT">/* Get model outputs here */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="55">   55   </A>  <B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="56">   56   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="57">   57   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="58">   58   </A><SPAN CLASS="DT">void</SPAN> <A NAME="fcn_initIrqVectorsFIT">initIrqVectorsFIT</A>(<SPAN CLASS="DT">void</SPAN>)
+</SPAN><SPAN><A CLASS="LN" NAME="59">   59   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="60">   60   </A>  asm(<FONT COLOR="#1122ff">&quot; lis  r3, IVOR11Handler@h &quot;</FONT>);   <SPAN CLASS="CT">/* IVPR = upper half of L2SRAM start address */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="61">   61   </A>  asm(<FONT COLOR="#1122ff">&quot; mtivpr	r3 &quot;</FONT>);
+</SPAN><SPAN><A CLASS="LN" NAME="62">   62   </A>  asm(<FONT COLOR="#1122ff">&quot; li   r3, IVOR11Handler@l &quot;</FONT>);   <SPAN CLASS="CT">/* IVOR11 = lower half of handler address */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="63">   63   </A>  asm(<FONT COLOR="#1122ff">&quot; mtivor11   r3 &quot;</FONT>);
+</SPAN><SPAN><A CLASS="LN" NAME="64">   64   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="65">   65   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="66">   66   </A><SPAN CLASS="DT">void</SPAN> <A NAME="fcn_initFIT">initFIT</A>(<SPAN CLASS="DT">void</SPAN>)
+</SPAN><SPAN><A CLASS="LN" NAME="67">   67   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="68">   68   </A>  asm(<FONT COLOR="#1122ff">&quot; li	r3, 0 &quot;</FONT>);                   <SPAN CLASS="CT">/* Initialize time base to 0  */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="69">   69   </A>  asm(<FONT COLOR="#1122ff">&quot; mttbu	r3 &quot;</FONT>);
+</SPAN><SPAN><A CLASS="LN" NAME="70">   70   </A>  asm(<FONT COLOR="#1122ff">&quot; mttbl	r3 &quot;</FONT>);
+</SPAN><SPAN><A CLASS="LN" NAME="71">   71   </A>  asm(<FONT COLOR="#1122ff">&quot; lis	r3, 0x281 &quot;</FONT>);              <SPAN CLASS="CT">/* Enable FIT interrupt and set	*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="72">   72   </A>  asm(<FONT COLOR="#1122ff">&quot; ori	r3, r3, 0x6000 &quot;</FONT>);         <SPAN CLASS="CT">/* timeout Base Tick  0.002 */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="73">   73   </A>  asm(<FONT COLOR="#1122ff">&quot; mftcr   r12 &quot;</FONT>);                <SPAN CLASS="CT">/* Get Current TCR Register Value */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="74">   74   </A>  asm(<FONT COLOR="#1122ff">&quot; or      r3,r3,r12 &quot;</FONT>);          <SPAN CLASS="CT">/* Preserve current values and add FIT enable sets */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="75">   75   </A>  asm(<FONT COLOR="#1122ff">&quot; mttcr	r3 &quot;</FONT>);                   <SPAN CLASS="CT">/* Set TCR register   for FIT and Previous MSR values */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="76">   76   </A>  asm(<FONT COLOR="#1122ff">&quot; li r3, 0x4000 &quot;</FONT>);              <SPAN CLASS="CT">/* Enable Time Base and Decrementer (set TBEN) */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="77">   77   </A>  asm(<FONT COLOR="#1122ff">&quot; mthid0	r3 &quot;</FONT>);
+</SPAN><SPAN><A CLASS="LN" NAME="78">   78   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="79">   79   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="80">   80   </A><SPAN CLASS="DT">void</SPAN> <A NAME="fcn_ClrFitFlag">ClrFitFlag</A>(<SPAN CLASS="DT">void</SPAN>)
+</SPAN><SPAN><A CLASS="LN" NAME="81">   81   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="82">   82   </A>  asm(<FONT COLOR="#1122ff">&quot; lis  r3, 0x0400 &quot;</FONT>);
+</SPAN><SPAN><A CLASS="LN" NAME="83">   83   </A>  asm(<FONT COLOR="#1122ff">&quot; mttsr r3 &quot;</FONT>);                   <SPAN CLASS="CT">/* Write "1" clear FIT Interrupt Status flag */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="84">   84   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="85">   85   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="86">   86   </A><SPAN CLASS="DT">void</SPAN> <A NAME="fcn_FitISR">FitISR</A>(<SPAN CLASS="DT">void</SPAN>)
+</SPAN><SPAN><A CLASS="LN" NAME="87">   87   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="88">   88   </A>  <A HREF="rappid_main_c.html#fcn_ClrFitFlag" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_ClrFitFlag');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">ClrFitFlag</FONT></A>();                        <SPAN CLASS="CT">/* Clear FIT's flag */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="89">   89   </A>  <A HREF="rappid_main_c.html#fcn_SYSTEM_TASK" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SYSTEM_TASK');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">SYSTEM_TASK</FONT></A>();
+</SPAN><SPAN><A CLASS="LN" NAME="90">   90   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="91">   91   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="92">   92   </A><SPAN CLASS="DT">void</SPAN> <A NAME="fcn_initIrqVectors">initIrqVectors</A>(<SPAN CLASS="DT">void</SPAN>)
+</SPAN><SPAN><A CLASS="LN" NAME="93">   93   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="94">   94   </A>  asm(<FONT COLOR="#1122ff">&quot; lis r3, IVOR4Handler@h &quot;</FONT>);     <SPAN CLASS="CT">/* IVPR = upper half of L2SRAM start address */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="95">   95   </A>  asm(<FONT COLOR="#1122ff">&quot;	mtivpr	r3 &quot;</FONT>);
+</SPAN><SPAN><A CLASS="LN" NAME="96">   96   </A>  asm(<FONT COLOR="#1122ff">&quot; li r3, IVOR4Handler@l &quot;</FONT>);      <SPAN CLASS="CT">/* IVOR4 = lower half of handler address */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="97">   97   </A>  asm(<FONT COLOR="#1122ff">&quot; mtivor4   r3 &quot;</FONT>);
+</SPAN><SPAN><A CLASS="LN" NAME="98">   98   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="99">   99   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="100">  100   </A><SPAN CLASS="DT">void</SPAN> <A NAME="fcn_initINTC">initINTC</A>(<SPAN CLASS="DT">void</SPAN>)
+</SPAN><SPAN><A CLASS="LN" NAME="101">  101   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="102">  102   </A>  INTC.MCR.B.HVEN = 0;                 <SPAN CLASS="CT">/* Initialize INTC for software vector mode */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="103">  103   </A>  INTC.MCR.B.VTES = 0;                 <SPAN CLASS="CT">/* Use default vector table entry offsets of 4 B */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="104">  104   </A>  INTC.IACKR.R = (<A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A>) &amp;<A HREF="IntcIsrVectors_c.html#var_IntcIsrVectorTable" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_IntcIsrVectorTable');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">IntcIsrVectorTable</FONT></A>[0];<SPAN CLASS="CT">/* Set INTC ISR vector table base addr */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="105">  105   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="106">  106   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="107">  107   </A><SPAN CLASS="DT">void</SPAN> <A NAME="fcn_enableIrq">enableIrq</A>(<SPAN CLASS="DT">void</SPAN>)
+</SPAN><SPAN><A CLASS="LN" NAME="108">  108   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="109">  109   </A>  asm(<FONT COLOR="#1122ff">&quot; wrteei 1&quot;</FONT>);                    <SPAN CLASS="CT">/* Enable external interrupts */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="110">  110   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="111">  111   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="112">  112   </A><SPAN CLASS="DT">void</SPAN> <A NAME="fcn_main">main</A>(<SPAN CLASS="DT">void</SPAN>)
+</SPAN><SPAN><A CLASS="LN" NAME="113">  113   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="114">  114   </A>  <A HREF="rappid_main_c.html#fcn_SYSTEM_INIT_TASK" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_SYSTEM_INIT_TASK');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">SYSTEM_INIT_TASK</FONT></A>();                  <SPAN CLASS="CT">/*  Initialize the processor. */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="115">  115   </A>  <A HREF="rappid_main_c.html#fcn_initIrqVectorsFIT" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_initIrqVectorsFIT');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">initIrqVectorsFIT</FONT></A>();                 <SPAN CLASS="CT">/* Initialize interrupt vectors registers*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="116">  116   </A>  <A HREF="rappid_main_c.html#fcn_initFIT" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_initFIT');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">initFIT</FONT></A>();                           <SPAN CLASS="CT">/* Initialize FIT routine */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="117">  117   </A>  <A HREF="rappid_main_c.html#fcn_initIrqVectors" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_initIrqVectors');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">initIrqVectors</FONT></A>();                    <SPAN CLASS="CT">/* Initialize exceptions: only need to load IVPR */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="118">  118   </A>  <A HREF="rappid_main_c.html#fcn_initINTC" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_initINTC');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">initINTC</FONT></A>();                          <SPAN CLASS="CT">/* Initialize INTC for software vector mode */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="119">  119   </A>  INTC.CPR.B.PRI = 0;                  <SPAN CLASS="CT">/* Ensure INTC's current priority is 0 */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="120">  120   </A>  <A HREF="rappid_main_c.html#fcn_enableIrq" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_enableIrq');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">enableIrq</FONT></A>();                         <SPAN CLASS="CT">/* Enable IRQ */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="121">  121   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="122">  122   </A>  <SPAN CLASS="CT">/* Attach SYSTEM_TASK to a timer or interrupt service routine with</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="123">  123   </A><SPAN CLASS="CT">   * period 0.002 seconds (the model's base sample time) here.  The</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="124">  124   </A><SPAN CLASS="CT">   * call syntax for SYSTEM_TASK is</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="125">  125   </A><SPAN CLASS="CT">   * SYSTEM_TASK();</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="126">  126   </A><SPAN CLASS="CT">   */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="127">  127   </A>  <SPAN CLASS="KW">for</SPAN> (;;) <B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="128">  128   </A>  <B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="129">  129   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="130">  130   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="131">  131   </A><SPAN CLASS="CT">/*</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="132">  132   </A><SPAN CLASS="CT"> * File trailer for generated code.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="133">  133   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="134">  134   </A><SPAN CLASS="CT"> * [EOF]</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="135">  135   </A><SPAN CLASS="CT"> */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="136">  136   </A>
+</SPAN></PRE>
+</TD></TR></TABLE>
+</P>
+</BODY>
+</HTML>

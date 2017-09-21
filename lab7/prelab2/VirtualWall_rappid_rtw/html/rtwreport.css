@@ -1,0 +1,7 @@
+body,p,table {font-family: verdana, sans-serif; font-size: 12px}
+button,input {font-family: verdana, sans-serif; font-size: 10px}
+h1 { font-weight: normal; color: #000066; }
+td { vertical-align: top }
+th { background-color: #eeeeee; text-align: left; }
+a:link { color: #0033cc; }
+a:visited { color: #666666; }

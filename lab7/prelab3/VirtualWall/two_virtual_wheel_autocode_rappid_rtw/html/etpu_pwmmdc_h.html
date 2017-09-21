@@ -1,0 +1,335 @@
+<HTML>
+<HEAD>
+<TITLE>RTW Report - etpu_pwmmdc.h </TITLE>
+<STYLE> .LN { font-style: italic; color: #888888 } </STYLE>
+<STYLE> .CT { font-style: italic; color: #117755 } </STYLE>
+<STYLE> .PP { font-style: bold;   color: #992211 } </STYLE>
+<STYLE> .KW { font-style: bold;   color: #112266 } </STYLE>
+<STYLE> .DT { font-style: bold;   color: #112266 } </STYLE>
+<SCRIPT language="JavaScript" type="text/javascript">
+<!--
+function rtwHilite(aBlock,aParentSID) {
+ aParentSID = "";
+ try {
+    window.location.href="matlab: if ~isempty(which('private/rtwbindmodel')), rtwprivate rtwbindmodel 'C:\\Users\\Embed_Sys_course\\git\\lab\\lab7\\prelab3\\VirtualWall\\two_virtual_wheel_autocode.mdl' 'C:\\Users\\Embed_Sys_course\\git\\lab\\lab7\\prelab3\\VirtualWall\\two_virtual_wheel_autocode_rappid_rtw' '', end; rtwprivate code2model "+aBlock+" "+aParentSID+";"
+ } catch (e) { 
+ }
+} // end rtwHilite
+//-->
+</SCRIPT>
+</HEAD>
+<BODY BGCOLOR="#eeeeee" TEXT="#1122aa" ONLOAD="if (top) { if (top.rtwFileOnLoad) top.rtwFileOnLoad(window);} ">
+<P>
+<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="6" WIDTH="100%" HEIGHT="100%"><TR><TD WIDTH="100%" VALIGN="top" BGCOLOR="#ffffff">
+<H4>File: <A HREF="file:///C:\Users\Embed_Sys_course\git\lab\lab7\prelab3\VirtualWall\two_virtual_wheel_autocode_rappid_rtw\etpu_pwmmdc.h" TARGET="rtwreport_document_frame">C:\Users\Embed_Sys_course\git\lab\lab7\prelab3\VirtualWall\two_virtual_wheel_autocode_rappid_rtw\etpu_pwmmdc.h</A></H4>
+<PRE id="RTWcode">
+<SPAN><A CLASS="LN" NAME="1">    1   </A><SPAN CLASS="CT">/*******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="2">    2   </A><SPAN CLASS="CT"> * FILE NAME: etpu_pwmmdc.h         COPYRIGHT (c) Freescale Semiconductor 2005</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="3">    3   </A><SPAN CLASS="CT"> *                                              All Rights Reserved</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="4">    4   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="5">    5   </A><SPAN CLASS="CT"> * DESCRIPTION:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="6">    6   </A><SPAN CLASS="CT"> * This file contains the prototypes and defines for the eTPU function PWM</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="7">    7   </A><SPAN CLASS="CT"> * Master For DC Motors (PWMMDC), PWM Full Range (PWMF) and PWM Commutated (PWMC)</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="8">    8   </A><SPAN CLASS="CT"> * API.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="9">    9   </A><SPAN CLASS="CT">   ================================================================================</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="10">   10   </A><SPAN CLASS="CT"> * REV      AUTHOR      DATE        DESCRIPTION OF CHANGE</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="11">   11   </A><SPAN CLASS="CT"> * ---   -----------  ----------    ---------------------</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="12">   12   </A><SPAN CLASS="CT"> * 2.0   M. Brejl     02/Mar/05     Initial version derived from PWMM func.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="13">   13   </A><SPAN CLASS="CT"> *       M. Princ</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="14">   14   </A><SPAN CLASS="CT"> * 2.1   M. Brejl     22/Mar/05     New PWMMDC API state flow:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="15">   15   </A><SPAN CLASS="CT"> *       M. Princ                   init -&gt; enable &lt;-&gt; disable.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="16">   16   </A><SPAN CLASS="CT"> *******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="17">   17   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="18">   18   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">ifndef</SPAN> _FS_ETPU_PWMMDC_H_
+</SPAN><SPAN><A CLASS="LN" NAME="19">   19   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> _FS_ETPU_PWMMDC_H_
+</SPAN><SPAN><A CLASS="LN" NAME="20">   20   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">include</SPAN> <FONT COLOR="#992211">&quot;etpu_pwmmdc_auto.h&quot;</FONT>          <SPAN CLASS="CT">/* Auto generated header file for eTPU PWMMDC */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="21">   21   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">include</SPAN> <FONT COLOR="#992211">&quot;etpu_pwmc_auto.h&quot;</FONT>            <SPAN CLASS="CT">/* Auto generated header file for eTPU PWMC */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="22">   22   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">include</SPAN> <FONT COLOR="#992211">&quot;etpu_pwmf_auto.h&quot;</FONT>            <SPAN CLASS="CT">/* Auto generated header file for eTPU PWMF */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="23">   23   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="24">   24   </A><SPAN CLASS="CT">/*******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="25">   25   </A><SPAN CLASS="CT"> *                            Definitions</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="26">   26   </A><SPAN CLASS="CT"> *******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="27">   27   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> FS_ETPU_PWMMDC_NOT_USED        (<A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A>)(-1)
+</SPAN><SPAN><A CLASS="LN" NAME="28">   28   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="29">   29   </A><SPAN CLASS="CT">/* modulation options */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="30">   30   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> FS_ETPU_PWMMDC_MOD_NO          FS_ETPU_PWMMDC_MODULATION_NO <SPAN CLASS="CT">/* no modulation: update duty-cycles */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="31">   31   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> FS_ETPU_PWMMDC_MOD_VOLTAGE_UNSIGNED FS_ETPU_PWMMDC_MODULATION_UNSIGNED <SPAN CLASS="CT">/* voltage unsigned */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="32">   32   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> FS_ETPU_PWMMDC_MOD_VOLTAGE_SIGNED FS_ETPU_PWMMDC_MODULATION_SIGNED <SPAN CLASS="CT">/* voltage signed */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="33">   33   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="34">   34   </A><SPAN CLASS="CT">/* update options */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="35">   35   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> FS_ETPU_PWMMDC_NORMAL          FS_ETPU_PWMMDC_INIT_NORMAL <SPAN CLASS="CT">/* normal update */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="36">   36   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> FS_ETPU_PWMMDC_HALF_CYCLE      FS_ETPU_PWMMDC_INIT_HALF_CYCLE <SPAN CLASS="CT">/* half-cycle update */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="37">   37   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="38">   38   </A><SPAN CLASS="CT">/* alignment options */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="39">   39   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> FS_ETPU_PWMMDC_EDGE_ALIGNED    FS_ETPU_PWMMDC_FM_EDGE_ALIGNED <SPAN CLASS="CT">/* edge-aligned */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="40">   40   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> FS_ETPU_PWMMDC_CENTER_ALIGNED  FS_ETPU_PWMMDC_FM_CENTER_ALIGNED <SPAN CLASS="CT">/* center-aligned */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="41">   41   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="42">   42   </A><SPAN CLASS="CT">/* phases_type options */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="43">   43   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> FS_ETPU_PWMMDC_FULL_RANGE_SINGLE_CHANNELS 0              <SPAN CLASS="CT">/* full range - single channels */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="44">   44   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> FS_ETPU_PWMMDC_FULL_RANGE_COMPL_PAIRS 1                  <SPAN CLASS="CT">/* full range - complementary pairs */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="45">   45   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> FS_ETPU_PWMMDC_COMMUTATED_SINGLE_CHANNELS 2              <SPAN CLASS="CT">/* commutated - single channels */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="46">   46   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> FS_ETPU_PWMMDC_COMMUTATED_COMPL_PAIRS 3                  <SPAN CLASS="CT">/* commutated - complementary pairs */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="47">   47   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="48">   48   </A><SPAN CLASS="CT">/* phaseA_negate_duty phaseB_negate_duty phaseC_negate_duty options */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="49">   49   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> FS_ETPU_PWMMDC_DUTY_POS        0                         <SPAN CLASS="CT">/* do not negate duty-cycle */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="50">   50   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> FS_ETPU_PWMMDC_DUTY_NEG        FS_ETPU_PWMMDC_OPTION_DUTY_NEG <SPAN CLASS="CT">/* negate duty-cycle */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="51">   51   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="52">   52   </A><SPAN CLASS="CT">/* swap options */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="53">   53   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> FS_ETPU_PWMMDC_NO_SWAP         0                         <SPAN CLASS="CT">/* do not swap dead-time insertion */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="54">   54   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> FS_ETPU_PWMMDC_SWAP            FS_ETPU_PWMMDC_OPTION_SWAP <SPAN CLASS="CT">/* swap dead-time insertion */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="55">   55   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="56">   56   </A><SPAN CLASS="CT">/* base_ch_polarity and compl_ch_polarity options */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="57">   57   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> FS_ETPU_PWMMDC_ACTIVE_HIGH     0                         <SPAN CLASS="CT">/* active high */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="58">   58   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> FS_ETPU_PWMMDC_ACTIVE_LOW      2                         <SPAN CLASS="CT">/* active low */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="59">   59   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="60">   60   </A><SPAN CLASS="CT">/* base_ch_disable_pin_state and compl_ch_disable_pin_state options */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="61">   61   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> FS_ETPU_PWMMDC_PIN_LOW         FS_ETPU_PWMF_STOP_LOW     <SPAN CLASS="CT">/* pin low */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="62">   62   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> FS_ETPU_PWMMDC_PIN_HIGH        FS_ETPU_PWMF_STOP_HIGH    <SPAN CLASS="CT">/* pin high */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="63">   63   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="64">   64   </A><SPAN CLASS="CT">/* commutation byte options */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="65">   65   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> FS_ETPU_PWMMDC_OFF_LOW         1                         <SPAN CLASS="CT">/* OFF - pin low */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="66">   66   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> FS_ETPU_PWMMDC_OFF_HIGH        2                         <SPAN CLASS="CT">/* OFF - pin high */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="67">   67   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> FS_ETPU_PWMMDC_ON_ACTIVE_HIGH  3                         <SPAN CLASS="CT">/* ON - polarity active high */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="68">   68   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> FS_ETPU_PWMMDC_ON_ACTIVE_LOW   4                         <SPAN CLASS="CT">/* ON - polarity active low */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="69">   69   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> FS_ETPU_PWMMDC_COMPL_NOT_USED  0                         <SPAN CLASS="CT">/* complementary channel not used */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="70">   70   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="71">   71   </A><SPAN CLASS="CT">/* num_phases options */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="72">   72   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> FS_ETPU_PWMMDC_1_PHASE         1                         <SPAN CLASS="CT">/* 1 phase  (A) */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="73">   73   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> FS_ETPU_PWMMDC_2_PHASES        2                         <SPAN CLASS="CT">/* 2 phases (A,B) */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="74">   74   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> FS_ETPU_PWMMDC_3_PHASES        3                         <SPAN CLASS="CT">/* 3 phases (A,B,C) */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="75">   75   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="76">   76   </A><SPAN CLASS="CT">/*******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="77">   77   </A><SPAN CLASS="CT"> *                       Function Prototypes</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="78">   78   </A><SPAN CLASS="CT"> *******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="79">   79   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="80">   80   </A><SPAN CLASS="CT">/* Initialization of PWMMDC channel and 3 phases. */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="81">   81   </A><A HREF="typedefs_h.html#type_int32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_t</FONT></A> fs_etpu_pwmmdc_init_3ph( <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel,
+</SPAN><SPAN><A CLASS="LN" NAME="82">   82   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> priority,
+</SPAN><SPAN><A CLASS="LN" NAME="83">   83   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> phaseA_channel,
+</SPAN><SPAN><A CLASS="LN" NAME="84">   84   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> phaseA_negate_duty,
+</SPAN><SPAN><A CLASS="LN" NAME="85">   85   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> phaseB_channel,
+</SPAN><SPAN><A CLASS="LN" NAME="86">   86   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> phaseB_negate_duty,
+</SPAN><SPAN><A CLASS="LN" NAME="87">   87   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> phaseC_channel,
+</SPAN><SPAN><A CLASS="LN" NAME="88">   88   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> phaseC_negate_duty,
+</SPAN><SPAN><A CLASS="LN" NAME="89">   89   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> modulation,
+</SPAN><SPAN><A CLASS="LN" NAME="90">   90   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> update,
+</SPAN><SPAN><A CLASS="LN" NAME="91">   91   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> alignment,
+</SPAN><SPAN><A CLASS="LN" NAME="92">   92   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> phases_type,
+</SPAN><SPAN><A CLASS="LN" NAME="93">   93   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> swap,
+</SPAN><SPAN><A CLASS="LN" NAME="94">   94   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> base_ch_disable_pin_state,
+</SPAN><SPAN><A CLASS="LN" NAME="95">   95   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> compl_ch_disable_pin_state,
+</SPAN><SPAN><A CLASS="LN" NAME="96">   96   </A>  <A HREF="eTPU_util_h.html#type_uint24_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint24_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint24_t</FONT></A> start_offset,
+</SPAN><SPAN><A CLASS="LN" NAME="97">   97   </A>  <A HREF="eTPU_util_h.html#type_uint24_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint24_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint24_t</FONT></A> period,
+</SPAN><SPAN><A CLASS="LN" NAME="98">   98   </A>  <A HREF="eTPU_util_h.html#type_uint24_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint24_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint24_t</FONT></A> update_time,
+</SPAN><SPAN><A CLASS="LN" NAME="99">   99   </A>  <A HREF="eTPU_util_h.html#type_uint24_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint24_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint24_t</FONT></A> dead_time,
+</SPAN><SPAN><A CLASS="LN" NAME="100">  100   </A>  <A HREF="eTPU_util_h.html#type_uint24_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint24_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint24_t</FONT></A> min_pw);
+</SPAN><SPAN><A CLASS="LN" NAME="101">  101   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="102">  102   </A><SPAN CLASS="CT">/* Initialization of PWMMDC channel and 2 phases. */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="103">  103   </A><A HREF="typedefs_h.html#type_int32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_t</FONT></A> fs_etpu_pwmmdc_init_2ph( <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel,
+</SPAN><SPAN><A CLASS="LN" NAME="104">  104   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> priority,
+</SPAN><SPAN><A CLASS="LN" NAME="105">  105   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> phaseA_channel,
+</SPAN><SPAN><A CLASS="LN" NAME="106">  106   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> phaseA_negate_duty,
+</SPAN><SPAN><A CLASS="LN" NAME="107">  107   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> phaseB_channel,
+</SPAN><SPAN><A CLASS="LN" NAME="108">  108   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> phaseB_negate_duty,
+</SPAN><SPAN><A CLASS="LN" NAME="109">  109   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> modulation,
+</SPAN><SPAN><A CLASS="LN" NAME="110">  110   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> update,
+</SPAN><SPAN><A CLASS="LN" NAME="111">  111   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> alignment,
+</SPAN><SPAN><A CLASS="LN" NAME="112">  112   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> phases_type,
+</SPAN><SPAN><A CLASS="LN" NAME="113">  113   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> swap,
+</SPAN><SPAN><A CLASS="LN" NAME="114">  114   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> base_ch_disable_pin_state,
+</SPAN><SPAN><A CLASS="LN" NAME="115">  115   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> compl_ch_disable_pin_state,
+</SPAN><SPAN><A CLASS="LN" NAME="116">  116   </A>  <A HREF="eTPU_util_h.html#type_uint24_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint24_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint24_t</FONT></A> start_offset,
+</SPAN><SPAN><A CLASS="LN" NAME="117">  117   </A>  <A HREF="eTPU_util_h.html#type_uint24_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint24_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint24_t</FONT></A> period,
+</SPAN><SPAN><A CLASS="LN" NAME="118">  118   </A>  <A HREF="eTPU_util_h.html#type_uint24_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint24_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint24_t</FONT></A> update_time,
+</SPAN><SPAN><A CLASS="LN" NAME="119">  119   </A>  <A HREF="eTPU_util_h.html#type_uint24_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint24_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint24_t</FONT></A> dead_time,
+</SPAN><SPAN><A CLASS="LN" NAME="120">  120   </A>  <A HREF="eTPU_util_h.html#type_uint24_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint24_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint24_t</FONT></A> min_pw);
+</SPAN><SPAN><A CLASS="LN" NAME="121">  121   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="122">  122   </A><SPAN CLASS="CT">/* Initialization of PWMMDC channel and 1 phase. */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="123">  123   </A><A HREF="typedefs_h.html#type_int32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_t</FONT></A> fs_etpu_pwmmdc_init_1ph( <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel,
+</SPAN><SPAN><A CLASS="LN" NAME="124">  124   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> priority,
+</SPAN><SPAN><A CLASS="LN" NAME="125">  125   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> phaseA_channel,
+</SPAN><SPAN><A CLASS="LN" NAME="126">  126   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> phaseA_negate_duty,
+</SPAN><SPAN><A CLASS="LN" NAME="127">  127   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> modulation,
+</SPAN><SPAN><A CLASS="LN" NAME="128">  128   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> update,
+</SPAN><SPAN><A CLASS="LN" NAME="129">  129   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> alignment,
+</SPAN><SPAN><A CLASS="LN" NAME="130">  130   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> phases_type,
+</SPAN><SPAN><A CLASS="LN" NAME="131">  131   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> swap,
+</SPAN><SPAN><A CLASS="LN" NAME="132">  132   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> base_ch_disable_pin_state,
+</SPAN><SPAN><A CLASS="LN" NAME="133">  133   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> compl_ch_disable_pin_state,
+</SPAN><SPAN><A CLASS="LN" NAME="134">  134   </A>  <A HREF="eTPU_util_h.html#type_uint24_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint24_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint24_t</FONT></A> start_offset,
+</SPAN><SPAN><A CLASS="LN" NAME="135">  135   </A>  <A HREF="eTPU_util_h.html#type_uint24_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint24_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint24_t</FONT></A> period,
+</SPAN><SPAN><A CLASS="LN" NAME="136">  136   </A>  <A HREF="eTPU_util_h.html#type_uint24_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint24_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint24_t</FONT></A> update_time,
+</SPAN><SPAN><A CLASS="LN" NAME="137">  137   </A>  <A HREF="eTPU_util_h.html#type_uint24_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint24_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint24_t</FONT></A> dead_time,
+</SPAN><SPAN><A CLASS="LN" NAME="138">  138   </A>  <A HREF="eTPU_util_h.html#type_uint24_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint24_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint24_t</FONT></A> min_pw);
+</SPAN><SPAN><A CLASS="LN" NAME="139">  139   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="140">  140   </A><SPAN CLASS="CT">/* Enable PWM generation - 3 phases. */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="141">  141   </A><A HREF="typedefs_h.html#type_int32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_t</FONT></A> fs_etpu_pwmmdc_enable_3ph( <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel,
+</SPAN><SPAN><A CLASS="LN" NAME="142">  142   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> base_ch_polarity,
+</SPAN><SPAN><A CLASS="LN" NAME="143">  143   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> compl_ch_polarity);
+</SPAN><SPAN><A CLASS="LN" NAME="144">  144   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="145">  145   </A><SPAN CLASS="CT">/* Enable PWM generation - 2 phases. */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="146">  146   </A><A HREF="typedefs_h.html#type_int32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_t</FONT></A> fs_etpu_pwmmdc_enable_2ph( <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel,
+</SPAN><SPAN><A CLASS="LN" NAME="147">  147   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> base_ch_polarity,
+</SPAN><SPAN><A CLASS="LN" NAME="148">  148   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> compl_ch_polarity);
+</SPAN><SPAN><A CLASS="LN" NAME="149">  149   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="150">  150   </A><SPAN CLASS="CT">/* Enable PWM generation - 1 phase. */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="151">  151   </A><A HREF="typedefs_h.html#type_int32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_t</FONT></A> fs_etpu_pwmmdc_enable_1ph( <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel,
+</SPAN><SPAN><A CLASS="LN" NAME="152">  152   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> base_ch_polarity,
+</SPAN><SPAN><A CLASS="LN" NAME="153">  153   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> compl_ch_polarity);
+</SPAN><SPAN><A CLASS="LN" NAME="154">  154   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="155">  155   </A><SPAN CLASS="CT">/* Disable PWM generation - 3 phases. */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="156">  156   </A><A HREF="typedefs_h.html#type_int32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_t</FONT></A> fs_etpu_pwmmdc_disable_3ph( <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel,
+</SPAN><SPAN><A CLASS="LN" NAME="157">  157   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> base_ch_disable_pin_state,
+</SPAN><SPAN><A CLASS="LN" NAME="158">  158   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> compl_ch_disable_pin_state);
+</SPAN><SPAN><A CLASS="LN" NAME="159">  159   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="160">  160   </A><SPAN CLASS="CT">/* Disable PWM generation - 2 phases. */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="161">  161   </A><A HREF="typedefs_h.html#type_int32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_t</FONT></A> fs_etpu_pwmmdc_disable_2ph( <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel,
+</SPAN><SPAN><A CLASS="LN" NAME="162">  162   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> base_ch_disable_pin_state,
+</SPAN><SPAN><A CLASS="LN" NAME="163">  163   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> compl_ch_disable_pin_state);
+</SPAN><SPAN><A CLASS="LN" NAME="164">  164   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="165">  165   </A><SPAN CLASS="CT">/* Disable PWM generation - 1 phase. */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="166">  166   </A><A HREF="typedefs_h.html#type_int32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_t</FONT></A> fs_etpu_pwmmdc_disable_1ph( <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel,
+</SPAN><SPAN><A CLASS="LN" NAME="167">  167   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> base_ch_disable_pin_state,
+</SPAN><SPAN><A CLASS="LN" NAME="168">  168   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> compl_ch_disable_pin_state);
+</SPAN><SPAN><A CLASS="LN" NAME="169">  169   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="170">  170   </A><SPAN CLASS="CT">/* Set PWM period */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="171">  171   </A><A HREF="typedefs_h.html#type_int32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_t</FONT></A> fs_etpu_pwmmdc_set_period( <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel,
+</SPAN><SPAN><A CLASS="LN" NAME="172">  172   </A>  <A HREF="eTPU_util_h.html#type_uint24_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint24_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint24_t</FONT></A> period);
+</SPAN><SPAN><A CLASS="LN" NAME="173">  173   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="174">  174   </A><SPAN CLASS="CT">/* Update of input voltage in case of unsigned modulation */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="175">  175   </A><A HREF="typedefs_h.html#type_int32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_t</FONT></A> fs_etpu_pwmmdc_update_voltage_unsigned( <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel,
+</SPAN><SPAN><A CLASS="LN" NAME="176">  176   </A>  <A HREF="eTPU_util_h.html#type_uint24_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint24_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint24_t</FONT></A> voltage);
+</SPAN><SPAN><A CLASS="LN" NAME="177">  177   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="178">  178   </A><SPAN CLASS="CT">/* Update of input voltage in case of signed modulation */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="179">  179   </A><A HREF="typedefs_h.html#type_int32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_t</FONT></A> fs_etpu_pwmmdc_update_voltage_signed( <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel,
+</SPAN><SPAN><A CLASS="LN" NAME="180">  180   </A>  <A HREF="eTPU_util_h.html#type_int24_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int24_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int24_t</FONT></A> voltage);
+</SPAN><SPAN><A CLASS="LN" NAME="181">  181   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="182">  182   </A><SPAN CLASS="CT">/* Update of phase duty-cycles in case of no modulation */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="183">  183   </A><A HREF="typedefs_h.html#type_int32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_t</FONT></A> fs_etpu_pwmmdc_update_duty_cycles( <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> channel,
+</SPAN><SPAN><A CLASS="LN" NAME="184">  184   </A>  <A HREF="eTPU_util_h.html#type_int24_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int24_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int24_t</FONT></A> dutyA,
+</SPAN><SPAN><A CLASS="LN" NAME="185">  185   </A>  <A HREF="eTPU_util_h.html#type_int24_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int24_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int24_t</FONT></A> dutyB,
+</SPAN><SPAN><A CLASS="LN" NAME="186">  186   </A>  <A HREF="eTPU_util_h.html#type_int24_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int24_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int24_t</FONT></A> dutyC);
+</SPAN><SPAN><A CLASS="LN" NAME="187">  187   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="188">  188   </A><SPAN CLASS="CT">/* Apply commutation command */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="189">  189   </A><A HREF="typedefs_h.html#type_int32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_t</FONT></A> fs_etpu_pwmmdc_commutate( <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> phase_channel,
+</SPAN><SPAN><A CLASS="LN" NAME="190">  190   </A>  <A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> commut_cmd);
+</SPAN><SPAN><A CLASS="LN" NAME="191">  191   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="192">  192   </A><SPAN CLASS="CT">/* Create commutation command */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="193">  193   </A><A HREF="typedefs_h.html#type_uint32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_t</FONT></A> fs_etpu_pwmmdc_commut_cmd( <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> phase_channel,
+</SPAN><SPAN><A CLASS="LN" NAME="194">  194   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> base_ch_cmd,
+</SPAN><SPAN><A CLASS="LN" NAME="195">  195   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> compl_ch_cmd,
+</SPAN><SPAN><A CLASS="LN" NAME="196">  196   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> negate_duty,
+</SPAN><SPAN><A CLASS="LN" NAME="197">  197   </A>  <A HREF="typedefs_h.html#type_uint8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint8_t</FONT></A> swap);
+</SPAN><SPAN><A CLASS="LN" NAME="198">  198   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="199">  199   </A><SPAN CLASS="CT">/*******************************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="200">  200   </A><SPAN CLASS="CT"> *        Information for eTPU Graphical Configuration Tool</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="201">  201   </A><SPAN CLASS="CT"> *******************************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="202">  202   </A><SPAN CLASS="CT">/* channel assignment when (fs_etpu_pwmmdc_init_3ph: phases_type=FS_ETPU_PWMMDC_FULL_RANGE_SINGLE_CHANNELS)</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="203">  203   </A><SPAN CLASS="CT">   master = channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="204">  204   </A><SPAN CLASS="CT">   phaseA = phaseA_channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="205">  205   </A><SPAN CLASS="CT">   phaseB = phaseB_channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="206">  206   </A><SPAN CLASS="CT">   phaseC = phaseC_channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="207">  207   </A><SPAN CLASS="CT"> */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="208">  208   </A><SPAN CLASS="CT">/* channel assignment when (fs_etpu_pwmmdc_init_3ph: phases_type=FS_ETPU_PWMMDC_COMMUTATED_SINGLE_CHANNELS)</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="209">  209   </A><SPAN CLASS="CT">   master = channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="210">  210   </A><SPAN CLASS="CT">   phaseA = phaseA_channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="211">  211   </A><SPAN CLASS="CT">   phaseB = phaseB_channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="212">  212   </A><SPAN CLASS="CT">   phaseC = phaseC_channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="213">  213   </A><SPAN CLASS="CT"> */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="214">  214   </A><SPAN CLASS="CT">/* channel assignment when (fs_etpu_pwmmdc_init_2ph: phases_type=FS_ETPU_PWMMDC_FULL_RANGE_SINGLE_CHANNELS)</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="215">  215   </A><SPAN CLASS="CT">   master = channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="216">  216   </A><SPAN CLASS="CT">   phaseA = phaseA_channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="217">  217   </A><SPAN CLASS="CT">   phaseB = phaseB_channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="218">  218   </A><SPAN CLASS="CT"> */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="219">  219   </A><SPAN CLASS="CT">/* channel assignment when (fs_etpu_pwmmdc_init_2ph: phases_type=FS_ETPU_PWMMDC_COMMUTATED_SINGLE_CHANNELS)</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="220">  220   </A><SPAN CLASS="CT">   master = channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="221">  221   </A><SPAN CLASS="CT">   phaseA = phaseA_channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="222">  222   </A><SPAN CLASS="CT">   phaseB = phaseB_channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="223">  223   </A><SPAN CLASS="CT"> */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="224">  224   </A><SPAN CLASS="CT">/* channel assignment when (fs_etpu_pwmmdc_init_1ph: phases_type=FS_ETPU_PWMMDC_FULL_RANGE_SINGLE_CHANNELS)</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="225">  225   </A><SPAN CLASS="CT">   master = channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="226">  226   </A><SPAN CLASS="CT">   phaseA = phaseA_channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="227">  227   </A><SPAN CLASS="CT"> */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="228">  228   </A><SPAN CLASS="CT">/* channel assignment when (fs_etpu_pwmmdc_init_1ph: phases_type=FS_ETPU_PWMMDC_COMMUTATED_SINGLE_CHANNELS)</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="229">  229   </A><SPAN CLASS="CT">   master = channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="230">  230   </A><SPAN CLASS="CT">   phaseA = phaseA_channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="231">  231   </A><SPAN CLASS="CT"> */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="232">  232   </A><SPAN CLASS="CT">/* channel assignment when (fs_etpu_pwmmdc_init_3ph: phases_type=FS_ETPU_PWMMDC_FULL_RANGE_COMPL_PAIRS)</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="233">  233   </A><SPAN CLASS="CT">   master = channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="234">  234   </A><SPAN CLASS="CT">   phaseA_base_channel = phaseA_channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="235">  235   </A><SPAN CLASS="CT">   phaseA_compl_channel = phaseA_channel + 1</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="236">  236   </A><SPAN CLASS="CT">   phaseB_base_channel = phaseB_channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="237">  237   </A><SPAN CLASS="CT">   phaseB_compl_channel = phaseB_channel + 1</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="238">  238   </A><SPAN CLASS="CT">   phaseC_base_channel = phaseC_channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="239">  239   </A><SPAN CLASS="CT">   phaseC_compl_channel = phaseC_channel + 1</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="240">  240   </A><SPAN CLASS="CT"> */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="241">  241   </A><SPAN CLASS="CT">/* channel assignment when (fs_etpu_pwmmdc_init_3ph: phases_type=FS_ETPU_PWMMDC_COMMUTATED_COMPL_PAIRS)</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="242">  242   </A><SPAN CLASS="CT">   master = channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="243">  243   </A><SPAN CLASS="CT">   phaseA_base_channel = phaseA_channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="244">  244   </A><SPAN CLASS="CT">   phaseA_compl_channel = phaseA_channel + 1</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="245">  245   </A><SPAN CLASS="CT">   phaseB_base_channel = phaseB_channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="246">  246   </A><SPAN CLASS="CT">   phaseB_compl_channel = phaseB_channel + 1</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="247">  247   </A><SPAN CLASS="CT">   phaseC_base_channel = phaseC_channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="248">  248   </A><SPAN CLASS="CT">   phaseC_compl_channel = phaseC_channel + 1</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="249">  249   </A><SPAN CLASS="CT"> */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="250">  250   </A><SPAN CLASS="CT">/* channel assignment when (fs_etpu_pwmmdc_init_2ph: phases_type=FS_ETPU_PWMMDC_FULL_RANGE_COMPL_PAIRS)</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="251">  251   </A><SPAN CLASS="CT">   master = channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="252">  252   </A><SPAN CLASS="CT">   phaseA_base_channel = phaseA_channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="253">  253   </A><SPAN CLASS="CT">   phaseA_compl_channel = phaseA_channel + 1</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="254">  254   </A><SPAN CLASS="CT">   phaseB_base_channel = phaseB_channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="255">  255   </A><SPAN CLASS="CT">   phaseB_compl_channel = phaseB_channel + 1</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="256">  256   </A><SPAN CLASS="CT"> */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="257">  257   </A><SPAN CLASS="CT">/* channel assignment when (fs_etpu_pwmmdc_init_2ph: phases_type=FS_ETPU_PWMMDC_COMMUTATED_COMPL_PAIRS)</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="258">  258   </A><SPAN CLASS="CT">   master = channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="259">  259   </A><SPAN CLASS="CT">   phaseA_base_channel = phaseA_channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="260">  260   </A><SPAN CLASS="CT">   phaseA_compl_channel = phaseA_channel + 1</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="261">  261   </A><SPAN CLASS="CT">   phaseB_base_channel = phaseB_channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="262">  262   </A><SPAN CLASS="CT">   phaseB_compl_channel = phaseB_channel + 1</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="263">  263   </A><SPAN CLASS="CT"> */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="264">  264   </A><SPAN CLASS="CT">/* channel assignment when (fs_etpu_pwmmdc_init_1ph: phases_type=FS_ETPU_PWMMDC_FULL_RANGE_COMPL_PAIRS)</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="265">  265   </A><SPAN CLASS="CT">   master = channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="266">  266   </A><SPAN CLASS="CT">   phaseA_base_channel = phaseA_channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="267">  267   </A><SPAN CLASS="CT">   phaseA_compl_channel = phaseA_channel + 1</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="268">  268   </A><SPAN CLASS="CT"> */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="269">  269   </A><SPAN CLASS="CT">/* channel assignment when (fs_etpu_pwmmdc_init_1ph: phases_type=FS_ETPU_PWMMDC_COMMUTATED_COMPL_PAIRS)</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="270">  270   </A><SPAN CLASS="CT">   master = channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="271">  271   </A><SPAN CLASS="CT">   phaseA_base_channel = phaseA_channel</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="272">  272   </A><SPAN CLASS="CT">   phaseA_compl_channel = phaseA_channel + 1</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="273">  273   </A><SPAN CLASS="CT"> */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="274">  274   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">endif</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="275">  275   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="276">  276   </A><SPAN CLASS="CT">/*********************************************************************</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="277">  277   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="278">  278   </A><SPAN CLASS="CT"> * Copyright:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="279">  279   </A><SPAN CLASS="CT"> *	Freescale Semiconductor, INC. All Rights Reserved.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="280">  280   </A><SPAN CLASS="CT"> *  You are hereby granted a copyright license to use, modify, and</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="281">  281   </A><SPAN CLASS="CT"> *  distribute the SOFTWARE so long as this entire notice is</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="282">  282   </A><SPAN CLASS="CT"> *  retained without alteration in any modified and/or redistributed</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="283">  283   </A><SPAN CLASS="CT"> *  versions, and that such modified versions are clearly identified</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="284">  284   </A><SPAN CLASS="CT"> *  as such. No licenses are granted by implication, estoppel or</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="285">  285   </A><SPAN CLASS="CT"> *  otherwise under any patents or trademarks of Freescale</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="286">  286   </A><SPAN CLASS="CT"> *  Semiconductor, Inc. This software is provided on an "AS IS"</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="287">  287   </A><SPAN CLASS="CT"> *  basis and without warranty.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="288">  288   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="289">  289   </A><SPAN CLASS="CT"> *  To the maximum extent permitted by applicable law, Freescale</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="290">  290   </A><SPAN CLASS="CT"> *  Semiconductor DISCLAIMS ALL WARRANTIES WHETHER EXPRESS OR IMPLIED,</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="291">  291   </A><SPAN CLASS="CT"> *  INCLUDING IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="292">  292   </A><SPAN CLASS="CT"> *  PARTICULAR PURPOSE AND ANY WARRANTY AGAINST INFRINGEMENT WITH</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="293">  293   </A><SPAN CLASS="CT"> *  REGARD TO THE SOFTWARE (INCLUDING ANY MODIFIED VERSIONS THEREOF)</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="294">  294   </A><SPAN CLASS="CT"> *  AND ANY ACCOMPANYING WRITTEN MATERIALS.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="295">  295   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="296">  296   </A><SPAN CLASS="CT"> *  To the maximum extent permitted by applicable law, IN NO EVENT</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="297">  297   </A><SPAN CLASS="CT"> *  SHALL Freescale Semiconductor BE LIABLE FOR ANY DAMAGES WHATSOEVER</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="298">  298   </A><SPAN CLASS="CT"> *  (INCLUDING WITHOUT LIMITATION, DAMAGES FOR LOSS OF BUSINESS PROFITS,</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="299">  299   </A><SPAN CLASS="CT"> *  BUSINESS INTERRUPTION, LOSS OF BUSINESS INFORMATION, OR OTHER</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="300">  300   </A><SPAN CLASS="CT"> *  PECUNIARY LOSS) ARISING OF THE USE OR INABILITY TO USE THE SOFTWARE.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="301">  301   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="302">  302   </A><SPAN CLASS="CT"> *  Freescale Semiconductor assumes no responsibility for the</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="303">  303   </A><SPAN CLASS="CT"> *  maintenance and support of this software</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="304">  304   </A><SPAN CLASS="CT"> ********************************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="305">  305   </A>
+</SPAN></PRE>
+</TD></TR></TABLE>
+</P>
+</BODY>
+</HTML>

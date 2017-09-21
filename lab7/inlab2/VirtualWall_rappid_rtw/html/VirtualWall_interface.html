@@ -1,0 +1,116 @@
+<html><head><title>Code Interface Report for VirtualWall</title>
+<link rel="stylesheet" type="text/css" href="rtwreport.css" /><script language="JavaScript" type="text/javascript">function rtwTableShrink(o) {var t = o.nextSibling;if (t.nodeType != 1) {t = t.nextSibling;}if (t.style.display == "none") {t.style.display = "";o.innerHTML = "[-]"} else {t.style.display = "none";o.innerHTML = "[+] ... "}}function rtwHilite(aBlock,aParentSID) {
+ aParentSID = "";
+ try {
+    window.location.href="matlab: if ~isempty(which('private/rtwbindmodel')), rtwprivate rtwbindmodel 'C:\\Users\\Embed_Sys_course\\git\\lab\\lab7\\inlab2\\VirtualWall.mdl' 'C:\\Users\\Embed_Sys_course\\git\\lab\\lab7\\inlab2\\VirtualWall_rappid_rtw' '', end; rtwprivate code2model "+aBlock+" "+aParentSID+";"
+ } catch (e) { 
+ }
+} // end rtwHilite
+</script></head>
+<body ONLOAD="if (top) if (top.rtwPageOnLoad) top.rtwPageOnLoad('rtwIdCodeInterface');"><h1>Code Interface Report for VirtualWall</h1>
+<h3>Table of Contents</h3>
+<ul><li><a href="#sec_Entry_Point_Functions">Entry Point Functions</a>
+</li>
+<li><a href="#sec_Inports">Inports</a>
+</li>
+<li><a href="#sec_Outports">Outports</a>
+</li>
+<li><a href="#sec_Interface_Parameters">Interface Parameters</a>
+</li>
+<li><a href="#sec_Data_Stores">Data Stores</a>
+</li>
+</ul>
+<h3><a name="sec_Entry_Point_Functions">Entry Point Functions</a>
+</h3>
+<p align="left">Function: <a href="VirtualWall_c.html#fcn_VirtualWall_initialize">VirtualWall_initialize</a></p>
+<table width="100%" border="1"><tr style="background-color: #eeeeff"><td width="25%" align="left" style="border-style: none">Prototype</td>
+<td width="75%" align="left" style="border-style: none"><b>void VirtualWall_initialize(boolean_T firstTime)</b>
+</td>
+</tr>
+<tr style="background-color: #ffffff"><td width="25%" align="left" style="border-style: none">Description</td>
+<td width="75%" align="left" style="border-style: none">Initialization entry point of generated code</td>
+</tr>
+<tr style="background-color: #eeeeff"><td width="25%" align="left" style="border-style: none">Timing</td>
+<td width="75%" align="left" style="border-style: none">Called once</td>
+</tr>
+<tr style="background-color: #ffffff"><td width="25%" align="left" style="border-style: none">Arguments</td>
+<td width="75%" align="left" style="border-style: none"><table border="1"><tr style="background-color: #eeeeee"><td align="left" style="border-style: none"><b>#</b>
+</td>
+<td align="left" style="border-style: none"><b>Name</b>
+</td>
+<td align="left" style="border-style: none"><b>Data Type</b>
+</td>
+<td align="left" style="border-style: none"><b>Description</b>
+</td>
+</tr>
+<tr style="background-color: #ffffff"><td align="right" style="border-style: none">1</td>
+<td align="left" style="border-style: none">firstTime</td>
+<td align="left" style="border-style: none">boolean_T</td>
+<td align="left" style="border-style: none">firstTime</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr style="background-color: #eeeeff"><td width="25%" align="left" style="border-style: none">Return value</td>
+<td width="75%" align="left" style="border-style: none">None</td>
+</tr>
+<tr style="background-color: #ffffff"><td width="25%" align="left" style="border-style: none">Header file</td>
+<td width="75%" align="left" style="border-style: none"><a href="VirtualWall_h.html">VirtualWall.h</a></td>
+</tr>
+</table>
+<p align="left">Function: <a href="VirtualWall_c.html#fcn_VirtualWall_step">VirtualWall_step</a></p>
+<table width="100%" border="1"><tr style="background-color: #eeeeff"><td width="25%" align="left" style="border-style: none">Prototype</td>
+<td width="75%" align="left" style="border-style: none"><b>void VirtualWall_step(void)</b>
+</td>
+</tr>
+<tr style="background-color: #ffffff"><td width="25%" align="left" style="border-style: none">Description</td>
+<td width="75%" align="left" style="border-style: none">Output entry point of generated code</td>
+</tr>
+<tr style="background-color: #eeeeff"><td width="25%" align="left" style="border-style: none">Timing</td>
+<td width="75%" align="left" style="border-style: none">Called periodically, every 0.001 seconds</td>
+</tr>
+<tr style="background-color: #ffffff"><td width="25%" align="left" style="border-style: none">Arguments</td>
+<td width="75%" align="left" style="border-style: none">None</td>
+</tr>
+<tr style="background-color: #eeeeff"><td width="25%" align="left" style="border-style: none">Return value</td>
+<td width="75%" align="left" style="border-style: none">None</td>
+</tr>
+<tr style="background-color: #ffffff"><td width="25%" align="left" style="border-style: none">Header file</td>
+<td width="75%" align="left" style="border-style: none"><a href="VirtualWall_h.html">VirtualWall.h</a></td>
+</tr>
+</table>
+<p align="left">Function: <a href="VirtualWall_c.html#fcn_VirtualWall_terminate">VirtualWall_terminate</a></p>
+<table width="100%" border="1"><tr style="background-color: #eeeeff"><td width="25%" align="left" style="border-style: none">Prototype</td>
+<td width="75%" align="left" style="border-style: none"><b>void VirtualWall_terminate(void)</b>
+</td>
+</tr>
+<tr style="background-color: #ffffff"><td width="25%" align="left" style="border-style: none">Description</td>
+<td width="75%" align="left" style="border-style: none">Termination entry point of generated code</td>
+</tr>
+<tr style="background-color: #eeeeff"><td width="25%" align="left" style="border-style: none">Timing</td>
+<td width="75%" align="left" style="border-style: none">Called once</td>
+</tr>
+<tr style="background-color: #ffffff"><td width="25%" align="left" style="border-style: none">Arguments</td>
+<td width="75%" align="left" style="border-style: none">None</td>
+</tr>
+<tr style="background-color: #eeeeff"><td width="25%" align="left" style="border-style: none">Return value</td>
+<td width="75%" align="left" style="border-style: none">None</td>
+</tr>
+<tr style="background-color: #ffffff"><td width="25%" align="left" style="border-style: none">Header file</td>
+<td width="75%" align="left" style="border-style: none"><a href="VirtualWall_h.html">VirtualWall.h</a></td>
+</tr>
+</table>
+<h3><a name="sec_Inports">Inports</a>
+</h3>
+<p align="left">No Inports in model.</p>
+<h3><a name="sec_Outports">Outports</a>
+</h3>
+<p align="left">No Outports in model.</p>
+<h3><a name="sec_Interface_Parameters">Interface Parameters</a>
+</h3>
+<p align="left">No interface/tunable parameters in model.</p>
+<h3><a name="sec_Data_Stores">Data Stores</a>
+</h3>
+<p align="left">No data stores in the model; note that this report lists only data stores with non-auto storage class and global data stores</p>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<HTML>
+<HEAD>
+<TITLE>RTW Report - VirtualWall.c </TITLE>
+<STYLE> .LN { font-style: italic; color: #888888 } </STYLE>
+<STYLE> .CT { font-style: italic; color: #117755 } </STYLE>
+<STYLE> .PP { font-style: bold;   color: #992211 } </STYLE>
+<STYLE> .KW { font-style: bold;   color: #112266 } </STYLE>
+<STYLE> .DT { font-style: bold;   color: #112266 } </STYLE>
+<SCRIPT language="JavaScript" type="text/javascript">
+<!--
+function rtwHilite(aBlock,aParentSID) {
+ aParentSID = "";
+ try {
+    window.location.href="matlab: if ~isempty(which('private/rtwbindmodel')), rtwprivate rtwbindmodel 'C:\\Users\\Embed_Sys_course\\git\\lab\\lab7\\prelab2\\VirtualWall.mdl' 'C:\\Users\\Embed_Sys_course\\git\\lab\\lab7\\prelab2\\VirtualWall_rappid_rtw' '', end; rtwprivate code2model "+aBlock+" "+aParentSID+";"
+ } catch (e) { 
+ }
+} // end rtwHilite
+//-->
+</SCRIPT>
+</HEAD>
+<BODY BGCOLOR="#eeeeee" TEXT="#1122aa" ONLOAD="if (top) { if (top.rtwFileOnLoad) top.rtwFileOnLoad(window);} ">
+<P>
+<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="6" WIDTH="100%" HEIGHT="100%"><TR><TD WIDTH="100%" VALIGN="top" BGCOLOR="#ffffff">
+<H4>File: <A HREF="file:///C:\Users\Embed_Sys_course\git\lab\lab7\prelab2\VirtualWall_rappid_rtw\VirtualWall.c" TARGET="rtwreport_document_frame">C:\Users\Embed_Sys_course\git\lab\lab7\prelab2\VirtualWall_rappid_rtw\VirtualWall.c</A></H4>
+<PRE id="RTWcode">
+<SPAN><A CLASS="LN" NAME="1">    1   </A><SPAN CLASS="CT">/*</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="2">    2   </A><SPAN CLASS="CT"> * File: VirtualWall.c</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="3">    3   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="4">    4   </A><SPAN CLASS="CT"> * Code generated for Simulink model 'VirtualWall'.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="5">    5   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="6">    6   </A><SPAN CLASS="CT"> * Model version                  : 1.46</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="7">    7   </A><SPAN CLASS="CT"> * Simulink Coder version         : 8.1 (R2011b) 08-Jul-2011</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="8">    8   </A><SPAN CLASS="CT"> * TLC version                    : 8.1 (Jul  9 2011)</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="9">    9   </A><SPAN CLASS="CT"> * C/C++ source code generated on : Thu Sep 21 13:48:18 2017</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="10">   10   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="11">   11   </A><SPAN CLASS="CT"> * Target selection: rappid.tlc</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="12">   12   </A><SPAN CLASS="CT"> * Embedded hardware selection: Motorola PowerPC</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="13">   13   </A><SPAN CLASS="CT"> * Code generation objectives: Unspecified</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="14">   14   </A><SPAN CLASS="CT"> * Validation result: Not run</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="15">   15   </A><SPAN CLASS="CT"> */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="16">   16   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="17">   17   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">include</SPAN> <FONT COLOR="#992211">&quot;VirtualWall.h&quot;</FONT>
+</SPAN><SPAN><A CLASS="LN" NAME="18">   18   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">include</SPAN> <FONT COLOR="#992211">&quot;VirtualWall_private.h&quot;</FONT>
+</SPAN><SPAN><A CLASS="LN" NAME="19">   19   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="20">   20   </A><SPAN CLASS="CT">/* Named constants for Chart: '<A href="javascript:rtwHilite('VirtualWall:35')"><FONT color="#117755"><I>&lt;S5&gt;/VirtualWall_Chart</I></FONT></A>' */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="21">   21   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> VirtualWall_IN_Inside_Wall     (1U)
+</SPAN><SPAN><A CLASS="LN" NAME="22">   22   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> VirtualWall_IN_Outside_Wall    (2U)
+</SPAN><SPAN><A CLASS="LN" NAME="23">   23   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="24">   24   </A><SPAN CLASS="CT">/* Block signals (auto storage) */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="25">   25   </A><A HREF="VirtualWall_h.html#type_BlockIO_VirtualWall" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_BlockIO_VirtualWall');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">BlockIO_VirtualWall</FONT></A> <A NAME="var_VirtualWall_B">VirtualWall_B</A>;
+</SPAN><SPAN><A CLASS="LN" NAME="26">   26   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="27">   27   </A><SPAN CLASS="CT">/* Block states (auto storage) */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="28">   28   </A><A HREF="VirtualWall_h.html#type_D_Work_VirtualWall" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_D_Work_VirtualWall');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">D_Work_VirtualWall</FONT></A> <A NAME="var_VirtualWall_DWork">VirtualWall_DWork</A>;
+</SPAN><SPAN><A CLASS="LN" NAME="29">   29   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="30">   30   </A><SPAN CLASS="CT">/* Real-time model */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="31">   31   </A><A HREF="VirtualWall_types_h.html#type_RT_MODEL_VirtualWall" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_RT_MODEL_VirtualWall');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">RT_MODEL_VirtualWall</FONT></A> <A NAME="var_VirtualWall_M_">VirtualWall_M_</A>;
+</SPAN><SPAN><A CLASS="LN" NAME="32">   32   </A><A HREF="VirtualWall_types_h.html#type_RT_MODEL_VirtualWall" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_RT_MODEL_VirtualWall');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">RT_MODEL_VirtualWall</FONT></A> *<SPAN CLASS="DT">const</SPAN> <A NAME="var_VirtualWall_M">VirtualWall_M</A> = &amp;<A HREF="VirtualWall_c.html#var_VirtualWall_M_" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_M_');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_M_</FONT></A>;
+</SPAN><SPAN><A CLASS="LN" NAME="33">   33   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="34">   34   </A><SPAN CLASS="CT">/* Model step function */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="35">   35   </A><SPAN CLASS="DT">void</SPAN> <A NAME="fcn_VirtualWall_step">VirtualWall_step</A>(<SPAN CLASS="DT">void</SPAN>)
+</SPAN><SPAN><A CLASS="LN" NAME="36">   36   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="37">   37   </A>  <A HREF="rtwtypes_h.html#type_uint16_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint16_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint16_T</FONT></A> rtb_DataTypeConversion;
+</SPAN><SPAN><A CLASS="LN" NAME="38">   38   </A>  <A HREF="rtwtypes_h.html#type_real32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_real32_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real32_T</FONT></A> rtb_Sum1;
+</SPAN><SPAN><A CLASS="LN" NAME="39">   39   </A>  <A HREF="rtwtypes_h.html#type_real_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_real_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real_T</FONT></A> u;
+</SPAN><SPAN><A CLASS="LN" NAME="40">   40   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="41">   41   </A>  <SPAN CLASS="CT">/* S-Function (SFunc_EMIOS_opwfm): '<A href="javascript:rtwHilite('VirtualWall:21')"><FONT color="#117755"><I>&lt;Root&gt;/EMIOS Output PWM</I></FONT></A>' */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="42">   42   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="43">   43   </A>  <SPAN CLASS="CT">/*Generate the Output PWM*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="44">   44   </A>  <A HREF="EMIOS_library_c.html#fcn_emios_gen_opwfm_fnc" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_emios_gen_opwfm_fnc');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">emios_gen_opwfm_fnc</FONT></A>(12, 50U, 1000000U, 128,1);
+</SPAN><SPAN><A CLASS="LN" NAME="45">   45   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="46">   46   </A>  <SPAN CLASS="CT">/* S-Function (fcncallgen): '<A href="javascript:rtwHilite('VirtualWall:38')"><FONT color="#117755"><I>&lt;Root&gt;/Function-Call Generator</I></FONT></A>' incorporates:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="47">   47   </A><SPAN CLASS="CT">   *  SubSystem: '<A href="javascript:rtwHilite('VirtualWall:26')"><FONT color="#117755"><I>&lt;Root&gt;/VirtualWallTask</I></FONT></A>'</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="48">   48   </A><SPAN CLASS="CT">   */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="49">   49   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="50">   50   </A>  <SPAN CLASS="CT">/* S-Function (SFunc_eTPU_quadraturedecoder): '<A href="javascript:rtwHilite('VirtualWall:50:2')"><FONT color="#117755"><I>&lt;S7&gt;/eTPU Quadrature Decoder</I></FONT></A>' */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="51">   51   </A>  <B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="52">   52   </A>    <A HREF="VirtualWall_c.html#var_VirtualWall_B" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_B');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_B</FONT></A>.eTPUQuadratureDecoder_o1 = (<A HREF="typedefs_h.html#type_int32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_t</FONT></A>) ((<A HREF="etpu_qd_c.html#fcn_fs_etpu_qd_get_pc" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_fs_etpu_qd_get_pc');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">fs_etpu_qd_get_pc</FONT></A>(3)*4)/
+</SPAN><SPAN><A CLASS="LN" NAME="53">   53   </A>      4);
+</SPAN><SPAN><A CLASS="LN" NAME="54">   54   </A>    <SPAN CLASS="KW">if</SPAN> (<A HREF="etpu_qd_c.html#fcn_fs_etpu_qd_get_period" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_fs_etpu_qd_get_period');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">fs_etpu_qd_get_period</FONT></A>(3)==0) <B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="55">   55   </A>      <A HREF="VirtualWall_c.html#var_VirtualWall_B" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_B');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_B</FONT></A>.eTPUQuadratureDecoder_o2 = 0;
+</SPAN><SPAN><A CLASS="LN" NAME="56">   56   </A>    <B>}</B> <SPAN CLASS="KW">else</SPAN> <B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="57">   57   </A>      <A HREF="VirtualWall_c.html#var_VirtualWall_B" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_B');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_B</FONT></A>.eTPUQuadratureDecoder_o2 = (<A HREF="typedefs_h.html#type_int32_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_t</FONT></A>) ((60 * 3.2E+7)/
+</SPAN><SPAN><A CLASS="LN" NAME="58">   58   </A>        (<A HREF="etpu_qd_c.html#fcn_fs_etpu_qd_get_period" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_fs_etpu_qd_get_period');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">fs_etpu_qd_get_period</FONT></A>(3) * (4000/4)));<SPAN CLASS="CT">/* lines on motor = pcincrements_per_rev/4 */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="59">   59   </A>    <B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="60">   60   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="61">   61   </A>    <A HREF="VirtualWall_c.html#var_VirtualWall_B" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_B');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_B</FONT></A>.eTPUQuadratureDecoder_o3 = (<A HREF="typedefs_h.html#type_int8_t" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int8_t');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int8_t</FONT></A>) <A HREF="etpu_qd_c.html#fcn_fs_etpu_qd_get_direction" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_fs_etpu_qd_get_direction');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">fs_etpu_qd_get_direction</FONT></A>(3);
+</SPAN><SPAN><A CLASS="LN" NAME="62">   62   </A>  <B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="63">   63   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="64">   64   </A>  <SPAN CLASS="CT">/* DataTypeConversion: '<A href="javascript:rtwHilite('VirtualWall:42')"><FONT color="#117755"><I>&lt;S4&gt;/Data Type Conversion</I></FONT></A>' */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="65">   65   </A>  rtb_DataTypeConversion = (<A HREF="rtwtypes_h.html#type_uint16_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint16_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint16_T</FONT></A>)<A HREF="VirtualWall_c.html#var_VirtualWall_B" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_B');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_B</FONT></A>.eTPUQuadratureDecoder_o1;
+</SPAN><SPAN><A CLASS="LN" NAME="66">   66   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="67">   67   </A>  <SPAN CLASS="CT">/* Sum: '<A href="javascript:rtwHilite('VirtualWall:49')"><FONT color="#117755"><I>&lt;S4&gt;/Sum1</I></FONT></A>' incorporates:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="68">   68   </A><SPAN CLASS="CT">   *  DataTypeConversion: '<A href="javascript:rtwHilite('VirtualWall:43')"><FONT color="#117755"><I>&lt;S4&gt;/Data Type Conversion1</I></FONT></A>'</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="69">   69   </A><SPAN CLASS="CT">   *  DataTypeConversion: '<A href="javascript:rtwHilite('VirtualWall:44')"><FONT color="#117755"><I>&lt;S4&gt;/Data Type Conversion2</I></FONT></A>'</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="70">   70   </A><SPAN CLASS="CT">   *  Gain: '<A href="javascript:rtwHilite('VirtualWall:47')"><FONT color="#117755"><I>&lt;S4&gt;/Gain</I></FONT></A>'</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="71">   71   </A><SPAN CLASS="CT">   *  Sum: '<A href="javascript:rtwHilite('VirtualWall:48')"><FONT color="#117755"><I>&lt;S4&gt;/Sum</I></FONT></A>'</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="72">   72   </A><SPAN CLASS="CT">   *  UnitDelay: '<A href="javascript:rtwHilite('VirtualWall:45')"><FONT color="#117755"><I>&lt;S4&gt;/Unit Delay</I></FONT></A>'</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="73">   73   </A><SPAN CLASS="CT">   *  UnitDelay: '<A href="javascript:rtwHilite('VirtualWall:46')"><FONT color="#117755"><I>&lt;S4&gt;/Unit Delay1</I></FONT></A>'</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="74">   74   </A><SPAN CLASS="CT">   */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="75">   75   </A>  rtb_Sum1 = (<A HREF="rtwtypes_h.html#type_real32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_real32_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real32_T</FONT></A>)(<A HREF="rtwtypes_h.html#type_int16_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int16_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int16_T</FONT></A>)(<A HREF="rtwtypes_h.html#type_uint16_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint16_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint16_T</FONT></A>)(rtb_DataTypeConversion -
+</SPAN><SPAN><A CLASS="LN" NAME="76">   76   </A>    <A HREF="VirtualWall_c.html#var_VirtualWall_DWork" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_DWork');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_DWork</FONT></A>.UnitDelay_DSTATE) * 0.09F +
+</SPAN><SPAN><A CLASS="LN" NAME="77">   77   </A>    <A HREF="VirtualWall_c.html#var_VirtualWall_DWork" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_DWork');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_DWork</FONT></A>.UnitDelay1_DSTATE;
+</SPAN><SPAN><A CLASS="LN" NAME="78">   78   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="79">   79   </A>  <SPAN CLASS="CT">/* Chart: '<A href="javascript:rtwHilite('VirtualWall:35')"><FONT color="#117755"><I>&lt;S5&gt;/VirtualWall_Chart</I></FONT></A>' */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="80">   80   </A>  <SPAN CLASS="CT">/* Gateway: VirtualWallTask/Simulate Virtual Wall/VirtualWall_Chart */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="81">   81   </A>  <SPAN CLASS="CT">/* During: VirtualWallTask/Simulate Virtual Wall/VirtualWall_Chart */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="82">   82   </A>  <SPAN CLASS="KW">if</SPAN> (<A HREF="VirtualWall_c.html#var_VirtualWall_DWork" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_DWork');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_DWork</FONT></A>.is_active_c2_VirtualWall == 0U) <B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="83">   83   </A>    <SPAN CLASS="CT">/* Entry: VirtualWallTask/Simulate Virtual Wall/VirtualWall_Chart */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="84">   84   </A>    <A HREF="VirtualWall_c.html#var_VirtualWall_DWork" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_DWork');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_DWork</FONT></A>.is_active_c2_VirtualWall = 1U;
+</SPAN><SPAN><A CLASS="LN" NAME="85">   85   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="86">   86   </A>    <SPAN CLASS="CT">/* Transition: '<A href="javascript:rtwHilite('VirtualWall:35:9')"><FONT color="#117755"><I>&lt;S8&gt;:9</I></FONT></A>' */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="87">   87   </A>    <A HREF="VirtualWall_c.html#var_VirtualWall_DWork" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_DWork');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_DWork</FONT></A>.is_c2_VirtualWall = VirtualWall_IN_Outside_Wall;
+</SPAN><SPAN><A CLASS="LN" NAME="88">   88   </A>  <B>}</B> <SPAN CLASS="KW">else</SPAN> <B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="89">   89   </A>    <SPAN CLASS="KW">switch</SPAN> (<A HREF="VirtualWall_c.html#var_VirtualWall_DWork" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_DWork');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_DWork</FONT></A>.is_c2_VirtualWall) <B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="90">   90   </A>     <SPAN CLASS="KW">case</SPAN> VirtualWall_IN_Inside_Wall:
+</SPAN><SPAN><A CLASS="LN" NAME="91">   91   </A>      <SPAN CLASS="CT">/* During 'Inside_Wall': '<A href="javascript:rtwHilite('VirtualWall:35:2')"><FONT color="#117755"><I>&lt;S8&gt;:2</I></FONT></A>' */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="92">   92   </A>      <SPAN CLASS="KW">if</SPAN> (rtb_Sum1 &lt; 0.0F) <B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="93">   93   </A>        <SPAN CLASS="CT">/* Transition: '<A href="javascript:rtwHilite('VirtualWall:35:4')"><FONT color="#117755"><I>&lt;S8&gt;:4</I></FONT></A>' */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="94">   94   </A>        <A HREF="VirtualWall_c.html#var_VirtualWall_DWork" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_DWork');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_DWork</FONT></A>.is_c2_VirtualWall = VirtualWall_IN_Outside_Wall;
+</SPAN><SPAN><A CLASS="LN" NAME="95">   95   </A>      <B>}</B> <SPAN CLASS="KW">else</SPAN> <B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="96">   96   </A>        <A HREF="VirtualWall_c.html#var_VirtualWall_B" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_B');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_B</FONT></A>.torque = -<A HREF="VirtualWall_c.html#var_VirtualWall_DWork" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_DWork');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_DWork</FONT></A>.k * (<A HREF="rtwtypes_h.html#type_real_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_real_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real_T</FONT></A>)rtb_Sum1;
+</SPAN><SPAN><A CLASS="LN" NAME="97">   97   </A>      <B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="98">   98   </A>      <SPAN CLASS="KW">break</SPAN>;
+</SPAN><SPAN><A CLASS="LN" NAME="99">   99   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="100">  100   </A>     <SPAN CLASS="KW">case</SPAN> VirtualWall_IN_Outside_Wall:
+</SPAN><SPAN><A CLASS="LN" NAME="101">  101   </A>      <SPAN CLASS="CT">/* During 'Outside_Wall': '<A href="javascript:rtwHilite('VirtualWall:35:1')"><FONT color="#117755"><I>&lt;S8&gt;:1</I></FONT></A>' */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="102">  102   </A>      <SPAN CLASS="KW">if</SPAN> (rtb_Sum1 &gt; 0.0F) <B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="103">  103   </A>        <SPAN CLASS="CT">/* Transition: '<A href="javascript:rtwHilite('VirtualWall:35:6')"><FONT color="#117755"><I>&lt;S8&gt;:6</I></FONT></A>' */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="104">  104   </A>        <A HREF="VirtualWall_c.html#var_VirtualWall_DWork" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_DWork');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_DWork</FONT></A>.is_c2_VirtualWall = VirtualWall_IN_Inside_Wall;
+</SPAN><SPAN><A CLASS="LN" NAME="105">  105   </A>      <B>}</B> <SPAN CLASS="KW">else</SPAN> <B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="106">  106   </A>        <A HREF="VirtualWall_c.html#var_VirtualWall_B" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_B');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_B</FONT></A>.torque = 0.0;
+</SPAN><SPAN><A CLASS="LN" NAME="107">  107   </A>      <B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="108">  108   </A>      <SPAN CLASS="KW">break</SPAN>;
+</SPAN><SPAN><A CLASS="LN" NAME="109">  109   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="110">  110   </A>     <SPAN CLASS="KW">default</SPAN>:
+</SPAN><SPAN><A CLASS="LN" NAME="111">  111   </A>      <SPAN CLASS="CT">/* Transition: '<A href="javascript:rtwHilite('VirtualWall:35:9')"><FONT color="#117755"><I>&lt;S8&gt;:9</I></FONT></A>' */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="112">  112   </A>      <A HREF="VirtualWall_c.html#var_VirtualWall_DWork" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_DWork');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_DWork</FONT></A>.is_c2_VirtualWall = VirtualWall_IN_Outside_Wall;
+</SPAN><SPAN><A CLASS="LN" NAME="113">  113   </A>      <SPAN CLASS="KW">break</SPAN>;
+</SPAN><SPAN><A CLASS="LN" NAME="114">  114   </A>    <B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="115">  115   </A>  <B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="116">  116   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="117">  117   </A>  <SPAN CLASS="CT">/* End of Chart: '<A href="javascript:rtwHilite('VirtualWall:35')"><FONT color="#117755"><I>&lt;S5&gt;/VirtualWall_Chart</I></FONT></A>' */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="118">  118   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="119">  119   </A>  <SPAN CLASS="CT">/* Sum: '<A href="javascript:rtwHilite('VirtualWall:57')"><FONT color="#117755"><I>&lt;S6&gt;/Sum</I></FONT></A>' incorporates:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="120">  120   </A><SPAN CLASS="CT">   *  Constant: '<A href="javascript:rtwHilite('VirtualWall:58')"><FONT color="#117755"><I>&lt;S6&gt;/Constant</I></FONT></A>'</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="121">  121   </A><SPAN CLASS="CT">   *  Gain: '<A href="javascript:rtwHilite('VirtualWall:56')"><FONT color="#117755"><I>&lt;S6&gt;/Gain</I></FONT></A>'</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="122">  122   </A><SPAN CLASS="CT">   *  Saturate: '<A href="javascript:rtwHilite('VirtualWall:34')"><FONT color="#117755"><I>&lt;S5&gt;/Saturation1</I></FONT></A>'</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="123">  123   </A><SPAN CLASS="CT">   */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="124">  124   </A>  u = (<A HREF="VirtualWall_c.html#var_VirtualWall_B" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_B');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_B</FONT></A>.torque &gt;= 835.0 ? 835.0 : <A HREF="VirtualWall_c.html#var_VirtualWall_B" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_B');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_B</FONT></A>.torque &lt;= -835.0 ?
+</SPAN><SPAN><A CLASS="LN" NAME="125">  125   </A>       -835.0 : <A HREF="VirtualWall_c.html#var_VirtualWall_B" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_B');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_B</FONT></A>.torque) * 0.000311 + 0.5;
+</SPAN><SPAN><A CLASS="LN" NAME="126">  126   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="127">  127   </A>  <SPAN CLASS="CT">/* DataTypeConversion: '<A href="javascript:rtwHilite('VirtualWall:64')"><FONT color="#117755"><I>&lt;S3&gt;/Data Type Conversion1</I></FONT></A>' incorporates:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="128">  128   </A><SPAN CLASS="CT">   *  Gain: '<A href="javascript:rtwHilite('VirtualWall:63')"><FONT color="#117755"><I>&lt;S3&gt;/Gain</I></FONT></A>'</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="129">  129   </A><SPAN CLASS="CT">   *  Saturate: '<A href="javascript:rtwHilite('VirtualWall:59')"><FONT color="#117755"><I>&lt;S3&gt;/Saturation</I></FONT></A>'</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="130">  130   </A><SPAN CLASS="CT">   */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="131">  131   </A>  u = floor((u &gt;= 0.76 ? 0.76 : u &lt;= 0.24 ? 0.24 : u) * 100.0);
+</SPAN><SPAN><A CLASS="LN" NAME="132">  132   </A>  <SPAN CLASS="KW">if</SPAN> (<A HREF="rt_nonfinite_c.html#fcn_rtIsNaN" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_rtIsNaN');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">rtIsNaN</FONT></A>(u) || <A HREF="rt_nonfinite_c.html#fcn_rtIsInf" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_rtIsInf');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">rtIsInf</FONT></A>(u)) <B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="133">  133   </A>    u = 0.0;
+</SPAN><SPAN><A CLASS="LN" NAME="134">  134   </A>  <B>}</B> <SPAN CLASS="KW">else</SPAN> <B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="135">  135   </A>    u = fmod(u, 4.294967296E+9);
+</SPAN><SPAN><A CLASS="LN" NAME="136">  136   </A>  <B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="137">  137   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="138">  138   </A>  <A HREF="VirtualWall_c.html#var_VirtualWall_B" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_B');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_B</FONT></A>.DataTypeConversion1 = (<A HREF="rtwtypes_h.html#type_uint32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_uint32_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_T</FONT></A>)u;
+</SPAN><SPAN><A CLASS="LN" NAME="139">  139   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="140">  140   </A>  <SPAN CLASS="CT">/* End of DataTypeConversion: '<A href="javascript:rtwHilite('VirtualWall:64')"><FONT color="#117755"><I>&lt;S3&gt;/Data Type Conversion1</I></FONT></A>' */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="141">  141   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="142">  142   </A>  <SPAN CLASS="CT">/* S-Function (SFunc_EMIOS_opwfm): '<A href="javascript:rtwHilite('VirtualWall:60')"><FONT color="#117755"><I>&lt;S3&gt;/EMIOS Output PWM</I></FONT></A>' */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="143">  143   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="144">  144   </A>  <SPAN CLASS="CT">/*Generate the Output PWM*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="145">  145   </A>  <A HREF="EMIOS_library_c.html#fcn_emios_gen_opwfm_fnc" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_emios_gen_opwfm_fnc');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">emios_gen_opwfm_fnc</FONT></A>(0, <A HREF="VirtualWall_c.html#var_VirtualWall_B" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_B');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_B</FONT></A>.DataTypeConversion1,
+</SPAN><SPAN><A CLASS="LN" NAME="146">  146   </A>                      <A HREF="VirtualWall_data_c.html#var_VirtualWall_ConstB" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_ConstB');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_ConstB</FONT></A>.DataTypeConversion, 128,1);
+</SPAN><SPAN><A CLASS="LN" NAME="147">  147   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="148">  148   </A>  <SPAN CLASS="CT">/* Update for UnitDelay: '<A href="javascript:rtwHilite('VirtualWall:45')"><FONT color="#117755"><I>&lt;S4&gt;/Unit Delay</I></FONT></A>' */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="149">  149   </A>  <A HREF="VirtualWall_c.html#var_VirtualWall_DWork" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_DWork');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_DWork</FONT></A>.UnitDelay_DSTATE = rtb_DataTypeConversion;
+</SPAN><SPAN><A CLASS="LN" NAME="150">  150   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="151">  151   </A>  <SPAN CLASS="CT">/* Update for UnitDelay: '<A href="javascript:rtwHilite('VirtualWall:46')"><FONT color="#117755"><I>&lt;S4&gt;/Unit Delay1</I></FONT></A>' */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="152">  152   </A>  <A HREF="VirtualWall_c.html#var_VirtualWall_DWork" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_DWork');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_DWork</FONT></A>.UnitDelay1_DSTATE = rtb_Sum1;
+</SPAN><SPAN><A CLASS="LN" NAME="153">  153   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="154">  154   </A>  <SPAN CLASS="CT">/* S-Function (SFunc_GPIO_output): '<A href="javascript:rtwHilite('VirtualWall:19:2')"><FONT color="#117755"><I>&lt;S1&gt;/General Purpose Output</I></FONT></A>' */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="155">  155   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="156">  156   </A>  <SPAN CLASS="CT">/* Pin Data Output Signal */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="157">  157   </A>  <A HREF="GPIO_library_c.html#fcn_gpo_writedata_fnc" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_gpo_writedata_fnc');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">gpo_writedata_fnc</FONT></A>(205, FALSE);       <SPAN CLASS="CT">/* GPIO Pin Data Output Registers */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="158">  158   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="159">  159   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="160">  160   </A><SPAN CLASS="CT">/* Model initialize function */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="161">  161   </A><SPAN CLASS="DT">void</SPAN> <A NAME="fcn_VirtualWall_initialize">VirtualWall_initialize</A>(<A HREF="rtwtypes_h.html#type_boolean_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_boolean_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">boolean_T</FONT></A> firstTime)
+</SPAN><SPAN><A CLASS="LN" NAME="162">  162   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="163">  163   </A>  (<SPAN CLASS="DT">void</SPAN>)firstTime;
+</SPAN><SPAN><A CLASS="LN" NAME="164">  164   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="165">  165   </A>  <SPAN CLASS="CT">/* Registration code */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="166">  166   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="167">  167   </A>  <SPAN CLASS="CT">/* initialize non-finites */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="168">  168   </A>  <A HREF="rt_nonfinite_c.html#fcn_rt_InitInfAndNaN" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_rt_InitInfAndNaN');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">rt_InitInfAndNaN</FONT></A>(<SPAN CLASS="KW">sizeof</SPAN>(<A HREF="rtwtypes_h.html#type_real_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_real_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real_T</FONT></A>));
+</SPAN><SPAN><A CLASS="LN" NAME="169">  169   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="170">  170   </A>  <SPAN CLASS="CT">/* initialize error status */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="171">  171   </A>  rtmSetErrorStatus(<A HREF="VirtualWall_c.html#var_VirtualWall_M" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_M');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_M</FONT></A>, (NULL));
+</SPAN><SPAN><A CLASS="LN" NAME="172">  172   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="173">  173   </A>  <SPAN CLASS="CT">/* block I/O */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="174">  174   </A>  (<SPAN CLASS="DT">void</SPAN>) memset(((<SPAN CLASS="DT">void</SPAN> *) &amp;<A HREF="VirtualWall_c.html#var_VirtualWall_B" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_B');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_B</FONT></A>), 0,
+</SPAN><SPAN><A CLASS="LN" NAME="175">  175   </A>                <SPAN CLASS="KW">sizeof</SPAN>(<A HREF="VirtualWall_h.html#type_BlockIO_VirtualWall" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_BlockIO_VirtualWall');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">BlockIO_VirtualWall</FONT></A>));
+</SPAN><SPAN><A CLASS="LN" NAME="176">  176   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="177">  177   </A>  <SPAN CLASS="CT">/* states (dwork) */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="178">  178   </A>  (<SPAN CLASS="DT">void</SPAN>) memset((<SPAN CLASS="DT">void</SPAN> *)&amp;<A HREF="VirtualWall_c.html#var_VirtualWall_DWork" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_DWork');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_DWork</FONT></A>, 0,
+</SPAN><SPAN><A CLASS="LN" NAME="179">  179   </A>                <SPAN CLASS="KW">sizeof</SPAN>(<A HREF="VirtualWall_h.html#type_D_Work_VirtualWall" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_D_Work_VirtualWall');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">D_Work_VirtualWall</FONT></A>));
+</SPAN><SPAN><A CLASS="LN" NAME="180">  180   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="181">  181   </A>  <SPAN CLASS="CT">/* Start for S-Function (rappid_ec): '<A href="javascript:rtwHilite('VirtualWall:20:1')"><FONT color="#117755"><I>&lt;S2&gt;/S-Function</I></FONT></A>' */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="182">  182   </A>  <A HREF="sys_init_c.html#fcn_sys_init_rp" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_sys_init_rp');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">sys_init_rp</FONT></A>();
+</SPAN><SPAN><A CLASS="LN" NAME="183">  183   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="184">  184   </A>  <SPAN CLASS="CT">/* Start for S-Function (SFunc_EMIOS_opwfm): '<A href="javascript:rtwHilite('VirtualWall:21')"><FONT color="#117755"><I>&lt;Root&gt;/EMIOS Output PWM</I></FONT></A>' */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="185">  185   </A>  <A HREF="EMIOS_library_c.html#fcn_emios_init_opwfm_fnc" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_emios_init_opwfm_fnc');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">emios_init_opwfm_fnc</FONT></A>(12, 50, 1000000);<SPAN CLASS="CT">/* Set the initial Duty cycle and Frequency */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="186">  186   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="187">  187   </A>  <SPAN CLASS="CT">/* Start for S-Function (fcncallgen): '<A href="javascript:rtwHilite('VirtualWall:38')"><FONT color="#117755"><I>&lt;Root&gt;/Function-Call Generator</I></FONT></A>' incorporates:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="188">  188   </A><SPAN CLASS="CT">   *  Start for SubSystem: '<A href="javascript:rtwHilite('VirtualWall:26')"><FONT color="#117755"><I>&lt;Root&gt;/VirtualWallTask</I></FONT></A>'</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="189">  189   </A><SPAN CLASS="CT">   */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="190">  190   </A>  <SPAN CLASS="CT">/* Start for S-Function (SFunc_EMIOS_opwfm): '<A href="javascript:rtwHilite('VirtualWall:60')"><FONT color="#117755"><I>&lt;S3&gt;/EMIOS Output PWM</I></FONT></A>' */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="191">  191   </A>  <A HREF="EMIOS_library_c.html#fcn_emios_init_opwfm_fnc" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_emios_init_opwfm_fnc');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">emios_init_opwfm_fnc</FONT></A>(0, 50, 40000);  <SPAN CLASS="CT">/* Set the initial Duty cycle and Frequency */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="192">  192   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="193">  193   </A>  <SPAN CLASS="CT">/* InitializeConditions for S-Function (fcncallgen): '<A href="javascript:rtwHilite('VirtualWall:38')"><FONT color="#117755"><I>&lt;Root&gt;/Function-Call Generator</I></FONT></A>' incorporates:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="194">  194   </A><SPAN CLASS="CT">   *  InitializeConditions for SubSystem: '<A href="javascript:rtwHilite('VirtualWall:26')"><FONT color="#117755"><I>&lt;Root&gt;/VirtualWallTask</I></FONT></A>'</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="195">  195   </A><SPAN CLASS="CT">   */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="196">  196   </A>  <SPAN CLASS="CT">/* InitializeConditions for Chart: '<A href="javascript:rtwHilite('VirtualWall:35')"><FONT color="#117755"><I>&lt;S5&gt;/VirtualWall_Chart</I></FONT></A>' */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="197">  197   </A>  <A HREF="VirtualWall_c.html#var_VirtualWall_DWork" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_DWork');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_DWork</FONT></A>.is_active_c2_VirtualWall = 0U;
+</SPAN><SPAN><A CLASS="LN" NAME="198">  198   </A>  <A HREF="VirtualWall_c.html#var_VirtualWall_DWork" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_DWork');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_DWork</FONT></A>.is_c2_VirtualWall = 0U;
+</SPAN><SPAN><A CLASS="LN" NAME="199">  199   </A>  <A HREF="VirtualWall_c.html#var_VirtualWall_DWork" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_DWork');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_DWork</FONT></A>.k = -100.0;
+</SPAN><SPAN><A CLASS="LN" NAME="200">  200   </A>  <A HREF="VirtualWall_c.html#var_VirtualWall_B" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_VirtualWall_B');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">VirtualWall_B</FONT></A>.torque = 0.0;
+</SPAN><SPAN><A CLASS="LN" NAME="201">  201   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="202">  202   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="203">  203   </A><SPAN CLASS="CT">/* Model terminate function */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="204">  204   </A><SPAN CLASS="DT">void</SPAN> <A NAME="fcn_VirtualWall_terminate">VirtualWall_terminate</A>(<SPAN CLASS="DT">void</SPAN>)
+</SPAN><SPAN><A CLASS="LN" NAME="205">  205   </A><B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="206">  206   </A>  <SPAN CLASS="CT">/* (no terminate code required) */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="207">  207   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="208">  208   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="209">  209   </A><SPAN CLASS="CT">/*</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="210">  210   </A><SPAN CLASS="CT"> * File trailer for generated code.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="211">  211   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="212">  212   </A><SPAN CLASS="CT"> * [EOF]</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="213">  213   </A><SPAN CLASS="CT"> */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="214">  214   </A>
+</SPAN></PRE>
+</TD></TR></TABLE>
+</P>
+</BODY>
+</HTML>

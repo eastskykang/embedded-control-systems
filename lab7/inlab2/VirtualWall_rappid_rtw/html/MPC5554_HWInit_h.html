@@ -1,0 +1,201 @@
+<HTML>
+<HEAD>
+<TITLE>RTW Report - MPC5554_HWInit.h </TITLE>
+<STYLE> .LN { font-style: italic; color: #888888 } </STYLE>
+<STYLE> .CT { font-style: italic; color: #117755 } </STYLE>
+<STYLE> .PP { font-style: bold;   color: #992211 } </STYLE>
+<STYLE> .KW { font-style: bold;   color: #112266 } </STYLE>
+<STYLE> .DT { font-style: bold;   color: #112266 } </STYLE>
+<SCRIPT language="JavaScript" type="text/javascript">
+<!--
+function rtwHilite(aBlock,aParentSID) {
+ aParentSID = "";
+ try {
+    window.location.href="matlab: if ~isempty(which('private/rtwbindmodel')), rtwprivate rtwbindmodel 'C:\\Users\\Embed_Sys_course\\git\\lab\\lab7\\inlab2\\VirtualWall.mdl' 'C:\\Users\\Embed_Sys_course\\git\\lab\\lab7\\inlab2\\VirtualWall_rappid_rtw' '', end; rtwprivate code2model "+aBlock+" "+aParentSID+";"
+ } catch (e) { 
+ }
+} // end rtwHilite
+//-->
+</SCRIPT>
+</HEAD>
+<BODY BGCOLOR="#eeeeee" TEXT="#1122aa" ONLOAD="if (top) { if (top.rtwFileOnLoad) top.rtwFileOnLoad(window);} ">
+<P>
+<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="6" WIDTH="100%" HEIGHT="100%"><TR><TD WIDTH="100%" VALIGN="top" BGCOLOR="#ffffff">
+<H4>File: <A HREF="file:///C:\Users\Embed_Sys_course\git\lab\lab7\inlab2\VirtualWall_rappid_rtw\MPC5554_HWInit.h" TARGET="rtwreport_document_frame">C:\Users\Embed_Sys_course\git\lab\lab7\inlab2\VirtualWall_rappid_rtw\MPC5554_HWInit.h</A></H4>
+<PRE id="RTWcode">
+<SPAN><A CLASS="LN" NAME="1">    1   </A><SPAN CLASS="CT">/* target specific file */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="2">    2   </A><SPAN CLASS="CT">/*</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="3">    3   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="4">    4   </A><SPAN CLASS="CT"> * FILE : MPC5554_HWInit.h</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="5">    5   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="6">    6   </A><SPAN CLASS="CT"> * DESCRIPTION:</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="7">    7   </A><SPAN CLASS="CT"> *  This file contains all MPC5554 derivative needed initializations, </SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="8">    8   </A><SPAN CLASS="CT"> *  and all initializations for the MPC5554 boards which are supported.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="9">    9   </A><SPAN CLASS="CT"> *  This includes setting up the External Bus Interface to allow access to </SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="10">   10   </A><SPAN CLASS="CT"> *  memory on the external bus, and ensuring there is a valid entry in the</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="11">   11   </A><SPAN CLASS="CT"> *  MMU for the external memory access.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="12">   12   </A><SPAN CLASS="CT"> */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="13">   13   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="14">   14   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">ifndef</SPAN> _MPC5554_HWINIT_H_
+</SPAN><SPAN><A CLASS="LN" NAME="15">   15   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> _MPC5554_HWINIT_H_
+</SPAN><SPAN><A CLASS="LN" NAME="16">   16   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="17">   17   </A><SPAN CLASS="CT">/*----------------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="18">   18   </A><SPAN CLASS="CT">/* Includes                                                                   */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="19">   19   </A><SPAN CLASS="CT">/*----------------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="20">   20   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="21">   21   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">ifdef</SPAN> __cplusplus
+</SPAN><SPAN><A CLASS="LN" NAME="22">   22   </A><SPAN CLASS="DT">extern</SPAN> <FONT COLOR="#1122ff">&quot;C&quot;</FONT> <B>{</B>
+</SPAN><SPAN><A CLASS="LN" NAME="23">   23   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">endif</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="24">   24   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="25">   25   </A><SPAN CLASS="CT">/*******************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="26">   26   </A><SPAN CLASS="CT">/* MPC5554 derivative specific hardware initialization */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="27">   27   </A><SPAN CLASS="CT">/*******************************************************/</SPAN> 
+</SPAN><SPAN><A CLASS="LN" NAME="28">   28   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="29">   29   </A>__asm <SPAN CLASS="DT">void</SPAN> <A HREF="MPC5554_HWInit_c.html#fcn_INIT_Derivative" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_INIT_Derivative');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">INIT_Derivative</FONT></A>(<SPAN CLASS="DT">void</SPAN>); 
+</SPAN><SPAN><A CLASS="LN" NAME="30">   30   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="31">   31   </A><SPAN CLASS="CT">/*******************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="32">   32   </A><SPAN CLASS="CT">/* MPC5554 boards specific hardware initializations    */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="33">   33   </A><SPAN CLASS="CT">/*******************************************************/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="34">   34   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="35">   35   </A><SPAN CLASS="CT">/*----------------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="36">   36   </A><SPAN CLASS="CT">/* Used Board selection                                                       */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="37">   37   </A><SPAN CLASS="CT">/*----------------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="38">   38   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="39">   39   </A><SPAN CLASS="CT">/* Supported Boards */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="40">   40   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> NO_EXTERNAL_MEMORY            0
+</SPAN><SPAN><A CLASS="LN" NAME="41">   41   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> MPC5554DEMO_AXM_0321          1
+</SPAN><SPAN><A CLASS="LN" NAME="42">   42   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="43">   43   </A><SPAN CLASS="CT">/* Used board */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="44">   44   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> INIT_USED_BOARD NO_EXTERNAL_MEMORY
+</SPAN><SPAN><A CLASS="LN" NAME="45">   45   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="46">   46   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">ifndef</SPAN> INIT_USED_BOARD
+</SPAN><SPAN><A CLASS="LN" NAME="47">   47   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">pragma</SPAN> <SPAN CLASS="PP">error</SPAN> INIT_USED_BOARD should be defined !
+</SPAN><SPAN><A CLASS="LN" NAME="48">   48   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">endif</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="49">   49   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="50">   50   </A><SPAN CLASS="CT">/*----------------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="51">   51   </A><SPAN CLASS="CT">/* Function declarations                                                      */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="52">   52   </A><SPAN CLASS="CT">/*----------------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="53">   53   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="54">   54   </A><SPAN CLASS="CT">/* call this function to setup the external bus, </SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="55">   55   </A><SPAN CLASS="CT">   chip selects and MMU entries for the selected board</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="56">   56   </A><SPAN CLASS="CT">*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="57">   57   </A>__asm <SPAN CLASS="DT">void</SPAN> <A HREF="MPC5554_HWInit_c.html#fcn_INIT_ExternalBusAndMemory" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_INIT_ExternalBusAndMemory');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">INIT_ExternalBusAndMemory</FONT></A>(<SPAN CLASS="DT">void</SPAN>);
+</SPAN><SPAN><A CLASS="LN" NAME="58">   58   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="59">   59   </A><SPAN CLASS="CT">/*----------------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="60">   60   </A><SPAN CLASS="CT">/* MMU Table Entries Defines                                                  */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="61">   61   </A><SPAN CLASS="CT">/*----------------------------------------------------------------------------*/</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="62">   62   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="63">   63   </A><SPAN CLASS="CT">/**</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="64">   64   </A><SPAN CLASS="CT"> * Generate MMU Assist 0 value from the parameters provided.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="65">   65   </A><SPAN CLASS="CT"> * In accordance with the PowerPC Zen core specification the TLBSEL value </SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="66">   66   </A><SPAN CLASS="CT"> * is always set to 01b to maintain future compatibility.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="67">   67   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="68">   68   </A><SPAN CLASS="CT"> */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="69">   69   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> MAS0_VALUE(eselcam) ((unsigned long)(0x10000000 | (eselcam &lt;&lt; 16)))
+</SPAN><SPAN><A CLASS="LN" NAME="70">   70   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="71">   71   </A><SPAN CLASS="CT">/** </SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="72">   72   </A><SPAN CLASS="CT"> * Generate MMU Assist 1 value from the parameters provided</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="73">   73   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="74">   74   </A><SPAN CLASS="CT"> * parameter valid:   1 if the MMU entry is valid, otherwise \c 0 (invalid).</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="75">   75   </A><SPAN CLASS="CT"> * parameter iprot:   Invalidation protection value</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="76">   76   </A><SPAN CLASS="CT"> * parameter tid:     the translation ID</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="77">   77   </A><SPAN CLASS="CT"> * parameter ts:      the translation space value</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="78">   78   </A><SPAN CLASS="CT"> * parameter tsize:   the translation size</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="79">   79   </A><SPAN CLASS="CT"> */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="80">   80   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> MAS1_VALUE(valid, iprot, tid, ts, tsize) \
+</SPAN><SPAN><A CLASS="LN" NAME="81">   81   </A>          ((unsigned long)((valid &lt;&lt; 31) | (iprot &lt;&lt; 30) | (tid &lt;&lt; 16) | (ts &lt;&lt; 12) | (tsize &lt;&lt; 8)))
+</SPAN><SPAN><A CLASS="LN" NAME="82">   82   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="83">   83   </A><SPAN CLASS="CT">/** V TLB valid bit */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="84">   84   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> V_INVALID 0
+</SPAN><SPAN><A CLASS="LN" NAME="85">   85   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> V_VALID   1
+</SPAN><SPAN><A CLASS="LN" NAME="86">   86   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="87">   87   </A><SPAN CLASS="CT">/** IPROT TLB Invalidate protect bit */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="88">   88   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> IPROT_NOTPROTECTED 0
+</SPAN><SPAN><A CLASS="LN" NAME="89">   89   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> IPROT_PROTECTED    1
+</SPAN><SPAN><A CLASS="LN" NAME="90">   90   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="91">   91   </A> <SPAN CLASS="CT">/** Translation ID defines the TID as global and matches all process IDs */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="92">   92   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> TID_GLOBAL          0
+</SPAN><SPAN><A CLASS="LN" NAME="93">   93   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="94">   94   </A><SPAN CLASS="CT">/** Translation size */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="95">   95   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> TSIZE_4KB           1
+</SPAN><SPAN><A CLASS="LN" NAME="96">   96   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> TSIZE_16KB          2
+</SPAN><SPAN><A CLASS="LN" NAME="97">   97   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> TSIZE_64KB          3
+</SPAN><SPAN><A CLASS="LN" NAME="98">   98   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> TSIZE_256KB         4
+</SPAN><SPAN><A CLASS="LN" NAME="99">   99   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> TSIZE_1MB           5
+</SPAN><SPAN><A CLASS="LN" NAME="100">  100   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> TSIZE_4MB           6
+</SPAN><SPAN><A CLASS="LN" NAME="101">  101   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> TSIZE_16MB          7
+</SPAN><SPAN><A CLASS="LN" NAME="102">  102   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> TSIZE_64MB          8
+</SPAN><SPAN><A CLASS="LN" NAME="103">  103   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> TSIZE_256MB         9
+</SPAN><SPAN><A CLASS="LN" NAME="104">  104   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="105">  105   </A><SPAN CLASS="CT">/**</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="106">  106   </A><SPAN CLASS="CT"> * Generate MMU Assist 2 value from the parameters provided</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="107">  107   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="108">  108   </A><SPAN CLASS="CT"> * Effective Page Number (start address of logical memory region) </SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="109">  109   </A><SPAN CLASS="CT"> * must be computed directely in the assembly code.</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="110">  110   </A><SPAN CLASS="CT"> * </SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="111">  111   </A><SPAN CLASS="CT"> * parameter   w:   Write-through Required</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="112">  112   </A><SPAN CLASS="CT"> * parameter   i:   Cache Inhibited</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="113">  113   </A><SPAN CLASS="CT"> * parameter   m:   Memory Coherency Required</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="114">  114   </A><SPAN CLASS="CT"> * parameter   g:   Guarded</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="115">  115   </A><SPAN CLASS="CT"> * parameter   e:   Endianness</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="116">  116   </A><SPAN CLASS="CT"> */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="117">  117   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> MAS2_FLAGS(sharen, w, i, m, g, e) \
+</SPAN><SPAN><A CLASS="LN" NAME="118">  118   </A>  ((unsigned long)((sharen &lt;&lt; 9)| (w &lt;&lt; 4)| (i &lt;&lt; 3)| (m &lt;&lt; 2)| (g &lt;&lt; 1)| (e)))
+</SPAN><SPAN><A CLASS="LN" NAME="119">  119   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="120">  120   </A><SPAN CLASS="CT">/** MAS2[SHAREN]: Cache fills do not use the shared cache state for this page. */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="121">  121   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> SHARED_CACHE_STATE_NOT_USED   0
+</SPAN><SPAN><A CLASS="LN" NAME="122">  122   </A><SPAN CLASS="CT">/** MAS2[SHAREN]: Cache fills use the shared cache state for this page. */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="123">  123   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> SHARED_CACHE_STATE_USED       1
+</SPAN><SPAN><A CLASS="LN" NAME="124">  124   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="125">  125   </A><SPAN CLASS="CT">/** MAS2[W]: Update data in the cache only */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="126">  126   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> WRITE_BACK          0
+</SPAN><SPAN><A CLASS="LN" NAME="127">  127   </A><SPAN CLASS="CT">/** MAS2[W]: All stores performed are written through to memory */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="128">  128   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> WRITE_THROUGH       1
+</SPAN><SPAN><A CLASS="LN" NAME="129">  129   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="130">  130   </A><SPAN CLASS="CT">/** MAS2[I]: The page is considered cacheable */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="131">  131   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> CACHEABLE           0
+</SPAN><SPAN><A CLASS="LN" NAME="132">  132   </A><SPAN CLASS="CT">/** MAS2[I]: The page is cache-inhibited */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="133">  133   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> CACHE_INHIBIT       1
+</SPAN><SPAN><A CLASS="LN" NAME="134">  134   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="135">  135   </A><SPAN CLASS="CT">/** MAS2[M]: Memory Coherence is not-required */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="136">  136   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> MEM_COHERENCE_NREQ  0
+</SPAN><SPAN><A CLASS="LN" NAME="137">  137   </A><SPAN CLASS="CT">/** MAS2[M]: Memory Coherence is required */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="138">  138   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> MEM_COHENRECE_REQ   1
+</SPAN><SPAN><A CLASS="LN" NAME="139">  139   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="140">  140   </A><SPAN CLASS="CT">/** MAS2[G]: Access to page is not guarded */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="141">  141   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> NOT_GUARDED         0
+</SPAN><SPAN><A CLASS="LN" NAME="142">  142   </A><SPAN CLASS="CT">/** MAS2[G]: All loads and stores are performed without speculation */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="143">  143   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> GUARDED             1
+</SPAN><SPAN><A CLASS="LN" NAME="144">  144   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="145">  145   </A><SPAN CLASS="CT">/** MAS2[E]: Page is accessed in big-endian order */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="146">  146   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> BIG_ENDIAN          0
+</SPAN><SPAN><A CLASS="LN" NAME="147">  147   </A><SPAN CLASS="CT">/** MAS2[E]: Page is accessed in little-endian order */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="148">  148   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> LITTLE_ENDIAN       1
+</SPAN><SPAN><A CLASS="LN" NAME="149">  149   </A> 
+</SPAN><SPAN><A CLASS="LN" NAME="150">  150   </A><SPAN CLASS="CT">/**</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="151">  151   </A><SPAN CLASS="CT"> * Generate MMU Assist 3 flags from the parameters provided</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="152">  152   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="153">  153   </A><SPAN CLASS="CT"> * Real Page Number (start address of physical memory region) </SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="154">  154   </A><SPAN CLASS="CT"> * must be computed directely in the assembly code</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="155">  155   </A><SPAN CLASS="CT"> *</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="156">  156   </A><SPAN CLASS="CT"> * parameter permissions:  Permission bits</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="157">  157   </A><SPAN CLASS="CT"> */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="158">  158   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> MAS3_FLAGS(permissions) ((unsigned long)(permissions))
+</SPAN><SPAN><A CLASS="LN" NAME="159">  159   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="160">  160   </A><SPAN CLASS="CT">/** MAS3[U/S{XWR}]: Read. Write and Execute permission */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="161">  161   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> READ_WRITE_EXECUTE  0x3f
+</SPAN><SPAN><A CLASS="LN" NAME="162">  162   </A><SPAN CLASS="CT">/** MAS3[U/S{XWR}]: Read and Execute permission */</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="163">  163   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">define</SPAN> READ_EXECUTE        0x33
+</SPAN><SPAN><A CLASS="LN" NAME="164">  164   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="165">  165   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="166">  166   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">ifdef</SPAN> __cplusplus
+</SPAN><SPAN><A CLASS="LN" NAME="167">  167   </A><B>}</B>
+</SPAN><SPAN><A CLASS="LN" NAME="168">  168   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">endif</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="169">  169   </A>
+</SPAN><SPAN><A CLASS="LN" NAME="170">  170   </A><FONT COLOR="#992211">#</FONT><SPAN CLASS="PP">endif</SPAN>
+</SPAN><SPAN><A CLASS="LN" NAME="171">  171   </A>
+</SPAN></PRE>
+</TD></TR></TABLE>
+</P>
+</BODY>
+</HTML>
