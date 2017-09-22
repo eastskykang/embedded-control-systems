@@ -42,10 +42,10 @@ void virt_chain();
 
 
 /* Messages from this lab station start at STATIONBASEID */
-#define STATIONBASEID   	??? 		/* ID of your lab station */
-#define VWPARTNERID     	??? 		/* ID of your partner's lab station for the virtual wall */
-#define CHAIN_A_ID      	??? 		/* ID of the station to your "left" */
-#define CHAIN_B_ID      	??? 		/* ID of the station to your "right" */
+#define STATIONBASEID   	20 		/* ID of your lab station */
+#define VWPARTNERID     	90 		/* ID of your partner's lab station for the virtual wall */
+#define CHAIN_A_ID      	30 		/* ID of the station to your "left" */
+#define CHAIN_B_ID      	10 		/* ID of the station to your "right" */
 
 #define SCF_MIOS_CHANNEL	12			/* The haptic interface uses eMIOS[12]  for the sc-Filter*/
 #define HAPTIC_MIOS_CHANNEL	0			/* The haptic interface uses eMIOS[0] */
@@ -88,54 +88,74 @@ static volatile float velB = 0;				/* chain velocity B (FLOAT32, N-mm) */
 void rx_ISR(void)
 {
 
-	int ret;
-	CAN_RXBUFF rxbuff;
+    int ret;
+    CAN_RXBUFF rxbuff;
+    double temp;
 
-
-	#ifdef VWALLA
-	/* Message for: Virtual Wall A */
+#ifdef VWALLA
+    /* Message for: Virtual Wall A */
     /* First check to see if there is a new message in the buffer */
-	if( can_get_buff_flag(&CAN_A, vwA_rx_buffnum) == 1 )
-	{
-		/* Read the CAN message and copy torque to global variable */
-		/* is the read successful and is the message the right length? */
+    if( can_get_buff_flag(&CAN_A, vwA_rx_buffnum) == 1 )
+    {
+        /* Read the CAN message and copy torque to global variable */
+        /* is the read successful and is the message the right length? */
+        rxbuff.buff_num = vwA_rx_buffnum;
 
-		/* fill in here */
-	}
-	#endif
+        ret = can_rxmsg(&CAN_A, &rxbuff, 1/*renew TODO*/);
+        if (ret != 0)
+            exit(-2); // error
+        if (ret == 0 && rxbuff.length == sizeof(vw_torque))
+            // receive the message
+            memcpy( &vw_torque, rxbuff.data, sizeof(vw_torque));
+    }
+#endif
 
 
-	#ifdef VWALLB
-	/* Message for: Virtual Wall B */
+#ifdef VWALLB
+    /* Message for: Virtual Wall B */
     /* First check to see if there is a new message in the buffer */
-	if( can_get_buff_flag(&CAN_A, vwB_rx_buffnum) == 1 )
-	{
-		/* Let virt_wall_B() handle this */
+    if( can_get_buff_flag(&CAN_A, vwB_rx_buffnum) == 1 )
+    {
+        /* Let virt_wall_B() handle this */
+        virt_wall_B();
+    }
+#endif
 
-		/* fill in here */
-	}
-	#endif
 
-
-	#ifdef VCHAIN
-	/* Message for: Virtual Chain (from A) */
+#ifdef VCHAIN
+    /* Message for: Virtual Chain (from A) */
     /* First check to see if there is a new message in the buffer */
-	if( can_get_buff_flag(&CAN_A, chainA_rx_buffnum) == 1 )
-	{
-		/* Read the CAN message and copy position and velocity to global variable */
+    if( can_get_buff_flag(&CAN_A, chainA_rx_buffnum) == 1 )
+    {
+        /* Read the CAN message and copy position and velocity to global variable */
+        rxbuff.buff_num = chainA_rx_buffnum;
 
-		/* fill in here */
-	}
+        ret = can_rxmsg(&CAN_A, &rxbuff, 1/*renew TODO*/);
+        if (ret != 0)
+            exit(-2); // error
+        if (ret == 0 && rxbuff.length == sizeof(temp)) {
+            // receive the message
+            memcpy( &posA, rxbuff.data, sizeof(posA));
+            memcpy( &velA, rxbuff.data + 4, sizeof(velA));
+        }
+    }
 
-	/* Message for: Virtual Chain (from B) */
+    /* Message for: Virtual Chain (from B) */
     /* First check to see if there is a new message in the buffer */
-	if( can_get_buff_flag(&CAN_A, chainB_rx_buffnum) == 1 )
-	{
-		/* Read the CAN message & copy position and velocity to global variable */
+    if( can_get_buff_flag(&CAN_A, chainB_rx_buffnum) == 1 )
+    {
+        /* Read the CAN message & copy position and velocity to global variable */
+        rxbuff.buff_num = chainB_rx_buffnum;
 
-		/* fill in here */
-	}
-	#endif
+        ret = can_rxmsg(&CAN_A, &rxbuff, 1/*renew TODO*/);
+        if (ret != 0)
+            exit(-2); // error
+        if (ret == 0 && rxbuff.length == sizeof(temp)) {
+            memcpy( &posB, rxbuff.data, sizeof(posB));
+            memcpy( &velB, rxbuff.data + 4, sizeof(velB));
+        }
+    }
+#endif
 }
 
 
@@ -148,14 +168,33 @@ void rx_ISR(void)
 #ifdef VWALLA
 void virt_wall_A(void)
 {
-	CAN_TXBUFF txbuff;		/* buffer to tx wheel angle & velocity */
-	float curr_angle = 0;
+    CAN_TXBUFF txbuff;		/* buffer to tx wheel angle & velocity */
+    float curr_angle = 0;
+    float torque_pwm = 0.0;
+    int cnt_fqd = 0;
 
-	/* 1. Apply the current torque value (last received) */
-	/* 2. Read the wheel position */
-	/* 3. Transmit the wheel position in a CAN message */
+    /* 1. Apply the current torque value (last received) */
+    /* 2. Read the wheel position */
+    /* 3. Transmit the wheel position in a CAN message */
 
-	/* fill in here */
+    // apply current torque value
+    torque_pwm = outputTorque(vw_torque);
+    set_PWMDutyCycle(HAPTIC_MIOS_CHANNEL, torque_pwm);
+
+    // read wheel position 
+    cnt_fqd = updateCounter();
+  
+    // calculate angle and velocity
+    curr_angle = cnt_fqd * 0.09;
+
+    // tramsmission CAN msg
+    txbuff.buff_num = vwA_tx_buffnum;
+    memcpy(txbuff.data, &curr_angle, sizeof(curr_angle));
+    txbuff.length = sizeof(curr_angle);
+    txbuff.id = can_build_std_ID(vwA_tx_ID);
+
+    if (can_txmsg(&CAN_A, &txbuff) != 0)
+        exit(-3); // error
 
     return;
 }
@@ -169,19 +208,46 @@ void virt_wall_A(void)
 #ifdef VWALLB
 void virt_wall_B(void)
 {
-	CAN_RXBUFF	rxbuff;
-	CAN_TXBUFF	txbuff;
+    CAN_RXBUFF	rxbuff;
+    CAN_TXBUFF	txbuff;
 
-	float curr_angle;
-	float k_vw = 500;		/* spring constant of the wall (N-mm/deg) */
-	int ret;
-	
-	/* 1. Read the CAN message */
-	/**** is the read successful and is the message the right length? ***/
-	/* 2. Calculate the torque */
-	/* 3. Transmit the torque back */
+    float curr_angle;
+    float k_vw = 500;		/* spring constant of the wall (N-mm/deg) */
+    int ret;
 
-	/* fill in here */
+    // new variables 
+    float angle_0 = 0;      // deg
+    float torque = 0;       // N mm
+
+    /* 1. Read the CAN message */
+    /**** is the read successful and is the message the right length? ***/
+    /* 2. Calculate the torque */
+    /* 3. Transmit the torque back */
+
+    rxbuff.buff_num = vwB_rx_buffnum;
+    
+    ret = can_rxmsg(&CAN_A, &rxbuff, 1 /*renew TODO*/);
+    if (ret != 0)
+        exit(-2); // error
+    if (ret == 0 && rxbuff.length == sizeof(curr_angle))
+        // receive the message
+        memcpy( &curr_angle, rxbuff.data, sizeof(curr_angle));
+
+    /* Compute the torque for the virtual wall based
+     on the current angle (lab 4)  */
+
+    if (curr_angle > angle_0)
+        torque = k_vw * (curr_angle - angle_0);
+    else
+        torque = 0.0;
+
+    txbuff.buff_num = vwB_tx_buffnum;
+    memcpy(txbuff.data, &torque, sizeof(torque));
+    txbuff.length = sizeof(torque);
+    txbuff.id = can_build_std_ID(vwB_tx_ID);
+
+    if (can_txmsg(&CAN_A, &txbuff) != 0)
+        exit(-3); // error
 
 }
 #endif
@@ -199,22 +265,48 @@ const float b = 0.2;			/* damping (N-mm/(deg/s)) */
 
 void virt_chain()
 {
-	CAN_TXBUFF		txbuff;		/* buffer to transmit position and velocity */
-	float curr_angle;
-	float velocity;
-	float torque;
-	static float prev_angle = 0;
+    CAN_TXBUFF		txbuff;		/* buffer to transmit position and velocity */
+    float curr_angle;
+    float velocity;
+    float torque;
+    static float prev_angle = 0;
 
-	/* 1. Read wheel angle (deg) */
-	/* 2. Calculate wheel velocity (deg/s) */
-	/* 3. Calculate & apply torque  */
-	/* 4. Transmit your wheel position and velocity */
-	/**** 8-bytes (first 4 for position and second 4 for velocity) ****/
+    // new variable
+    float torque_pwm = 0.0;
 
-	/* fill in here */
+    /* 1. Read wheel angle (deg) */
+    /* 2. Calculate wheel velocity (deg/s) */
+    /* 3. Calculate & apply torque  */
+    /* 4. Transmit your wheel position and velocity */
+    /**** 8-bytes (first 4 for position and second 4 for velocity) ****/
+    
+    // read wheel position 
+    int cnt_fqd = updateCounter();
+  
+    // calculate angle and velocity
+    curr_angle = cnt_fqd * 0.09;
+    velocity = (curr_angle - prev_angle) / 0.004;
 
-	prev_angle = curr_angle;
-	return;
+    // calculate torque
+    torque = k * (posA - curr_angle) + k * (posB - curr_angle) 
+        + b * (velA - velocity) + b * (velB - velocity);
+
+    // apply torque 
+    torque_pwm = outputTorque(torque);
+    set_PWMDutyCycle(HAPTIC_MIOS_CHANNEL, torque_pwm);
+
+    // transmit position and velocity 
+    txbuff.buff_num = chain_tx_buffnum;
+    memcpy(txbuff.data, &curr_angle, sizeof(curr_angle));
+    memcpy(txbuff.data + 4, &velocity, sizeof(velocity));
+    txbuff.length = sizeof(curr_angle) + sizeof(velocity);
+    txbuff.id = can_build_std_ID(chain_tx_ID);
+
+    if (can_txmsg(&CAN_A, &txbuff) != 0)
+        exit(-3); // error
+
+    prev_angle = curr_angle;
+    return;
 }
 #endif
 
@@ -222,62 +314,63 @@ void virt_chain()
 
 int main()
 {
-	init_ECS(8);
-	init_MIOS_clock(MIOS_CLOCK_SCALER);
-	init_PWM(HAPTIC_MIOS_CHANNEL,PWM_PERIOD_ns);
-	init_PWM(SCF_MIOS_CHANNEL,1000);
-	set_PWMDutyCycleLimits(HAPTIC_MIOS_CHANNEL, 0.24, 0.76);
-	init_FQD();
+    init_ECS(8);
+    init_MIOS_clock(MIOS_CLOCK_SCALER);
+    init_PWM(HAPTIC_MIOS_CHANNEL,PWM_PERIOD_ns);
+    init_PWM(SCF_MIOS_CHANNEL,1000);
+    set_PWMDutyCycleLimits(HAPTIC_MIOS_CHANNEL, 0.24, 0.76);
+    init_FQD();
 
 
-	/* Initialize CAN A */
-	/* fill in here */
+    /* Initialize CAN A */
+    can_init(&CAN_A);
 
     /* Set the CAN receive ISR */
-	/* fill in here */
+    can_set_rxisr(rx_ISR);
 
-	#ifdef VWALLA
-	/* Setup the receive buffers for virtual wall user A */
-	/* fill in here */
-	#endif
+#ifdef VWALLA
+    /* Setup the receive buffers for virtual wall user A */
+    can_rxbuff_init(&CAN_A, vwA_rx_buffnum, can_build_std_ID(vwA_rx_ID), 1 /*TODO*/);
+#endif
 
-	#ifdef VWALLB
-	/* Setup the receive buffers for virtual wall user B */
-	/* fill in here */
-	#endif
+#ifdef VWALLB
+    /* Setup the receive buffers for virtual wall user B */
+    can_rxbuff_init(&CAN_A, vwB_rx_buffnum, can_build_std_ID(vwB_rx_ID), 1 /*TODO*/);
+#endif
 
-	#ifdef VCHAIN
-	/* Setup the receive buffers for the virtual chain */
-	/* fill in here */
-	#endif
+#ifdef VCHAIN
+    /* Setup the receive buffers for the virtual chain */
+    can_rxbuff_init(&CAN_A, chainA_rx_buffnum, can_build_std_ID(chainA_rx_ID), 1);
+    can_rxbuff_init(&CAN_A, chainB_rx_buffnum, can_build_std_ID(chainB_rx_ID), 1);
+#endif
 
-	/* Initialize the shared global variables */
-	vw_torque = 0 ;	/* wall torque (FLOAT32, N-mm) */
-	posA = 0 ;		/* chain position A (FLOAT32, N-mm) */
-	velA = 0 ;		/* chain velocity A (FLOAT32, N-mm) */
-	posB = 0 ;		/* chain position B (FLOAT32, N-mm) */
-	velB = 0 ;		/* chain velocity B (FLOAT32, N-mm) */
-
-
-	/* Select whether to run the virtual wall or the
-	 * virtual chain and start interrupts*/
-
-	#ifdef VWALLA
-	init_interrupts( virt_wall_A,/* fill in here */ /*Hz*/);
-	enable_interrupts();
-	#endif
-
-	#ifdef VWALLB
-	enable_interrupts(); // VWALLB interrupted by CAN Rx only
-	#endif
-
-	#ifdef VCHAIN
-	init_interrupts( virt_chain, /* fill in here */ /*Hz*/);
-	enable_interrupts();
-	#endif
+    /* Initialize the shared global variables */
+    vw_torque = 0 ;	/* wall torque (FLOAT32, N-mm) */
+    posA = 0 ;		/* chain position A (FLOAT32, N-mm) */
+    velA = 0 ;		/* chain velocity A (FLOAT32, N-mm) */
+    posB = 0 ;		/* chain position B (FLOAT32, N-mm) */
+    velB = 0 ;		/* chain velocity B (FLOAT32, N-mm) */
 
 
-	/* loop forever */
+    /* Select whether to run the virtual wall or the
+     * virtual chain and start interrupts*/
+
+#ifdef VWALLA
+    init_interrupts( virt_wall_A, 200 /*Hz*/);
+    enable_interrupts();
+#endif
+
+#ifdef VWALLB
+    enable_interrupts(); // VWALLB interrupted by CAN Rx only
+#endif
+
+#ifdef VCHAIN
+    init_interrupts( virt_chain, vc_f /*Hz*/);
+    enable_interrupts();
+#endif
+
+
+    /* loop forever */
     while(1)
     {}
 

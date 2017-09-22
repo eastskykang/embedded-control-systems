@@ -160,6 +160,7 @@ int32_t updateCounter()
 float updateAngle()
 {
   /* Fill in the body for the updateAngle() function here */
+    return (float) 0.09 * updateCounter();
 }
 
 /* EOF */
