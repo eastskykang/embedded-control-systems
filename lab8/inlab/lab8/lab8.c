@@ -43,7 +43,7 @@ void virt_chain();
 
 /* Messages from this lab station start at STATIONBASEID */
 #define STATIONBASEID   	20 		/* ID of your lab station */
-#define VWPARTNERID     	90 		/* ID of your partner's lab station for the virtual wall */
+#define VWPARTNERID     	30 		/* ID of your partner's lab station for the virtual wall */
 #define CHAIN_A_ID      	30 		/* ID of the station to your "left" */
 #define CHAIN_B_ID      	10 		/* ID of the station to your "right" */
 
@@ -171,7 +171,7 @@ void virt_wall_A(void)
     CAN_TXBUFF txbuff;		/* buffer to tx wheel angle & velocity */
     float curr_angle = 0;
     float torque_pwm = 0.0;
-    int cnt_fqd = 0;
+//    int cnt_fqd = 0;
 
     /* 1. Apply the current torque value (last received) */
     /* 2. Read the wheel position */
@@ -182,10 +182,11 @@ void virt_wall_A(void)
     set_PWMDutyCycle(HAPTIC_MIOS_CHANNEL, torque_pwm);
 
     // read wheel position 
-    cnt_fqd = updateCounter();
+//    cnt_fqd = updateCounter();
   
     // calculate angle and velocity
-    curr_angle = cnt_fqd * 0.09;
+//    curr_angle = cnt_fqd * 0.09;
+    curr_angle = updateAngle();
 
     // tramsmission CAN msg
     txbuff.buff_num = vwA_tx_buffnum;
@@ -281,15 +282,16 @@ void virt_chain()
     /**** 8-bytes (first 4 for position and second 4 for velocity) ****/
     
     // read wheel position 
-    int cnt_fqd = updateCounter();
+//    int cnt_fqd = updateCounter();
   
     // calculate angle and velocity
-    curr_angle = cnt_fqd * 0.09;
+//    curr_angle = cnt_fqd * 0.09;
+    curr_angle = updateAngle();
     velocity = (curr_angle - prev_angle) / 0.004;
 
     // calculate torque
-    torque = k * (posA - curr_angle) + k * (posB - curr_angle) 
-        + b * (velA - velocity) + b * (velB - velocity);
+    torque = - k * (posA - curr_angle) - k * (posB - curr_angle) 
+        - b * (velA - velocity) - b * (velB - velocity);
 
     // apply torque 
     torque_pwm = outputTorque(torque);
@@ -330,12 +332,12 @@ int main()
 
 #ifdef VWALLA
     /* Setup the receive buffers for virtual wall user A */
-    can_rxbuff_init(&CAN_A, vwA_rx_buffnum, can_build_std_ID(vwA_rx_ID), 1 /*TODO*/);
+    can_rxbuff_init(&CAN_A, vwA_rx_buffnum, can_build_std_ID(vwA_rx_ID), 1);
 #endif
 
 #ifdef VWALLB
     /* Setup the receive buffers for virtual wall user B */
-    can_rxbuff_init(&CAN_A, vwB_rx_buffnum, can_build_std_ID(vwB_rx_ID), 1 /*TODO*/);
+    can_rxbuff_init(&CAN_A, vwB_rx_buffnum, can_build_std_ID(vwB_rx_ID), 1);
 #endif
 
 #ifdef VCHAIN
@@ -373,7 +375,6 @@ int main()
     /* loop forever */
     while(1)
     {}
-
 }
 
 // EOF
